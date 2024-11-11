@@ -1,0 +1,24 @@
+[MSG] [CPU 2] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[MSG] [CPU 3] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[MSG] [CPU 0] Call setxattr$security_ima Call_NUM: 226 NUM_Args: 5 
+[MSG] [CPU 0] Args0=0xffffffffffffffff
+[MSG] [CPU 0] Args1=0x107
+[MSG] [CPU 0] Args2=0xa
+[MSG] [CPU 0] Args3=0x2061f000
+[MSG] [CPU 0] Args4=0x4
+[MSG] [CPU 0] setxattr$security_ima=0xffffffffffffffff errno=14
+[MSG] [CPU 1] Call setxattr$security_ima Call_NUM: 226 NUM_Args: 5 
+[MSG] [CPU 1] Args0=0xffffffffffffffff
+[MSG] [CPU 1] Args1=0x107
+[MSG] [CPU 1] Args2=0xa
+[MSG] [CPU 1] Args3=0x2061f000
+[MSG] [CPU 1] Args4=0x4
+[MSG] [CPU 1] setxattr$security_ima=0xffffffffffffffff errno=14
+[MSG] [CPU 3] [SKI] A new process reaches the barrier, called=3 needed=4
+[MSG] [CPU 1] [SKI] [0] Thread id: 9372
+[MSG] [CPU 1] [SKI] A new process reaches the barrier, called=4 needed=4
+[MSG] [CPU 1] program data is stored at 08fa8590
+[MSG] [CPU 1] program size is 192
+[MSG] [CPU 1] [SKI] [0] Issuing debug message: Call setxattr$security_ima Call_NUM: 226 NUM_Args: 5 
+[MSG] [CPU 1] [SKI] [0] Issuing debug message: Args0=0xffffffffffffffff
+[MSG] [CPU 0] END INFO

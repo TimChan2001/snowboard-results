@@ -1,0 +1,1622 @@
+[    0.000000] Initializing cgroup subsys cpuset
+[    0.000000] Initializing cgroup subsys cpu
+[    0.000000] Initializing cgroup subsys cpuacct
+[    0.000000] Linux version 4.4.0 (root@9528d62cb6b2) (gcc version 7.5.0 (Ubuntu 7.5.0-3ubuntu1~18.04) ) #3 SMP PREEMPT Mon Oct 28 15:36:20 UTC 2024
+[    0.000000] KERNEL supported cpus:
+[    0.000000]   Intel GenuineIntel
+[    0.000000]   AMD AuthenticAMD
+[    0.000000]   NSC Geode by NSC
+[    0.000000]   Cyrix CyrixInstead
+[    0.000000]   Transmeta GenuineTMx86
+[    0.000000]   Transmeta TransmetaCPU
+[    0.000000]   UMC UMC UMC UMC
+[    0.000000] x86/fpu: Legacy x87 FPU detected.
+[    0.000000] x86/fpu: Using 'lazy' FPU context switches.
+[    0.000000] e820: BIOS-provided physical RAM map:
+[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009f3ff] usable
+[    0.000000] BIOS-e820: [mem 0x000000000009f400-0x000000000009ffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000000f0000-0x00000000000fffff] reserved
+[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x000000007fffcfff] usable
+[    0.000000] BIOS-e820: [mem 0x000000007fffd000-0x000000007fffffff] reserved
+[    0.000000] BIOS-e820: [mem 0x00000000fffc0000-0x00000000ffffffff] reserved
+[    0.000000] bootconsole [earlyser0] enabled
+[    0.000000] ERROR: earlyprintk= earlyser already used
+[    0.000000] ERROR: earlyprintk= earlyser already used
+[    0.000000] Notice: NX (Execute Disable) protection missing in CPU!
+[    0.000000] SMBIOS 2.4 present.
+[    0.000000] e820: last_pfn = 0x7fffd max_arch_pfn = 0x100000
+[    0.000000] MTRR: Disabled
+[    0.000000] found SMP MP-table at [mem 0x000fda40-0x000fda4f] mapped at [c00fda40]
+[    0.000000] Scanning 1 areas for low memory corruption
+[    0.000000] ACPI: Early table checksum verification disabled
+[    0.000000] ACPI: RSDP 0x00000000000FD860 000014 (v00 BOCHS )
+[    0.000000] ACPI: RSDT 0x000000007FFFD660 000034 (v01 BOCHS  BXPCRSDT 00000001 BXPC 00000001)
+[    0.000000] ACPI: FACP 0x000000007FFFFF80 000074 (v01 BOCHS  BXPCFACP 00000001 BXPC 00000001)
+[    0.000000] ACPI: DSDT 0x000000007FFFD9B0 002589 (v01 BXPC   BXDSDT   00000001 INTL 20100528)
+[    0.000000] ACPI: FACS 0x000000007FFFFF40 000040
+[    0.000000] ACPI: SSDT 0x000000007FFFD7E0 0001C1 (v01 BOCHS  BXPCSSDT 00000001 BXPC 00000001)
+[    0.000000] ACPI: APIC 0x000000007FFFD6E0 00008A (v01 BOCHS  BXPCAPIC 00000001 BXPC 00000001)
+[    0.000000] ACPI: HPET 0x000000007FFFD6A0 000038 (v01 BOCHS  BXPCHPET 00000001 BXPC 00000001)
+[    0.000000] 1159MB HIGHMEM available.
+[    0.000000] 887MB LOWMEM available.
+[    0.000000]   mapped low ram: 0 - 377fe000
+[    0.000000]   low ram: 0 - 377fe000
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000000001000-0x0000000000ffffff]
+[    0.000000]   Normal   [mem 0x0000000001000000-0x00000000377fdfff]
+[    0.000000]   HighMem  [mem 0x00000000377fe000-0x000000007fffcfff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000000001000-0x000000000009efff]
+[    0.000000]   node   0: [mem 0x0000000000100000-0x000000007fffcfff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000000001000-0x000000007fffcfff]
+[    0.000000] Using APIC driver default
+[    0.000000] ACPI: PM-Timer IO Port: 0xb008
+[    0.000000] IOAPIC[0]: apic_id 4, version 17, address 0xfec00000, GSI 0-23
+[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 0 global_irq 2 dfl dfl)
+[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 5 global_irq 5 high level)
+[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 9 global_irq 9 high level)
+[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 10 global_irq 10 high level)
+[    0.000000] ACPI: INT_SRC_OVR (bus 0 bus_irq 11 global_irq 11 high level)
+[    0.000000] Using ACPI (MADT) for SMP configuration information
+[    0.000000] ACPI: HPET id: 0x8086a201 base: 0xfed00000
+[    0.000000] smpboot: Allowing 4 CPUs, 0 hotplug CPUs
+[    0.000000] PM: Registered nosave memory: [mem 0x00000000-0x00000fff]
+[    0.000000] PM: Registered nosave memory: [mem 0x0009f000-0x0009ffff]
+[    0.000000] PM: Registered nosave memory: [mem 0x000a0000-0x000effff]
+[    0.000000] PM: Registered nosave memory: [mem 0x000f0000-0x000fffff]
+[    0.000000] e820: [mem 0x80000000-0xfffbffff] available for PCI devices
+[    0.000000] Booting paravirtualized kernel on bare hardware
+[    0.000000] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+[    0.000000] setup_percpu: NR_CPUS:8 nr_cpumask_bits:8 nr_cpu_ids:4 nr_node_ids:1
+[    0.000000] PERCPU: Embedded 18 pages/cpu @f65aa000 s44952 r0 d28776 u73728
+[    0.000000] Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 522189
+[    0.000000] Kernel command line: earlyprintk=serial net.ifnames=0 sysctl.kernel.hung_task_all_cpu_backtrace=1 ima_policy=tcb nf-conntrack-ftp.ports=20000 nf-conntrack-tftp.ports=20000 nf-conntrack-sip.ports=20000 nf-conntrack-irc.ports=20000 nf-conntrack-sane.ports=20000 binder.debug_mask=0 rcupdate.rcu_expedited=1 no_hash_pointers root=/dev/sda console=ttyS0 vsyscall=native numa=fake=2 kvm-intel.nested=1 spec_store_bypass_disable=prctl nopcid vivid.n_devs=16 vivid.multiplanar=1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2 netrom.nr_ndevs=16 rose.rose_ndevs=16 dummy_hcd.num=8 watchdog_thresh=55 workqueue.watchdog_thresh=140 root=/dev/sda1 rw -verbose console=tty0 console=ttyS0
+[    0.000000] PID hash table entries: 4096 (order: 2, 16384 bytes)
+[    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+[    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+[    0.000000] Initializing CPU#0
+[    0.000000] Initializing HighMem for node 0 (000377fe:0007fffd)
+[    0.000000] Initializing Movable for node 0 (00000000:00000000)
+[    0.000000] Memory: 2042956K/2096748K available (21884K kernel code, 1506K rwdata, 8636K rodata, 896K init, 1076K bss, 53792K reserved, 0K cma-reserved, 1187836K highmem)
+[    0.000000] virtual kernel memory layout:
+[    0.000000]     fixmap  : 0xfff15000 - 0xfffff000   ( 936 kB)
+[    0.000000]     pkmap   : 0xff800000 - 0xffc00000   (4096 kB)
+[    0.000000]     vmalloc : 0xf7ffe000 - 0xff7fe000   ( 120 MB)
+[    0.000000]     lowmem  : 0xc0000000 - 0xf77fe000   ( 887 MB)
+[    0.000000]       .init : 0xc2f4b000 - 0xc302b000   ( 896 kB)
+[    0.000000]       .data : 0xc255f71b - 0xc2f49b40   (10153 kB)
+[    0.000000]       .text : 0xc1000000 - 0xc255f71b   (21885 kB)
+[    0.000000] Checking if this processor honours the WP bit even in supervisor mode...Ok.
+[    0.000000] Preemptible hierarchical RCU implementation.
+[    0.000000] 	Build-time adjustment of leaf fanout to 32.
+[    0.000000] 	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=4.
+[    0.000000] RCU: Adjusting geometry for rcu_fanout_leaf=32, nr_cpu_ids=4
+[    0.000000] kmemleak: Kernel memory leak detector disabled
+[    0.000000] NR_IRQS:2304 nr_irqs:456 16
+[    0.000000] Console: colour VGA+ 80x25
+[    0.000000] console [tty0] enabled
+[    0.000000] console [ttyS0] enabled
+[    0.000000] console [ttyS0] enabled
+[    0.000000] bootconsole [earlyser0] disabled
+[    0.000000] bootconsole [earlyser0] disabled
+[    0.000000] allocated 2097152 bytes of page_ext
+[    0.000000] kmemleak: Early log buffer exceeded (2713), please increase DEBUG_KMEMLEAK_EARLY_LOG_SIZE
+[    0.000000] clocksource: hpet: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604467 ns
+[    0.000000] tsc: Fast TSC calibration using PIT
+[    0.000000] tsc: Detected 2394.384 MHz processor
+[    0.021056] Calibrating delay loop (skipped), value calculated using timer frequency.. 4788.76 BogoMIPS (lpj=23943840)
+[    0.021764] pid_max: default: 32768 minimum: 301
+[    0.022144] ACPI: Core revision 20150930
+[    0.084081] ACPI: 2 ACPI AML tables successfully acquired and loaded
+[    0.085296] Security Framework initialized
+[    0.085505] Yama: becoming mindful.
+[    0.086872] AppArmor: AppArmor initialized
+[    0.087669] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes)
+[    0.087988] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes)
+[    0.108132] Initializing cgroup subsys io
+[    0.108684] Initializing cgroup subsys memory
+[    0.109162] Initializing cgroup subsys devices
+[    0.109511] Initializing cgroup subsys freezer
+[    0.109797] Initializing cgroup subsys net_cls
+[    0.110000] Initializing cgroup subsys perf_event
+[    0.110000] Initializing cgroup subsys net_prio
+[    0.110000] Initializing cgroup subsys hugetlb
+[    0.110000] Initializing cgroup subsys pids
+[    0.110000] Last level iTLB entries: 4KB 0, 2MB 0, 4MB 0
+[    0.110000] Last level dTLB entries: 4KB 0, 2MB 0, 4MB 0, 1GB 0
+[    0.110000] Freeing SMP alternatives memory: 76K (c302b000 - c303e000)
+[    0.126462] Enabling APIC mode:  Flat.  Using 1 I/O APICs
+[    0.130000] ..TIMER: vector=0x30 apic1=0 pin1=2 apic2=-1 pin2=-1
+[    0.250000] APIC calibration not consistent with PM-Timer: 79ms instead of 100ms
+[    0.250000] APIC delta adjusted to PM-Timer: 6249999 (4999891)
+[    0.250000] smpboot: CPU0: Intel QEMU Virtual CPU version 1.0,1 (family: 0x6, model: 0x3, stepping: 0x3)
+[    0.250000] Performance Events: Broken PMU hardware detected, using software events only.
+[    0.250000] Failed to access perfctr msr (MSR c2 is 0)
+[    0.323073] x86: Booting SMP configuration:
+[    0.323875] .... node  #0, CPUs:      #1
+[    0.030000] Initializing CPU#1
+[    0.030000] calibrate_delay_direct() failed to get a good estimate for loops_per_jiffy.
+[    0.030000] Probably due to long platform interrupts. Consider using "lpj=" boot option.
+[    0.631169]  #2
+[    0.030000] Initializing CPU#2
+[    0.831126]  #3
+[    0.030000] Initializing CPU#3
+[    1.010350] x86: Booted up 1 node, 4 CPUs
+[    1.010922] smpboot: Total of 4 processors activated (19397.30 BogoMIPS)
+[    1.034652] devtmpfs: initialized
+[    1.058564] evm: security.ima
+[    1.058748] evm: security.capability
+[    1.077816] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+[    1.110237] xor: measuring software checksum speed
+[    1.209447]    pIII_sse  :   475.200 MB/sec
+[    1.309450]    prefetch64-sse:   530.000 MB/sec
+[    1.309773] xor: using function: prefetch64-sse (530.000 MB/sec)
+[    1.317231] RTC time: 15:13:08, date: 11/10/24
+[    1.330251] NET: Registered protocol family 16
+[    1.352318] cpuidle: using governor menu
+[    1.352576] PCCT header not found.
+[    1.366234] ACPI: bus type PCI registered
+[    1.374132] PCI: PCI BIOS revision 2.10 entry at 0xffe77, last bus=0
+[    1.374465] PCI: Using configuration type 1 for base access
+[    2.749713] raid6: mmxx1    gen()   100 MB/s
+[    2.919680] raid6: mmxx2    gen()   112 MB/s
+[    3.089483] raid6: sse1x1   gen()    91 MB/s
+[    3.259463] raid6: sse1x2   gen()   106 MB/s
+[    3.429324] raid6: sse2x1   gen()   192 MB/s
+[    3.599635] raid6: sse2x1   xor()   118 MB/s
+[    3.769550] raid6: sse2x2   gen()   224 MB/s
+[    3.939505] raid6: sse2x2   xor()   131 MB/s
+[    3.939838] raid6: using algorithm sse2x2 gen() 224 MB/s
+[    3.940082] raid6: .... xor() 131 MB/s, rmw enabled
+[    3.940408] raid6: using intx1 recovery algorithm
+[    3.942569] ACPI: Added _OSI(Module Device)
+[    3.942773] ACPI: Added _OSI(Processor Device)
+[    3.942948] ACPI: Added _OSI(3.0 _SCP Extensions)
+[    3.943129] ACPI: Added _OSI(Processor Aggregator Device)
+[    4.031661] ACPI: Interpreter enabled
+[    4.032081] ACPI Exception: AE_NOT_FOUND, While evaluating Sleep State [\_S1_] (20150930/hwxface-580)
+[    4.032795] ACPI Exception: AE_NOT_FOUND, While evaluating Sleep State [\_S2_] (20150930/hwxface-580)
+[    4.033938] ACPI: (supports S0 S3 S4 S5)
+[    4.034154] ACPI: Using IOAPIC for interrupt routing
+[    4.034904] PCI: Ignoring host bridge windows from ACPI; if necessary, use "pci=use_crs" and report a bug
+[    4.280631] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+[    4.281351] acpi PNP0A03:00: _OSC: OS supports [ASPM ClockPM Segments MSI]
+[    4.281796] acpi PNP0A03:00: _OSC failed (AE_NOT_FOUND); disabling ASPM
+[    4.282348] acpi PNP0A03:00: fail to add MMCONFIG information, can't access extended PCI configuration space under this bridge.
+[    4.285921] PCI host bridge to bus 0000:00
+[    4.286249] pci_bus 0000:00: root bus resource [io  0x0000-0xffff]
+[    4.286513] pci_bus 0000:00: root bus resource [mem 0x00000000-0xffffffff]
+[    4.286865] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    4.302809] pci 0000:00:01.1: legacy IDE quirk: reg 0x10: [io  0x01f0-0x01f7]
+[    4.303133] pci 0000:00:01.1: legacy IDE quirk: reg 0x14: [io  0x03f6]
+[    4.303402] pci 0000:00:01.1: legacy IDE quirk: reg 0x18: [io  0x0170-0x0177]
+[    4.303672] pci 0000:00:01.1: legacy IDE quirk: reg 0x1c: [io  0x0376]
+[    4.320395] pci 0000:00:01.3: quirk: [io  0xb000-0xb03f] claimed by PIIX4 ACPI
+[    4.320726] pci 0000:00:01.3: quirk: [io  0xb100-0xb10f] claimed by PIIX4 SMB
+[    4.345089] ACPI: PCI Interrupt Link [LNKA] (IRQs 5 *10 11)
+[    4.347122] ACPI: PCI Interrupt Link [LNKB] (IRQs 5 *10 11)
+[    4.348860] ACPI: PCI Interrupt Link [LNKC] (IRQs 5 10 *11)
+[    4.351596] ACPI: PCI Interrupt Link [LNKD] (IRQs 5 10 *11)
+[    4.353430] ACPI: PCI Interrupt Link [LNKS] (IRQs 9) *0, disabled.
+[    4.380853] ACPI: Enabled 16 GPEs in block 00 to 0F
+[    4.387211] vgaarb: setting as boot device: PCI:0000:00:02.0
+[    4.387211] vgaarb: device added: PCI:0000:00:02.0,decodes=io+mem,owns=io+mem,locks=none
+[    4.387211] vgaarb: loaded
+[    4.387211] vgaarb: bridge control possible 0000:00:02.0
+[    4.411790] SCSI subsystem initialized
+[    4.413751] ACPI: bus type USB registered
+[    4.413751] usbcore: registered new interface driver usbfs
+[    4.420237] usbcore: registered new interface driver hub
+[    4.421049] usbcore: registered new device driver usb
+[    4.422789] media: Linux media interface: v0.10
+[    4.423282] Linux video capture interface: v2.00
+[    4.423965] pps_core: LinuxPPS API ver. 1 registered
+[    4.424173] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    4.424654] PTP clock support registered
+[    4.441971] wmi: Mapper loaded
+[    4.443656] Advanced Linux Sound Architecture Driver Initialized.
+[    4.444777] PCI: Using ACPI for IRQ routing
+[    4.457076] Bluetooth: Core ver 2.21
+[    4.457450] NET: Registered protocol family 31
+[    4.457652] Bluetooth: HCI device and connection manager initialized
+[    4.458022] Bluetooth: HCI socket layer initialized
+[    4.458315] Bluetooth: L2CAP socket layer initialized
+[    4.458818] Bluetooth: SCO socket layer initialized
+[    4.470273] NET: Registered protocol family 8
+[    4.470472] NET: Registered protocol family 20
+[    4.485136] NetLabel: Initializing
+[    4.485136] NetLabel:  domain hash size = 128
+[    4.485136] NetLabel:  protocols = UNLABELED CIPSOv4
+[    4.485136] NetLabel:  unlabeled traffic allowed by default
+[    4.485136] nfc: nfc_init: NFC Core ver 0.1
+[    4.490472] NET: Registered protocol family 39
+[    4.503854] HPET: 3 timers in total, 0 timers will be used for per-cpu timer
+[    4.504410] hpet0: at MMIO 0xfed00000, IRQs 2, 8, 0
+[    4.504792] hpet0: 3 comparators, 64-bit 100.000000 MHz counter
+[    4.540489] clocksource: Switched to clocksource hpet
+[    5.000616] FS-Cache: Loaded
+[    5.010706] CacheFiles: Loaded
+[    5.012518] AppArmor: AppArmor Filesystem Enabled
+[    5.014165] pnp: PnP ACPI init
+[    5.031627] pnp: PnP ACPI: found 6 devices
+[    5.177321] clocksource: acpi_pm: mask: 0xffffff max_cycles: 0xffffff, max_idle_ns: 2085701024 ns
+[    5.210801] NET: Registered protocol family 2
+[    5.217540] TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+[    5.218272] TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+[    5.218952] TCP: Hash tables configured (established 8192 bind 8192)
+[    5.220045] UDP hash table entries: 512 (order: 2, 16384 bytes)
+[    5.220830] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+[    5.240498] NET: Registered protocol family 1
+[    5.250875] RPC: Registered named UNIX socket transport module.
+[    5.251142] RPC: Registered udp transport module.
+[    5.251354] RPC: Registered tcp transport module.
+[    5.251546] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    5.251937] pci 0000:00:00.0: Limiting direct PCI/PCI transfers
+[    5.252219] pci 0000:00:01.0: PIIX3: Enabling Passive Release
+[    5.252575] pci 0000:00:01.0: Activating ISA DMA hang workarounds
+[    5.270344] kvm: no hardware support
+[    5.270625] has_svm: not amd
+[    5.270770] kvm: no hardware support
+[    5.285155] Scanning for low memory corruption every 60 seconds
+[    5.288900] PCLMULQDQ-NI instructions are not detected.
+[    5.297110] futex hash table entries: 1024 (order: 4, 65536 bytes)
+[    5.304009] audit: initializing netlink subsys (disabled)
+[    5.304867] audit: type=2000 audit(1731251591.300:1): initialized
+[    5.307611] Initialise system trusted keyring
+[    5.314458] HugeTLB registered 4 MB page size, pre-allocated 0 pages
+[    5.315328] zbud: loaded
+[    5.340920] VFS: Disk quotas dquot_6.6.0
+[    5.350794] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    5.375049] DLM installed
+[    5.451093] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    5.571417] FS-Cache: Netfs 'nfs' registered for caching
+[    5.590978] NFS: Registering the id_resolver key type
+[    5.591448] Key type id_resolver registered
+[    5.591655] Key type id_legacy registered
+[    5.591964] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
+[    5.592542] Installing knfsd (copyright (C) 1996 okir@monad.swb.de).
+[    5.641811] FS-Cache: Netfs 'cifs' registered for caching
+[    5.660553] Key type cifs.spnego registered
+[    5.670391] ntfs: driver 2.1.32 [Flags: R/W].
+[    5.690341] efs: 1.0a - http://aeschi.ch.eu.org/efs/
+[    5.700352] jffs2: version 2.2. (NAND) (SUMMARY)  © 2001-2006 Red Hat, Inc.
+[    5.725760] romfs: ROMFS MTD (C) 2007 Red Hat, Inc.
+[    5.740289] QNX4 filesystem 0.2.3 registered.
+[    5.750326] qnx6: QNX6 filesystem 1.0.0 registered.
+[    5.761043] fuse init (API version 7.23)
+[    5.800714] JFS: nTxBlock = 8192, nTxLock = 65536
+[    5.815516] SGI XFS with ACLs, security attributes, realtime, debug enabled
+[    5.850713] 9p: Installing v9fs 9p2000 file system support
+[    5.860390] FS-Cache: Netfs '9p' registered for caching
+[    5.890543] NILFS version 2 loaded
+[    5.890798] befs: version: 0.9.3
+[    5.921612] ocfs2: Registered cluster interface o2cb
+[    5.922984] ocfs2: Registered cluster interface user
+[    5.931753] OCFS2 User DLM kernel interface loaded
+[    5.982196] gfs2: GFS2 installed
+[    6.020472] FS-Cache: Netfs 'ceph' registered for caching
+[    6.020998] ceph: loaded (mds proto 32)
+[    6.031095] Key type big_key registered
+[    6.106671] NET: Registered protocol family 38
+[    6.107357] async_tx: api initialized (async)
+[    6.107644] Key type asymmetric registered
+[    6.107879] Asymmetric key parser 'x509' registered
+[    6.108107] Key type pkcs7_test registered
+[    6.108670] bounce: pool size: 64 pages
+[    6.109115] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 248)
+[    6.111178] io scheduler noop registered
+[    6.111434] io scheduler deadline registered
+[    6.111765] io scheduler cfq registered (default)
+[    6.115404] pci_hotplug: PCI Hot Plug PCI Core version: 0.5
+[    6.115862] pciehp: PCI Express Hot Plug Controller Driver version: 0.4
+[    6.118473] cirrusfb 0000:00:02.0: Cirrus Logic chipset on PCI bus, RAM (4096 kB) at 0xfc000000
+[    6.125953] fbcon: CL Picasso4 (fb0) is primary device
+[    6.270493] tsc: Refined TSC clocksource calibration: 2394.387 MHz
+[    6.270641] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x22838111c45, max_idle_ns: 440795245428 ns
+[    6.361936] Console: switching to colour frame buffer device 80x30
+[    6.477584] usbcore: registered new interface driver udlfb
+[    6.502206] usbcore: registered new interface driver smscufx
+[    6.528728] uvesafb: failed to execute /sbin/v86d
+[    6.550975] uvesafb: make sure that the v86d helper is installed and executable
+[    6.597778] uvesafb: Getting VBE info block failed (eax=0x4f00, err=-2)
+[    6.623501] uvesafb: vbe_init() failed with -22
+[    6.649254] uvesafb: probe of uvesafb.0 failed with error -22
+[    6.676724] vga16fb: mapped to 0xc00a0000
+[    6.707075] fb1: VGA16 VGA frame buffer device
+[    6.737080] input: Power Button as /devices/LNXSYSTM:00/LNXPWRBN:00/input/input0
+[    6.800780] ACPI: Power Button [PWRF]
+[    7.381952] clocksource: Switched to clocksource tsc
+[    7.736938] HDLC line discipline maxframe=4096
+[    7.763559] N_HDLC line discipline registered.
+[    7.788804] Serial: 8250/16550 driver, 4 ports, IRQ sharing enabled
+[    7.837182] 00:05: ttyS0 at I/O 0x3f8 (irq = 4, base_baud = 115200) is a 16550A
+[    7.899391] Cyclades driver 2.6
+[    7.928726] Initializing Nozomi driver 2.1d
+[    7.956650] RocketPort device driver module, version 2.09, 12-June-2003
+[    7.984373] No rocketport ports found; unloading driver
+[    8.019921] Non-volatile memory driver v1.3
+[    8.048033] Linux agpgart interface v0.103
+[    8.077842] [drm] Initialized drm 1.1.0 20060810
+[    8.108630] usbcore: registered new interface driver udl
+[    8.150995] Failed to find cpu0 device node
+[    8.175573] Unable to detect cache hierarchy from DT for CPU 0
+[    8.235955] FDC 0 is a S82078B
+[    8.422725] brd: module loaded
+[    8.592385] loop: module loaded
+[    8.657607] nbd: registered device at major 43
+[    8.792914] null: module loaded
+[    8.824178] zram: Added device: zram0
+[    8.849456] Guest personality initialized and is inactive
+[    8.875541] VMCI host device registered (name=vmci, major=10, minor=54)
+[    8.900492] Initialized host personality
+[    8.925927] usbcore: registered new interface driver viperboard
+[    8.952371] usbcore: registered new interface driver dln2
+[    8.979240] usbcore: registered new interface driver pn533
+[    9.019283] usbcore: registered new interface driver port100
+[    9.046781] usbcore: registered new interface driver nfcmrvl
+[    9.073349] Loading iSCSI transport class v2.0-870.
+[    9.123729] st: Version 20101219, fixed bufsize 32768, s/g segs 256
+[    9.186062] scsi host0: ata_piix
+[    9.214033] scsi host1: ata_piix
+[    9.238504] ata1: PATA max MWDMA2 cmd 0x1f0 ctl 0x3f6 bmdma 0xc040 irq 14
+[    9.262946] ata2: PATA max MWDMA2 cmd 0x170 ctl 0x376 bmdma 0xc048 irq 15
+[    9.297631] Rounding down aligned max_sectors from 4294967295 to 4294967288
+[    9.324607] slram: not enough parameters.
+[    9.355570] ftl_cs: FTL header not found.
+[    9.388044] Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
+[    9.453398] eql: Equalizer2002: Simon Janes (simon@ncm.com) and David S. Miller (davem@redhat.com)
+[    9.465019] ata2.00: ATAPI: QEMU DVD-ROM, 1.0,1, max UDMA/100
+[    9.466548] ata2.00: configured for MWDMA2
+[    9.471555] ata1.00: ATA-7: QEMU HARDDISK, 1.0,1, max UDMA/100
+[    9.471600] ata1.00: 31457280 sectors, multi 16: LBA48 
+[    9.472321] ata1.00: configured for MWDMA2
+[    9.747788] scsi 0:0:0:0: Direct-Access     ATA      QEMU HARDDISK    1    PQ: 0 ANSI: 5
+[    9.795018] sd 0:0:0:0: [sda] 31457280 512-byte logical blocks: (16.1 GB/15.0 GiB)
+[    9.796973] sd 0:0:0:0: [sda] Write Protect is off
+[    9.797754] sd 0:0:0:0: [sda] Write cache: disabled, read cache: enabled, doesn't support DPO or FUA
+[    9.822749] sd 0:0:0:0: Attached scsi generic sg0 type 0
+[    9.850465]  sda: sda1 sda2 < sda5 >
+[    9.859731] sd 0:0:0:0: [sda] Attached SCSI disk
+[    9.920412] scsi 1:0:0:0: CD-ROM            QEMU     QEMU DVD-ROM     1.0, PQ: 0 ANSI: 5
+[    9.980480] sr 1:0:0:0: [sr0] scsi3-mmc drive: 4x/4x cd/rw xa/form2 tray
+[    9.980635] cdrom: Uniform CD-ROM driver Revision: 3.20
+[    9.986829] sr 1:0:0:0: Attached scsi generic sg1 type 5
+[   10.347313] libphy: Fixed MDIO Bus: probed
+[   10.384931] tun: Universal TUN/TAP device driver, 1.6
+[   10.417098] tun: (C) 1999-2004 Max Krasnyansky <maxk@qualcomm.com>
+[   10.451364] vcan: Virtual CAN interface driver
+[   10.482688] slcan: serial line CAN interface driver
+[   10.512796] slcan: 10 dynamic interface channels.
+[   10.542036] CAN device driver interface
+[   10.571906] usbcore: registered new interface driver ems_usb
+[   10.602492] usbcore: registered new interface driver esd_usb2
+[   10.633185] usbcore: registered new interface driver gs_usb
+[   10.662729] usbcore: registered new interface driver kvaser_usb
+[   10.691073] usbcore: registered new interface driver peak_usb
+[   10.717342] usbcore: registered new interface driver usb_8dev
+[   10.742817] e100: Intel(R) PRO/100 Network Driver, 3.5.24-k2-NAPI
+[   10.765891] e100: Copyright(c) 1999-2006 Intel Corporation
+[   10.790685] e1000: Intel(R) PRO/1000 Network Driver - version 7.3.21-k8-NAPI
+[   10.812981] e1000: Copyright (c) 1999-2006 Intel Corporation.
+[   10.841426] ACPI: PCI Interrupt Link [LNKC] enabled at IRQ 11
+[   11.199878] e1000 0000:00:03.0 eth0: (PCI:33MHz:32-bit) 52:54:00:12:34:56
+[   11.225372] e1000 0000:00:03.0 eth0: Intel(R) PRO/1000 Network Connection
+[   11.245226] e1000e: Intel(R) PRO/1000 Network Driver - 3.2.6-k
+[   11.264470] e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
+[   11.284074] mkiss: AX.25 Multikiss, Hans Albas PE1AYX
+[   11.302757] AX.25: 6pack driver, Revision: 0.3.0
+[   11.319887] AX.25: bpqether driver version 004
+[   11.337059] PPP generic driver version 2.4.2
+[   11.355810] PPP BSD Compression module registered
+[   11.374233] PPP Deflate Compression module registered
+[   11.391750] PPP MPPE Compression module registered
+[   11.408319] NET: Registered protocol family 24
+[   11.425589] PPTP driver version 0.8.5
+[   11.444329] SLIP: version 0.8.4-NET3.019-NEWTTY (dynamic channels, max=256) (6 bit encapsulation enabled).
+[   11.478708] CSLIP: code copyright 1989 Regents of the University of California.
+[   11.517695] SLIP linefill/keepalive option.
+[   11.538245] hdlc: HDLC support module revision 1.22
+[   11.560752] LAPB Ethernet driver version 0.02
+[   11.582686] usbcore: registered new interface driver rndis_wlan
+[   11.605330] mac80211_hwsim: initializing netlink
+[   11.666091] usbcore: registered new interface driver i2400m_usb
+[   11.693931] VMware vmxnet3 virtual NIC driver - version 1.4.5.0-k-NAPI
+[   11.716673] usbcore: registered new interface driver catc
+[   11.739469] usbcore: registered new interface driver kaweth
+[   11.762189] pegasus: v0.9.3 (2013/04/25), Pegasus/Pegasus II USB Ethernet driver
+[   11.805587] usbcore: registered new interface driver pegasus
+[   11.830823] usbcore: registered new interface driver rtl8150
+[   11.853903] usbcore: registered new interface driver r8152
+[   11.876572] hso: drivers/net/usb/hso.c: Option Wireless
+[   11.899388] usbcore: registered new interface driver hso
+[   11.923322] usbcore: registered new interface driver lan78xx
+[   11.946535] usbcore: registered new interface driver asix
+[   11.971243] usbcore: registered new interface driver ax88179_178a
+[   11.993864] usbcore: registered new interface driver cdc_ether
+[   12.016137] usbcore: registered new interface driver cdc_eem
+[   12.037320] usbcore: registered new interface driver dm9601
+[   12.058288] usbcore: registered new interface driver sr9700
+[   12.078136] usbcore: registered new interface driver CoreChips
+[   12.096719] usbcore: registered new interface driver smsc75xx
+[   12.114599] usbcore: registered new interface driver smsc95xx
+[   12.132529] usbcore: registered new interface driver gl620a
+[   12.149767] usbcore: registered new interface driver net1080
+[   12.167446] usbcore: registered new interface driver plusb
+[   12.184460] usbcore: registered new interface driver rndis_host
+[   12.201427] usbcore: registered new interface driver cdc_subset
+[   12.218430] usbcore: registered new interface driver zaurus
+[   12.235387] usbcore: registered new interface driver MOSCHIP usb-ethernet driver
+[   12.267803] usbcore: registered new interface driver int51x1
+[   12.285373] usbcore: registered new interface driver cdc_phonet
+[   12.301559] usbcore: registered new interface driver kalmia
+[   12.316594] usbcore: registered new interface driver ipheth
+[   12.333555] usbcore: registered new interface driver sierra_net
+[   12.348990] usbcore: registered new interface driver cx82310_eth
+[   12.364964] usbcore: registered new interface driver cdc_ncm
+[   12.379578] usbcore: registered new interface driver huawei_cdc_ncm
+[   12.395549] usbcore: registered new interface driver lg-vl600
+[   12.411326] usbcore: registered new interface driver qmi_wwan
+[   12.427732] usbcore: registered new interface driver cdc_mbim
+[   12.444458] usbcore: registered new interface driver ch9200
+[   12.484266] VFIO - User Level meta-driver version: 0.3
+[   12.513955] aoe: AoE v85 initialised.
+[   12.538086] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[   12.554904] ehci-pci: EHCI PCI platform driver
+[   12.572188] ehci-platform: EHCI generic platform driver
+[   12.589695] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[   12.609229] ohci-pci: OHCI PCI platform driver
+[   12.627953] ohci-platform: OHCI generic platform driver
+[   12.647224] uhci_hcd: USB Universal Host Controller Interface driver
+[   12.668428] driver u132_hcd
+[   12.701885] fotg210_hcd: FOTG210 Host Controller (EHCI) Driver
+[   12.725562] Warning! fotg210_hcd should always be loaded before uhci_hcd and ohci_hcd, not after
+[   12.763110] usbcore: registered new interface driver cdc_acm
+[   12.784299] cdc_acm: USB Abstract Control Model driver for USB modems and ISDN adapters
+[   12.826058] usbcore: registered new interface driver usblp
+[   12.849319] usbcore: registered new interface driver cdc_wdm
+[   12.873481] usbcore: registered new interface driver usbtmc
+[   12.897249] usbcore: registered new interface driver uas
+[   12.921323] usbcore: registered new interface driver usb-storage
+[   12.944411] usbcore: registered new interface driver ums-alauda
+[   12.967901] usbcore: registered new interface driver ums-cypress
+[   12.991962] usbcore: registered new interface driver ums-datafab
+[   13.015616] usbcore: registered new interface driver ums_eneub6250
+[   13.039228] usbcore: registered new interface driver ums-freecom
+[   13.062907] usbcore: registered new interface driver ums-isd200
+[   13.084995] usbcore: registered new interface driver ums-jumpshot
+[   13.106625] usbcore: registered new interface driver ums-karma
+[   13.127491] usbcore: registered new interface driver ums-onetouch
+[   13.147876] usbcore: registered new interface driver ums-realtek
+[   13.167554] usbcore: registered new interface driver ums-sddr09
+[   13.187046] usbcore: registered new interface driver ums-sddr55
+[   13.206250] usbcore: registered new interface driver ums-usbat
+[   13.224886] usbcore: registered new interface driver mdc800
+[   13.241925] mdc800: v0.7.5 (30/10/2000):USB Driver for Mustek MDC800 Digital Camera
+[   13.273836] usbcore: registered new interface driver microtekX6
+[   13.291926] usbcore: registered new interface driver usbserial
+[   13.314139] usbcore: registered new interface driver usbserial_generic
+[   13.328620] usbserial: USB Serial support registered for generic
+[   13.343564] usbcore: registered new interface driver aircable
+[   13.358145] usbserial: USB Serial support registered for aircable
+[   13.374360] usbcore: registered new interface driver ark3116
+[   13.390950] usbserial: USB Serial support registered for ark3116
+[   13.408183] usbcore: registered new interface driver belkin_sa
+[   13.425568] usbserial: USB Serial support registered for Belkin / Peracom / GoHubs USB Serial Adapter
+[   13.462521] usbcore: registered new interface driver ch341
+[   13.482683] usbserial: USB Serial support registered for ch341-uart
+[   13.503334] usbcore: registered new interface driver cp210x
+[   13.524019] usbserial: USB Serial support registered for cp210x
+[   13.545678] usbcore: registered new interface driver cyberjack
+[   13.567813] usbserial: USB Serial support registered for Reiner SCT Cyberjack USB card reader
+[   13.613573] usbcore: registered new interface driver cypress_m8
+[   13.638029] usbserial: USB Serial support registered for DeLorme Earthmate USB
+[   13.687586] usbserial: USB Serial support registered for HID->COM RS232 Adapter
+[   13.742981] usbserial: USB Serial support registered for Nokia CA-42 V2 Adapter
+[   13.801814] usbcore: registered new interface driver usb_debug
+[   13.833143] usbserial: USB Serial support registered for debug
+[   13.865401] usbcore: registered new interface driver digi_acceleport
+[   13.896959] usbserial: USB Serial support registered for Digi 2 port USB adapter
+[   13.959897] usbserial: USB Serial support registered for Digi 4 port USB adapter
+[   14.029382] usbcore: registered new interface driver io_edgeport
+[   14.066649] usbserial: USB Serial support registered for Edgeport 2 port adapter
+[   14.136972] usbserial: USB Serial support registered for Edgeport 4 port adapter
+[   14.211054] usbserial: USB Serial support registered for Edgeport 8 port adapter
+[   14.289550] usbserial: USB Serial support registered for EPiC device
+[   14.331754] usbcore: registered new interface driver io_ti
+[   14.373668] usbserial: USB Serial support registered for Edgeport TI 1 port adapter
+[   14.455749] usbserial: USB Serial support registered for Edgeport TI 2 port adapter
+[   14.542233] usbcore: registered new interface driver empeg
+[   14.585578] usbserial: USB Serial support registered for empeg
+[   14.627700] usbcore: registered new interface driver f81232
+[   14.667614] usbserial: USB Serial support registered for f81232
+[   14.707701] usbcore: registered new interface driver ftdi_sio
+[   14.746413] usbserial: USB Serial support registered for FTDI USB Serial Device
+[   14.825026] usbcore: registered new interface driver garmin_gps
+[   14.865769] usbserial: USB Serial support registered for Garmin GPS usb/tty
+[   14.907350] usbcore: registered new interface driver ipaq
+[   14.946830] usbserial: USB Serial support registered for PocketPC PDA
+[   14.985616] usbcore: registered new interface driver ipw
+[   15.024173] usbserial: USB Serial support registered for IPWireless converter
+[   15.062193] usbcore: registered new interface driver ir_usb
+[   15.098584] usbserial: USB Serial support registered for IR Dongle
+[   15.135208] usbcore: registered new interface driver iuu_phoenix
+[   15.170047] usbserial: USB Serial support registered for iuu_phoenix
+[   15.204273] usbcore: registered new interface driver keyspan
+[   15.236999] usbserial: USB Serial support registered for Keyspan - (without firmware)
+[   15.300665] usbserial: USB Serial support registered for Keyspan 1 port adapter
+[   15.365782] usbserial: USB Serial support registered for Keyspan 2 port adapter
+[   15.429914] usbserial: USB Serial support registered for Keyspan 4 port adapter
+[   15.497669] usbcore: registered new interface driver keyspan_pda
+[   15.533171] usbserial: USB Serial support registered for Keyspan PDA
+[   15.568169] usbserial: USB Serial support registered for Keyspan PDA - (prerenumeration)
+[   15.637318] usbcore: registered new interface driver kl5kusb105
+[   15.672518] usbserial: USB Serial support registered for KL5KUSB105D / PalmConnect
+[   15.740772] usbcore: registered new interface driver kobil_sct
+[   15.775702] usbserial: USB Serial support registered for KOBIL USB smart card terminal
+[   15.846408] usbcore: registered new interface driver mct_u232
+[   15.882818] usbserial: USB Serial support registered for MCT U232
+[   15.918475] usbcore: registered new interface driver metro_usb
+[   15.954738] usbserial: USB Serial support registered for Metrologic USB to Serial
+[   16.028039] usbcore: registered new interface driver mos7720
+[   16.066205] usbserial: USB Serial support registered for Moschip 2 port adapter
+[   16.161714] usbcore: registered new interface driver mos7840
+[   16.198096] usbserial: USB Serial support registered for Moschip 7840/7820 USB Serial Driver
+[   16.272359] usbcore: registered new interface driver mxuport
+[   16.312402] usbserial: USB Serial support registered for MOXA UPort
+[   16.353563] usbcore: registered new interface driver navman
+[   16.388815] usbserial: USB Serial support registered for navman
+[   16.422619] usbcore: registered new interface driver omninet
+[   16.457472] usbserial: USB Serial support registered for ZyXEL - omni.net lcd plus usb
+[   16.525002] usbcore: registered new interface driver opticon
+[   16.559215] usbserial: USB Serial support registered for opticon
+[   16.594632] usbcore: registered new interface driver option
+[   16.628773] usbserial: USB Serial support registered for GSM modem (1-port)
+[   16.662699] usbcore: registered new interface driver oti6858
+[   16.695375] usbserial: USB Serial support registered for oti6858
+[   16.727548] usbcore: registered new interface driver pl2303
+[   16.758754] usbserial: USB Serial support registered for pl2303
+[   16.791119] usbcore: registered new interface driver qcaux
+[   16.822794] usbserial: USB Serial support registered for qcaux
+[   16.853548] usbcore: registered new interface driver qcserial
+[   16.883969] usbserial: USB Serial support registered for Qualcomm USB modem
+[   16.915087] usbcore: registered new interface driver quatech2
+[   16.945801] usbserial: USB Serial support registered for Quatech 2nd gen USB to Serial Driver
+[   17.005384] usbcore: registered new interface driver safe_serial
+[   17.035782] usbserial: USB Serial support registered for safe_serial
+[   17.065944] usbcore: registered new interface driver sierra
+[   17.096037] usbserial: USB Serial support registered for Sierra USB modem
+[   17.126772] usbcore: registered new interface driver usb_serial_simple
+[   17.156935] usbserial: USB Serial support registered for carelink
+[   17.186811] usbserial: USB Serial support registered for zio
+[   17.215952] usbserial: USB Serial support registered for funsoft
+[   17.244262] usbserial: USB Serial support registered for flashloader
+[   17.271761] usbserial: USB Serial support registered for google
+[   17.297497] usbserial: USB Serial support registered for vivopay
+[   17.323229] usbserial: USB Serial support registered for moto_modem
+[   17.347938] usbserial: USB Serial support registered for novatel_gps
+[   17.372612] usbserial: USB Serial support registered for hp4x
+[   17.395621] usbserial: USB Serial support registered for suunto
+[   17.419054] usbserial: USB Serial support registered for siemens_mpi
+[   17.442514] usbcore: registered new interface driver spcp8x5
+[   17.465544] usbserial: USB Serial support registered for SPCP8x5
+[   17.488383] usbcore: registered new interface driver ssu100
+[   17.511546] usbserial: USB Serial support registered for Quatech SSU-100 USB to Serial Driver
+[   17.556396] usbcore: registered new interface driver symbolserial
+[   17.579783] usbserial: USB Serial support registered for symbol
+[   17.602812] usbcore: registered new interface driver ti_usb_3410_5052
+[   17.625102] usbserial: USB Serial support registered for TI USB 3410 1 port adapter
+[   17.667061] usbserial: USB Serial support registered for TI USB 5052 2 port adapter
+[   17.716845] usbcore: registered new interface driver visor
+[   17.743300] usbserial: USB Serial support registered for Handspring Visor / Palm OS
+[   17.792155] usbserial: USB Serial support registered for Sony Clie 5.0
+[   17.828804] usbserial: USB Serial support registered for Sony Clie 3.5
+[   17.856764] usbcore: registered new interface driver wishbone_serial
+[   17.885238] usbserial: USB Serial support registered for wishbone_serial
+[   17.914081] usbcore: registered new interface driver whiteheat
+[   17.943864] usbserial: USB Serial support registered for Connect Tech - WhiteHEAT - (prerenumeration)
+[   18.001563] usbserial: USB Serial support registered for Connect Tech - WhiteHEAT
+[   18.066514] usbcore: registered new interface driver xsens_mt
+[   18.100938] usbserial: USB Serial support registered for xsens_mt
+[   18.134863] usbcore: registered new interface driver adutux
+[   18.169397] usbcore: registered new interface driver appledisplay
+[   18.202712] usbcore: registered new interface driver cypress_cy7c63
+[   18.235599] usbcore: registered new interface driver cytherm
+[   18.267722] usbcore: registered new interface driver emi26 - firmware loader
+[   18.299552] usbcore: registered new interface driver emi62 - firmware loader
+[   18.330653] ftdi_elan: driver ftdi-elan
+[   18.364117] usbcore: registered new interface driver ftdi-elan
+[   18.394540] usbcore: registered new interface driver idmouse
+[   18.423355] usbcore: registered new interface driver iowarrior
+[   18.449803] usbcore: registered new interface driver isight_firmware
+[   18.476431] usbcore: registered new interface driver usblcd
+[   18.501682] usbcore: registered new interface driver ldusb
+[   18.525259] usbcore: registered new interface driver legousbtower
+[   18.547450] usbcore: registered new interface driver usbtest
+[   18.569866] usbcore: registered new interface driver usb_ehset_test
+[   18.591883] usbcore: registered new interface driver trancevibrator
+[   18.613115] usbcore: registered new interface driver uss720
+[   18.633736] uss720: v0.6:USB Parport Cable driver for Cables using the Lucent Technologies USS720 Chip
+[   18.671450] uss720: NOTE: this is a special purpose driver to allow nonstandard
+[   18.709226] uss720: protocols (eg. bitbang) over USS720 usb to parallel cables
+[   18.749955] uss720: If you just want to connect to a printer, use usblp instead
+[   18.798772] usbcore: registered new interface driver usbsevseg
+[   18.825763] usbcore: registered new interface driver yurex
+[   18.853947] usbcore: registered new interface driver chaoskey
+[   18.882163] usbcore: registered new interface driver sisusb
+[   18.908629] usbcore: registered new interface driver lvs
+[   18.934441] usbcore: registered new interface driver cxacru
+[   18.959813] usbcore: registered new interface driver speedtch
+[   18.985329] usbcore: registered new interface driver ueagle-atm
+[   19.010895] xusbatm: malformed module parameters
+[   19.039318] Number of emulated UDC must be in range of 1...2
+[   19.073843] gadgetfs: USB Gadget filesystem, version 24 Aug 2004
+[   19.105150] usbip_core: USB/IP Core v1.0.0
+[   19.133506] vhci_hcd vhci_hcd: USB/IP Virtual Host Controller
+[   19.163539] vhci_hcd vhci_hcd: new USB bus registered, assigned bus number 1
+[   19.201905] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+[   19.230591] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[   19.286738] usb usb1: Product: USB/IP Virtual Host Controller
+[   19.315478] usb usb1: Manufacturer: Linux 4.4.0 vhci_hcd
+[   19.343025] usb usb1: SerialNumber: vhci_hcd
+[   19.374683] hub 1-0:1.0: USB hub found
+[   19.401517] hub 1-0:1.0: 8 ports detected
+[   19.433123] vhci_hcd: USB/IP 'Virtual' Host Controller (VHCI) Driver v1.0.0
+[   19.455806] usbcore: registered new device driver usbip-host
+[   19.477153] usbip_host: USB/IP Host Driver v1.0.0
+[   19.497993] i8042: PNP: PS/2 Controller [PNP0303:KBD,PNP0f13:MOU] at 0x60,0x64 irq 1,12
+[   19.547075] serio: i8042 KBD port at 0x60,0x64 irq 1
+[   19.572537] serio: i8042 AUX port at 0x60,0x64 irq 12
+[   19.602290] mousedev: PS/2 mouse device common for all mice
+[   19.632615] usbcore: registered new interface driver appletouch
+[   19.657742] usbcore: registered new interface driver bcm5974
+[   19.685520] input: AT Translated Set 2 keyboard as /devices/platform/i8042/serio0/input/input1
+[   19.732771] usbcore: registered new interface driver synaptics_usb
+[   19.757851] usbcore: registered new interface driver iforce
+[   19.782531] usbcore: registered new interface driver xpad
+[   19.805511] usbcore: registered new interface driver usb_acecad
+[   19.832141] usbcore: registered new interface driver aiptek
+[   19.858612] usbcore: registered new interface driver hanwang
+[   19.883479] usbcore: registered new interface driver kbtab
+[   19.904930] usbcore: registered new interface driver usbtouchscreen
+[   19.925878] usbcore: registered new interface driver sur40
+[   19.946572] usbcore: registered new interface driver ati_remote2
+[   19.966825] cm109: Keymap for Komunikate KIP1000 phone loaded
+[   19.987403] usbcore: registered new interface driver cm109
+[   20.008039] cm109: CM109 phone driver: 20080805 (C) Alfred E. Heggestad
+[   20.028050] usbcore: registered new interface driver ims_pcu
+[   20.048595] usbcore: registered new interface driver keyspan_remote
+[   20.068994] usbcore: registered new interface driver powermate
+[   20.102149] usbcore: registered new interface driver yealink
+[   20.133600] rtc_cmos 00:00: RTC can wake from S4
+[   20.165645] rtc_cmos 00:00: rtc core: registered rtc_cmos as rtc0
+[   20.185255] rtc_cmos 00:00: alarms up to one day, 114 bytes nvram, hpet irqs
+[   20.204253] i2c /dev entries driver
+[   20.226497] usbcore: registered new interface driver i2c-diolan-u2c
+[   20.249084] usbcore: registered new interface driver RobotFuzz Open Source InterFace, OSIF
+[   20.290077] usbcore: registered new interface driver i2c-tiny-usb
+[   20.315841] b2c2-flexcop: B2C2 FlexcopII/II(b)/III digital TV receiver chip loaded successfully
+[   20.364177] vivid-000: using single planar format API
+[   20.419105] vivid-000: V4L2 capture device registered as video0
+[   20.445369] vivid-000: V4L2 output device registered as video1
+[   20.472369] vivid-000: V4L2 capture device registered as vbi0, supports raw and sliced VBI
+[   20.525114] vivid-000: V4L2 output device registered as vbi1, supports raw and sliced VBI
+[   20.588964] vivid-000: V4L2 capture device registered as swradio0
+[   20.621184] vivid-000: V4L2 receiver device registered as radio0
+[   20.652904] vivid-000: V4L2 transmitter device registered as radio1
+[   20.683019] vivid-001: using multiplanar format API
+[   20.731545] vivid-001: V4L2 capture device registered as video2
+[   20.762981] vivid-001: V4L2 output device registered as video3
+[   20.797534] vivid-001: V4L2 capture device registered as vbi2, supports raw and sliced VBI
+[   20.869553] vivid-001: V4L2 output device registered as vbi3, supports raw and sliced VBI
+[   20.934367] vivid-001: V4L2 capture device registered as swradio1
+[   20.966903] vivid-001: V4L2 receiver device registered as radio2
+[   20.998375] vivid-001: V4L2 transmitter device registered as radio3
+[   21.029027] vivid-002: using single planar format API
+[   21.078221] vivid-002: V4L2 capture device registered as video4
+[   21.109119] vivid-002: V4L2 output device registered as video5
+[   21.170554] vivid-002: V4L2 capture device registered as vbi4, supports raw and sliced VBI
+[   21.231984] vivid-002: V4L2 output device registered as vbi5, supports raw and sliced VBI
+[   21.296750] vivid-002: V4L2 capture device registered as swradio2
+[   21.330754] vivid-002: V4L2 receiver device registered as radio4
+[   21.364543] vivid-002: V4L2 transmitter device registered as radio5
+[   21.394934] vivid-003: using multiplanar format API
+[   21.442378] vivid-003: V4L2 capture device registered as video6
+[   21.473018] vivid-003: V4L2 output device registered as video7
+[   21.503764] vivid-003: V4L2 capture device registered as vbi6, supports raw and sliced VBI
+[   21.565855] vivid-003: V4L2 output device registered as vbi7, supports raw and sliced VBI
+[   21.632756] vivid-003: V4L2 capture device registered as swradio3
+[   21.668748] vivid-003: V4L2 receiver device registered as radio6
+[   21.702592] input: ImExPS/2 Generic Explorer Mouse as /devices/platform/i8042/serio1/input/input3
+[   21.763521] vivid-003: V4L2 transmitter device registered as radio7
+[   21.794685] vivid-004: using single planar format API
+[   21.848639] vivid-004: V4L2 capture device registered as video8
+[   21.881887] vivid-004: V4L2 output device registered as video9
+[   21.913933] vivid-004: V4L2 capture device registered as vbi8, supports raw and sliced VBI
+[   21.977421] vivid-004: V4L2 output device registered as vbi9, supports raw and sliced VBI
+[   22.043921] vivid-004: V4L2 capture device registered as swradio4
+[   22.077098] vivid-004: V4L2 receiver device registered as radio8
+[   22.108732] vivid-004: V4L2 transmitter device registered as radio9
+[   22.138453] vivid-005: using multiplanar format API
+[   22.186849] vivid-005: V4L2 capture device registered as video10
+[   22.218239] vivid-005: V4L2 output device registered as video11
+[   22.249732] vivid-005: V4L2 capture device registered as vbi10, supports raw and sliced VBI
+[   22.310025] vivid-005: V4L2 output device registered as vbi11, supports raw and sliced VBI
+[   22.374783] vivid-005: V4L2 capture device registered as swradio5
+[   22.408436] vivid-005: V4L2 receiver device registered as radio10
+[   22.441357] vivid-005: V4L2 transmitter device registered as radio11
+[   22.474003] vivid-006: using single planar format API
+[   22.523461] vivid-006: V4L2 capture device registered as video12
+[   22.555434] vivid-006: V4L2 output device registered as video13
+[   22.586617] vivid-006: V4L2 capture device registered as vbi12, supports raw and sliced VBI
+[   22.646912] vivid-006: V4L2 output device registered as vbi13, supports raw and sliced VBI
+[   22.709157] vivid-006: V4L2 capture device registered as swradio6
+[   22.742583] vivid-006: V4L2 receiver device registered as radio12
+[   22.774296] vivid-006: V4L2 transmitter device registered as radio13
+[   22.803947] vivid-007: using multiplanar format API
+[   22.849855] vivid-007: V4L2 capture device registered as video14
+[   22.879208] vivid-007: V4L2 output device registered as video15
+[   22.908600] vivid-007: V4L2 capture device registered as vbi14, supports raw and sliced VBI
+[   22.966638] vivid-007: V4L2 output device registered as vbi15, supports raw and sliced VBI
+[   23.029587] vivid-007: V4L2 capture device registered as swradio7
+[   23.063744] vivid-007: V4L2 receiver device registered as radio14
+[   23.095919] vivid-007: V4L2 transmitter device registered as radio15
+[   23.126973] vivid-008: using single planar format API
+[   23.174947] vivid-008: V4L2 capture device registered as video16
+[   23.205010] vivid-008: V4L2 output device registered as video17
+[   23.234957] vivid-008: V4L2 capture device registered as vbi16, supports raw and sliced VBI
+[   23.293726] vivid-008: V4L2 output device registered as vbi17, supports raw and sliced VBI
+[   23.355511] vivid-008: V4L2 capture device registered as swradio8
+[   23.388753] vivid-008: V4L2 receiver device registered as radio16
+[   23.421328] vivid-008: V4L2 transmitter device registered as radio17
+[   23.452011] vivid-009: using multiplanar format API
+[   23.500939] vivid-009: V4L2 capture device registered as video18
+[   23.530050] vivid-009: V4L2 output device registered as video19
+[   23.559250] vivid-009: V4L2 capture device registered as vbi18, supports raw and sliced VBI
+[   23.617123] vivid-009: V4L2 output device registered as vbi19, supports raw and sliced VBI
+[   23.678718] vivid-009: V4L2 capture device registered as swradio9
+[   23.712594] vivid-009: V4L2 receiver device registered as radio18
+[   23.745166] vivid-009: V4L2 transmitter device registered as radio19
+[   23.775450] vivid-010: using single planar format API
+[   23.822585] vivid-010: V4L2 capture device registered as video20
+[   23.852985] vivid-010: V4L2 output device registered as video21
+[   23.883107] vivid-010: V4L2 capture device registered as vbi20, supports raw and sliced VBI
+[   23.941900] vivid-010: V4L2 output device registered as vbi21, supports raw and sliced VBI
+[   24.004344] vivid-010: V4L2 capture device registered as swradio10
+[   24.037321] vivid-010: V4L2 receiver device registered as radio20
+[   24.069690] vivid-010: V4L2 transmitter device registered as radio21
+[   24.109180] vivid-011: using multiplanar format API
+[   24.156740] vivid-011: V4L2 capture device registered as video22
+[   24.186402] vivid-011: V4L2 output device registered as video23
+[   24.216021] vivid-011: V4L2 capture device registered as vbi22, supports raw and sliced VBI
+[   24.274796] vivid-011: V4L2 output device registered as vbi23, supports raw and sliced VBI
+[   24.337139] vivid-011: V4L2 capture device registered as swradio11
+[   24.371886] vivid-011: V4L2 receiver device registered as radio22
+[   24.404403] vivid-011: V4L2 transmitter device registered as radio23
+[   24.434975] vivid-012: using single planar format API
+[   24.483569] vivid-012: V4L2 capture device registered as video24
+[   24.513778] vivid-012: V4L2 output device registered as video25
+[   24.544051] vivid-012: V4L2 capture device registered as vbi24, supports raw and sliced VBI
+[   24.603645] vivid-012: V4L2 output device registered as vbi25, supports raw and sliced VBI
+[   24.666372] vivid-012: V4L2 capture device registered as swradio12
+[   24.699955] vivid-012: V4L2 receiver device registered as radio24
+[   24.732604] vivid-012: V4L2 transmitter device registered as radio25
+[   24.763125] vivid-013: using multiplanar format API
+[   24.810700] vivid-013: V4L2 capture device registered as video26
+[   24.841260] vivid-013: V4L2 output device registered as video27
+[   24.871250] vivid-013: V4L2 capture device registered as vbi26, supports raw and sliced VBI
+[   24.929874] vivid-013: V4L2 output device registered as vbi27, supports raw and sliced VBI
+[   24.993654] vivid-013: V4L2 capture device registered as swradio13
+[   25.027841] vivid-013: V4L2 receiver device registered as radio26
+[   25.061049] vivid-013: V4L2 transmitter device registered as radio27
+[   25.091400] vivid-014: using single planar format API
+[   25.139663] vivid-014: V4L2 capture device registered as video28
+[   25.180996] vivid-014: V4L2 output device registered as video29
+[   25.211611] vivid-014: V4L2 capture device registered as vbi28, supports raw and sliced VBI
+[   25.271331] vivid-014: V4L2 output device registered as vbi29, supports raw and sliced VBI
+[   25.334342] vivid-014: V4L2 capture device registered as swradio14
+[   25.368266] vivid-014: V4L2 receiver device registered as radio28
+[   25.401534] vivid-014: V4L2 transmitter device registered as radio29
+[   25.431865] vivid-015: using multiplanar format API
+[   25.479906] vivid-015: V4L2 capture device registered as video30
+[   25.509802] vivid-015: V4L2 output device registered as video31
+[   25.540035] vivid-015: V4L2 capture device registered as vbi30, supports raw and sliced VBI
+[   25.599117] vivid-015: V4L2 output device registered as vbi31, supports raw and sliced VBI
+[   25.663746] vivid-015: V4L2 capture device registered as swradio15
+[   25.696664] vivid-015: V4L2 receiver device registered as radio30
+[   25.729660] vivid-015: V4L2 transmitter device registered as radio31
+[   25.763138] vim2m vim2m.0: Device registered as /dev/video32
+[   25.794128] usbcore: registered new interface driver ttusb-dec
+[   25.823282] usbcore: registered new interface driver ttusb
+[   25.852255] usbcore: registered new interface driver dvb_usb_af9015
+[   25.881174] usbcore: registered new interface driver dvb_usb_af9035
+[   25.908675] usbcore: registered new interface driver dvb_usb_anysee
+[   25.935839] usbcore: registered new interface driver dvb_usb_au6610
+[   25.962577] usbcore: registered new interface driver dvb_usb_az6007
+[   25.988435] usbcore: registered new interface driver dvb_usb_ce6230
+[   26.013973] usbcore: registered new interface driver dvb_usb_ec168
+[   26.038006] usbcore: registered new interface driver dvb_usb_gl861
+[   26.061225] usbcore: registered new interface driver dvb_usb_mxl111sf
+[   26.082324] usbcore: registered new interface driver dvb_usb_rtl28xxu
+[   26.103720] usbcore: registered new interface driver dvb_usb_dvbsky
+[   26.124529] usbcore: registered new interface driver smsusb
+[   26.144969] usbcore: registered new interface driver b2c2_flexcop_usb
+[   26.165399] usbcore: registered new interface driver zr364xx
+[   26.184853] usbcore: registered new interface driver stkwebcam
+[   26.204139] usbcore: registered new interface driver s2255
+[   26.222558] usbcore: registered new interface driver uvcvideo
+[   26.237803] USB Video Class driver (1.1.1)
+[   26.252175] gspca_main: v2.14.0 registered
+[   26.265702] usbcore: registered new interface driver benq
+[   26.281302] usbcore: registered new interface driver conex
+[   26.295474] usbcore: registered new interface driver cpia1
+[   26.309369] usbcore: registered new interface driver dtcs033
+[   26.323404] usbcore: registered new interface driver etoms
+[   26.337016] usbcore: registered new interface driver finepix
+[   26.351092] usbcore: registered new interface driver jeilinj
+[   26.365008] usbcore: registered new interface driver jl2005bcd
+[   26.379166] usbcore: registered new interface driver kinect
+[   26.393507] usbcore: registered new interface driver konica
+[   26.407437] usbcore: registered new interface driver mars
+[   26.421821] usbcore: registered new interface driver mr97310a
+[   26.435807] usbcore: registered new interface driver nw80x
+[   26.449783] usbcore: registered new interface driver ov519
+[   26.464195] usbcore: registered new interface driver ov534
+[   26.477502] usbcore: registered new interface driver ov534_9
+[   26.491400] usbcore: registered new interface driver pac207
+[   26.504661] usbcore: registered new interface driver gspca_pac7302
+[   26.517706] usbcore: registered new interface driver pac7311
+[   26.531104] usbcore: registered new interface driver se401
+[   26.550948] usbcore: registered new interface driver sn9c2028
+[   26.564071] usbcore: registered new interface driver gspca_sn9c20x
+[   26.577268] usbcore: registered new interface driver sonixb
+[   26.589835] usbcore: registered new interface driver sonixj
+[   26.604210] usbcore: registered new interface driver spca500
+[   26.616485] usbcore: registered new interface driver spca501
+[   26.628334] usbcore: registered new interface driver spca505
+[   26.639454] usbcore: registered new interface driver spca506
+[   26.651369] usbcore: registered new interface driver spca508
+[   26.662580] usbcore: registered new interface driver spca561
+[   26.674073] usbcore: registered new interface driver spca1528
+[   26.685229] usbcore: registered new interface driver sq905
+[   26.696523] usbcore: registered new interface driver sq905c
+[   26.707964] usbcore: registered new interface driver sq930x
+[   26.719181] usbcore: registered new interface driver sunplus
+[   26.729873] usbcore: registered new interface driver stk014
+[   26.740962] usbcore: registered new interface driver stk1135
+[   26.751831] usbcore: registered new interface driver stv0680
+[   26.762874] usbcore: registered new interface driver t613
+[   26.774120] usbcore: registered new interface driver gspca_topro
+[   26.785225] usbcore: registered new interface driver touptek
+[   26.796318] usbcore: registered new interface driver tv8532
+[   26.807291] usbcore: registered new interface driver vc032x
+[   26.818803] usbcore: registered new interface driver vicam
+[   26.839405] usbcore: registered new interface driver xirlink-cit
+[   26.851673] usbcore: registered new interface driver gspca_zc3xx
+[   26.863067] usbcore: registered new interface driver ALi m5602
+[   26.874757] usbcore: registered new interface driver STV06xx
+[   26.886105] usbcore: registered new interface driver gspca_gl860
+[   26.898658] usbcore: registered new interface driver Philips webcam
+[   26.911439] usbcore: registered new interface driver airspy
+[   26.922633] usbcore: registered new interface driver hackrf
+[   26.935151] usbcore: registered new interface driver msi2500
+[   26.946307] cpia2: V4L-Driver for Vision CPiA2 based cameras v3.0.1
+[   26.958337] usbcore: registered new interface driver cpia2
+[   26.971689] au0828: au0828 driver loaded
+[   26.984665] usbcore: registered new interface driver au0828
+[   26.998345] usbcore: registered new interface driver hdpvr
+[   27.013905] usbcore: registered new interface driver pvrusb2
+[   27.028278] pvrusb2: V4L in-tree version:Hauppauge WinTV-PVR-USB2 MPEG2 Encoder/Tuner
+[   27.056098] pvrusb2: Debug mask is 31 (0x1f)
+[   27.072193] usbcore: registered new interface driver stk1160
+[   27.089041] usbcore: registered new interface driver em28xx
+[   27.106701] em28xx: Registered (Em28xx v4l2 Extension) extension
+[   27.123320] em28xx: Registered (Em28xx Audio Extension) extension
+[   27.139609] em28xx: Registered (Em28xx dvb Extension) extension
+[   27.157224] usbcore: registered new interface driver usbtv
+[   27.175181] usbcore: registered new interface driver go7007
+[   27.192293] usbcore: registered new interface driver go7007-loader
+[   27.209225] usbcore: registered new interface driver Abilis Systems as10x usb driver
+[   27.245341] usbcore: registered new interface driver radioshark
+[   27.265617] usbcore: registered new interface driver radioshark2
+[   27.285881] usbcore: registered new interface driver dsbr100
+[   27.306102] usbcore: registered new interface driver radio-si470x
+[   27.326114] usbcore: registered new interface driver radio-usb-si4713
+[   27.346707] usbcore: registered new interface driver radio-mr800
+[   27.365883] usbcore: registered new interface driver radio-keene
+[   27.384165] usbcore: registered new interface driver radio-ma901
+[   27.401850] usbcore: registered new interface driver radio-raremono
+[   27.419499] usbcore: registered new interface driver pcwd_usb
+[   27.437643] md: linear personality registered for level -1
+[   27.454479] md: raid0 personality registered for level 0
+[   27.470732] md: raid1 personality registered for level 1
+[   27.486081] md: raid10 personality registered for level 10
+[   27.502116] md: raid6 personality registered for level 6
+[   27.516329] md: raid5 personality registered for level 5
+[   27.529847] md: raid4 personality registered for level 4
+[   27.543308] md: multipath personality registered for level -4
+[   27.560785] device-mapper: uevent: version 1.0.3
+[   27.581747] device-mapper: ioctl: 4.34.0-ioctl (2015-10-28) initialised: dm-devel@redhat.com
+[   27.622672] device-mapper: multipath: version 1.10.0 loaded
+[   27.639693] device-mapper: multipath round-robin: version 1.0.0 loaded
+[   27.656335] device-mapper: multipath queue-length: version 0.1.0 loaded
+[   27.671821] device-mapper: multipath service-time: version 0.2.0 loaded
+[   27.686677] device-mapper: raid: Loading target version 1.7.0
+[   27.701990] device-mapper: cache cleaner: version 1.0.0 loaded
+[   27.719658] Bluetooth: Virtual HCI driver ver 1.5
+[   27.736130] Bluetooth: HCI UART driver ver 2.3
+[   27.752212] Bluetooth: HCI UART protocol H4 registered
+[   27.767241] Bluetooth: HCI UART protocol BCSP registered
+[   27.783008] Bluetooth: HCI UART protocol LL registered
+[   27.798542] Bluetooth: HCI UART protocol Three-wire (H5) registered
+[   27.814939] Bluetooth: HCI UART protocol QCA registered
+[   27.831853] usbcore: registered new interface driver bcm203x
+[   27.849406] usbcore: registered new interface driver bpa10x
+[   27.867193] usbcore: registered new interface driver bfusb
+[   27.884812] usbcore: registered new interface driver btusb
+[   27.902107] usbcore: registered new interface driver ath3k
+[   27.919867] Modular ISDN core version 1.1.29
+[   27.938630] NET: Registered protocol family 34
+[   27.955735] DSP module 2.0
+[   27.972944] mISDN_dsp: DSP clocks every 80 samples. This equals 1 jiffies.
+[   28.017483] mISDN: Layer-1-over-IP driver Rev. 2.00
+[   28.041425] 0 virtual devices registered
+[   28.059886] usbcore: registered new interface driver HFC-S_USB
+[   28.078225] VUB300 Driver rom wait states = 1C irqpoll timeout = 0400
+[   28.082003] usbcore: registered new interface driver vub300
+[   28.118643] usbcore: registered new interface driver ushc
+[   28.171904] iscsi: registered transport (iser)
+[   28.207547] hidraw: raw HID events driver (C) Jiri Kosina
+[   28.288991] usbcore: registered new interface driver usbhid
+[   28.335796] usbhid: USB HID core driver
+[   28.355881] usbcore: registered new interface driver prism2_usb
+[   28.376852] usbcore: registered new interface driver r8712u
+[   28.396796] ashmem: initialized
+[   28.417696] mostcore: init()
+[   28.439767] asus_wmi: Asus Management GUID not found
+[   28.584162] usbcore: registered new interface driver snd-usb-audio
+[   28.605875] usbcore: registered new interface driver snd-ua101
+[   28.626914] usbcore: registered new interface driver snd-usb-usx2y
+[   28.647884] usbcore: registered new interface driver snd-usb-us122l
+[   28.668683] usbcore: registered new interface driver snd-usb-caiaq
+[   28.689590] usbcore: registered new interface driver snd-usb-6fire
+[   28.710029] usbcore: registered new interface driver snd-usb-hiface
+[   28.731280] usbcore: registered new interface driver snd-bcd2000
+[   28.751226] usbcore: registered new interface driver snd_usb_pod
+[   28.769518] usbcore: registered new interface driver snd_usb_podhd
+[   28.787500] usbcore: registered new interface driver snd_usb_toneport
+[   28.805220] usbcore: registered new interface driver snd_usb_variax
+[   28.821881] drop_monitor: Initializing network drop monitor service
+[   28.838764] NET: Registered protocol family 26
+[   28.855316] GACT probability on
+[   28.872142] Mirror/redirect action on
+[   28.888430] Simple TC action Loaded
+[   28.908564] netem: version 1.3
+[   28.925812] u32 classifier
+[   28.941846]     Performance counters on
+[   28.959678]     Actions configured
+[   28.977212] Netfilter messages via NETLINK v0.30.
+[   28.993567] nfnl_acct: registering with nfnetlink.
+[   29.009588] nf_conntrack version 0.5.0 (16384 buckets, 65536 max)
+[   29.032961] ctnetlink v0.93: registering with nfnetlink.
+[   29.052172] nf_tables: (c) 2007-2009 Patrick McHardy <kaber@trash.net>
+[   29.068247] nf_tables_compat: (c) 2012 Pablo Neira Ayuso <pablo@netfilter.org>
+[   29.104838] xt_time: kernel timezone is -0000
+[   29.123091] ip_set: protocol 6
+[   29.141936] IPVS: Registered protocols (TCP, UDP, SCTP, AH, ESP)
+[   29.161387] IPVS: Connection hash table configured (size=4096, memory=32Kbytes)
+[   29.201858] IPVS: Creating netns size=1304 id=0
+[   29.728370] IPVS: ipvs loaded.
+[   29.749387] IPVS: [rr] scheduler registered.
+[   29.771604] IPVS: [wrr] scheduler registered.
+[   29.793498] IPVS: [lc] scheduler registered.
+[   29.814322] IPVS: [wlc] scheduler registered.
+[   29.834445] IPVS: [fo] scheduler registered.
+[   29.854371] IPVS: [ovf] scheduler registered.
+[   29.874501] IPVS: [lblc] scheduler registered.
+[   29.894861] IPVS: [lblcr] scheduler registered.
+[   29.914486] IPVS: [dh] scheduler registered.
+[   29.933642] IPVS: [sh] scheduler registered.
+[   29.952688] IPVS: [sed] scheduler registered.
+[   29.971151] IPVS: [nq] scheduler registered.
+[   29.989819] IPVS: ftp: loaded support on port[0] = 21
+[   30.008243] IPVS: [sip] pe registered.
+[   30.027479] ipip: IPv4 over IPv4 tunneling driver
+[   30.051676] gre: GRE over IPv4 demultiplexor driver
+[   30.070805] ip_gre: GRE over IPv4 tunneling driver
+[   30.096069] IPv4 over IPsec tunneling driver
+[   30.191331] ip_tables: (C) 2000-2006 Netfilter Core Team
+[   30.345558] arp_tables: (C) 2002 David S. Miller
+[   30.431302] Initializing XFRM netlink socket
+[   30.497261] NET: Registered protocol family 10
+[   30.527487] mip6: Mobile IPv6
+[   30.542757] ip6_tables: (C) 2000-2006 Netfilter Core Team
+[   30.716083] sit: IPv6 over IPv4 tunneling driver
+[   30.743311] ip6_gre: GRE over IPv6 tunneling driver
+[   30.764178] NET: Registered protocol family 17
+[   30.781400] NET: Registered protocol family 15
+[   30.796921] bridge: automatic filtering via arp/ip/ip6tables has been deprecated. Update your scripts to load br_netfilter if you need this.
+[   31.050670] Bridge firewalling registered
+[   31.068145] Ebtables v2.0 registered
+[   31.152043] NET: Registered protocol family 9
+[   31.170034] X25: Linux Version 0.2
+[   31.253640] NET: Registered protocol family 6
+[   31.337470] NET: Registered protocol family 11
+[   31.358646] NET: Registered protocol family 3
+[   31.377299] can: controller area network core (rev 20120528 abi 9)
+[   31.396805] NET: Registered protocol family 29
+[   31.416240] can: raw protocol (rev 20120528)
+[   31.435753] can: broadcast manager protocol (rev 20120528 t)
+[   31.455748] can: netlink gateway (rev 20130117) max_hops=1
+[   31.481413] Bluetooth: RFCOMM TTY layer initialized
+[   31.502425] Bluetooth: RFCOMM socket layer initialized
+[   31.521773] Bluetooth: RFCOMM ver 1.11
+[   31.540996] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[   31.560323] Bluetooth: BNEP filters: protocol multicast
+[   31.579519] Bluetooth: BNEP socket layer initialized
+[   31.598312] Bluetooth: CMTP (CAPI Emulation) ver 1.0
+[   31.617777] Bluetooth: CMTP socket layer initialized
+[   31.637127] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+[   31.657241] Bluetooth: HIDP socket layer initialized
+[   31.680778] NET: Registered protocol family 33
+[   31.700951] Key type rxrpc registered
+[   31.720357] Key type rxrpc_s registered
+[   31.755115] RxRPC: Registered security type 2 'rxkad'
+[   31.775697] lec:lane_module_init: lec.c: initialized
+[   31.795345] mpoa:atm_mpoa_init: mpc.c: initialized
+[   31.816107] l2tp_core: L2TP core driver, V2.0
+[   31.835785] l2tp_ppp: PPPoL2TP kernel driver, V2.0
+[   31.855680] l2tp_ip: L2TP IP encapsulation support (L2TPv3)
+[   31.876831] l2tp_netlink: L2TP netlink interface
+[   31.896862] l2tp_eth: L2TP ethernet pseudowire support (L2TPv3)
+[   31.915908] l2tp_ip6: L2TP IP encapsulation support for IPv6 (L2TPv3)
+[   31.935713] NET: Registered protocol family 35
+[   31.956219] 8021q: 802.1Q VLAN Support v1.8
+[   32.030499] DCCP: Activated CCID 2 (TCP-like)
+[   32.050701] DCCP: Activated CCID 3 (TCP-Friendly Rate Control)
+[   32.127465] sctp: Hash tables configured (established 65536 bind 65536)
+[   32.171721] NET: Registered protocol family 21
+[   32.199946] Registered RDS/iwarp transport
+[   32.221886] Registered RDS/infiniband transport
+[   32.244950] Registered RDS/tcp transport
+[   32.265167] tipc: Activated (version 2.0.0)
+[   32.285889] NET: Registered protocol family 30
+[   32.308093] tipc: Started in single node mode
+[   32.327760] 9pnet: Installing 9P2000 support
+[   32.347926] NET: Registered protocol family 37
+[   32.384313] Key type dns_resolver registered
+[   32.403553] Key type ceph registered
+[   32.423646] libceph: loaded (mon/osd proto 15/24)
+[   32.446434] batman_adv: B.A.T.M.A.N. advanced 2015.2 (compatibility version 15) loaded
+[   32.485928] openvswitch: Open vSwitch switching datapath
+[   32.511858] mpls_gso: MPLS GSO support
+[   32.532774] mce: Unable to init device /dev/mcelog (rc: -5)
+[   32.570330] microcode: CPU0 sig=0x633, pf=0x0, revision=0x0
+[   32.872702] microcode: CPU1 sig=0x633, pf=0x0, revision=0x0
+[   32.900139] microcode: CPU2 sig=0x633, pf=0x0, revision=0x0
+[   33.501371] microcode: CPU3 sig=0x633, pf=0x0, revision=0x0
+[   33.521528] microcode: Microcode Update Driver: v2.01 <tigran@aivazian.fsnet.co.uk>, Peter Oruba
+[   33.558942] Using IPI No-Shortcut mode
+[   33.593194] registered taskstats version 1
+[   33.612235] Loading compiled-in X.509 certificates
+[   33.721585] Loaded X.509 cert 'Build time autogenerated kernel key: e56dbc3d266e9e985dfb20ec4c37d3042d6e6443'
+[   33.760806] zswap: loaded using pool lzo/zbud
+[   33.793085] kAFS: Red Hat AFS client v0.1 registering.
+[   33.812419] FS-Cache: Netfs 'afs' registered for caching
+[   33.941377] Btrfs loaded, assert=on
+[   33.965817] Key type trusted registered
+[   33.991005] Key type encrypted registered
+[   34.009699] AppArmor: AppArmor sha1 policy hashing enabled
+[   34.029879] ima: No TPM chip found, activating TPM-bypass!
+[   34.051820] evm: HMAC attrs: 0x1
+[   34.076500]   Magic number: 0:541:234
+[   34.095743] tty ttyv4: hash matches
+[   34.116474] console [netcon0] enabled
+[   34.134995] netconsole: network logging started
+[   34.155130] ALSA device list:
+[   34.172916]   #0: Dummy 1
+[   34.190500]   #1: Loopback 1
+[   34.207851]   #2: Virtual MIDI Card 1
+[   34.232190] md: Waiting for all devices to be available before autodetect
+[   34.251353] md: If you don't use raid, use raid=noautodetect
+[   34.277339] md: Autodetecting RAID arrays.
+[   34.297152] md: Scanned 0 and added 0 devices.
+[   34.316217] md: autorun ...
+[   34.336198] md: ... autorun DONE.
+[   34.376288] EXT4-fs (sda1): couldn't mount as ext3 due to feature incompatibilities
+[   34.421462] EXT4-fs (sda1): couldn't mount as ext2 due to feature incompatibilities
+[   34.504754] EXT4-fs (sda1): mounted filesystem with ordered data mode. Opts: (null)
+[   34.555186] VFS: Mounted root (ext4 filesystem) on device 8:1.
+[   34.599203] devtmpfs: mounted
+[   34.688198] Freeing unused kernel memory: 896K (c2f4b000 - c302b000)
+[   34.730643] Write protecting the kernel text: 21888k
+[   34.760498] Write protecting the kernel read-only data: 8644k
+[   44.424086] random: nonblocking pool is initialized
+[   45.744622] systemd[1]: systemd 241 running in system mode. (+PAM +AUDIT +SELINUX +IMA +APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS +KMOD -IDN2 +IDN -PCRE2 default-hierarchy=hybrid)
+[   45.868608] systemd[1]: Detected virtualization bochs.
+[   45.900967] systemd[1]: Detected architecture x86.
+
+Welcome to [1mDebian GNU/Linux 10 (buster)[0m!
+
+[   46.621406] systemd[1]: Set hostname to <debian>.
+[   50.116224] systemd[1]: File /lib/systemd/system/systemd-journald.service:12 configures an IP firewall (IPAddressDeny=any), but the local system does not support BPF/cgroup based firewalling.
+[   50.204977] systemd[1]: Proceeding WITHOUT firewalling in effect! (This warning is only shown for the first loaded unit using IP firewalling.)
+[   51.905332] systemd[1]: Listening on Journal Socket.
+[[0;32m  OK  [0m] Listening on [0;1;39mJournal Socket[0m.
+[   51.997756] systemd[1]: Mounting Huge Pages File System...
+         Mounting [0;1;39mHuge Pages File System[0m...
+[   52.065683] systemd[1]: Set up automount Arbitrary Executable File Formats File System Automount Point.
+[[0;32m  OK  [0m] Set up automount [0;1;39mArbitrary…s File System Automount Point[0m.
+[   52.137268] systemd[1]: Listening on fsck to fsckd communication Socket.
+[[0;32m  OK  [0m] Listening on [0;1;39mfsck to fsckd communication Socket[0m.
+[   52.187823] systemd[1]: Condition check resulted in File System Check on Root Device being skipped.
+[   52.421429] systemd[1]: Mounting Kernel Debug File System...
+         Mounting [0;1;39mKernel Debug File System[0m...
+[   52.771725] systemd[1]: Condition check resulted in Create list of required static device nodes for the current kernel being skipped.
+[   53.061301] systemd[1]: Condition check resulted in Set Up Additional Binary Formats being skipped.
+[   53.223081] systemd[1]: Listening on Journal Socket (/dev/log).
+[[0;32m  OK  [0m] Listening on [0;1;39mJournal Socket (/dev/log)[0m.
+[   53.308982] systemd[1]: Reached target Remote File Systems.
+[[0;32m  OK  [0m] Reached target [0;1;39mRemote File Systems[0m.
+[   53.430610] systemd[1]: Created slice system-getty.slice.
+[[0;32m  OK  [0m] Created slice [0;1;39msystem-getty.slice[0m.
+[   53.653231] systemd[1]: Starting Load Kernel Modules...
+         Starting [0;1;39mLoad Kernel Modules[0m...
+[   53.739132] systemd[1]: Listening on Syslog Socket.
+[[0;32m  OK  [0m] Listening on [0;1;39mSyslog Socket[0m.
+[   54.168071] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+[[0;32m  OK  [0m] Started [0;1;39mForward Password R…uests to Wall Directory Watch[0m.
+[   54.371737] systemd[1]: Created slice User and Session Slice.
+[[0;32m  OK  [0m] Created slice [0;1;39mUser and Session Slice[0m.
+[   54.425636] systemd[1]: Reached target Slices.
+[[0;32m  OK  [0m] Reached target [0;1;39mSlices[0m.
+[   54.507013] systemd[1]: Listening on Journal Audit Socket.
+[[0;32m  OK  [0m] Listening on [0;1;39mJournal Audit Socket[0m.
+[   54.781293] systemd[1]: Starting Journal Service...
+         Starting [0;1;39mJournal Service[0m...
+[   55.147675] systemd[1]: Listening on udev Kernel Socket.
+[[0;32m  OK  [0m] Listening on [0;1;39mudev Kernel Socket[0m.
+[   55.627117] systemd[1]: Created slice system-serial\x2dgetty.slice.
+[[0;32m  OK  [0m] Created slice [0;1;39msystem-serial\x2dgetty.slice[0m.
+[   56.061087] systemd[1]: Reached target Swap.
+[[0;32m  OK  [0m] Reached target [0;1;39mSwap[0m.
+[   56.232414] systemd[1]: Listening on udev Control Socket.
+[[0;32m  OK  [0m] Listening on [0;1;39mudev Control Socket[0m.
+[   56.702988] systemd[1]: Starting udev Coldplug all Devices...
+         Starting [0;1;39mudev Coldplug all Devices[0m...
+[   56.927170] systemd[1]: Mounting POSIX Message Queue File System...
+         Mounting [0;1;39mPOSIX Message Queue File System[0m...
+[   58.402634] systemd[1]: Starting Remount Root and Kernel File Systems...
+         Starting [0;1;39mRemount Root and Kernel File Systems[0m...
+[   59.168062] systemd[1]: Reached target User and Group Name Lookups.
+[[0;32m  OK  [0m] Reached target [0;1;39mUser and Group Name Lookups[0m.
+[   60.379414] systemd[1]: Listening on initctl Compatibility Named Pipe.
+[[0;32m  OK  [0m] Listening on [0;1;39minitctl Compatibility Named Pipe[0m.
+[   61.783023] systemd[1]: Starting Set the console keyboard layout...
+         Starting [0;1;39mSet the console keyboard layout[0m...
+[   62.133517] systemd[1]: Started Journal Service.
+[[0;32m  OK  [0m] Started [0;1;39mJournal Service[0m.
+[[0;32m  OK  [0m] Mounted [0;1;39mHuge Pages File System[0m.
+[[0;32m  OK  [0m] Mounted [0;1;39mKernel Debug File System[0m.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mLoad Kernel Modules[0m.
+See 'systemctl status systemd-modules-load.service' for details.
+[[0;32m  OK  [0m] Mounted [0;1;39mPOSIX Message Queue File System[0m.
+         Mounting [0;1;39mFUSE Control File System[0m...
+         Mounting [0;1;39mKernel Configuration File System[0m...
+         Starting [0;1;39mApply Kernel Variables[0m...
+[[0;32m  OK  [0m] Mounted [0;1;39mFUSE Control File System[0m.
+[[0;32m  OK  [0m] Mounted [0;1;39mKernel Configuration File System[0m.
+[   65.525060] EXT4-fs (sda1): re-mounted. Opts: errors=remount-ro
+[[0;32m  OK  [0m] Started [0;1;39mRemount Root and Kernel File Systems[0m.
+[[0;32m  OK  [0m] Started [0;1;39mApply Kernel Variables[0m.
+         Starting [0;1;39mFlush Journal to Persistent Storage[0m...
+         Starting [0;1;39mLoad/Save Random Seed[0m...
+         Starting [0;1;39mCreate System Users[0m...
+[[0;32m  OK  [0m] Started [0;1;39mLoad/Save Random Seed[0m.
+[   70.459572] systemd-journald[3624]: Received request to flush runtime journal from PID 1
+[[0;32m  OK  [0m] Started [0;1;39mFlush Journal to Persistent Storage[0m.
+[[0;32m  OK  [0m] Started [0;1;39mCreate System Users[0m.
+         Starting [0;1;39mCreate Static Device Nodes in /dev[0m...
+[[0;32m  OK  [0m] Started [0;1;39mCreate Static Device Nodes in /dev[0m.
+         Starting [0;1;39mudev Kernel Device Manager[0m...
+[[0;32m  OK  [0m] Started [0;1;39mSet the console keyboard layout[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mLocal File Systems (Pre)[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mLocal File Systems[0m.
+         Starting [0;1;39mTell Plymouth To Write Out Runtime Data[0m...
+         Starting [0;1;39mCreate Volatile Files and Directories[0m...
+         Starting [0;1;39mSet console font and keymap[0m...
+         Starting [0;1;39mLoad AppArmor profiles[0m...
+[[0;32m  OK  [0m] Started [0;1;39mTell Plymouth To Write Out Runtime Data[0m.
+[[0;32m  OK  [0m] Started [0;1;39mSet console font and keymap[0m.
+[[0;32m  OK  [0m] Started [0;1;39mCreate Volatile Files and Directories[0m.
+         Starting [0;1;39mUpdate UTMP about System Boot/Shutdown[0m...
+         Starting [0;1;39mNetwork Time Synchronization[0m...
+[[0;32m  OK  [0m] Started [0;1;39mudev Coldplug all Devices[0m.
+         Starting [0;1;39mHelper to synchronize boot up for ifupdown[0m...
+[[0;32m  OK  [0m] Started [0;1;39mUpdate UTMP about System Boot/Shutdown[0m.
+[[0;32m  OK  [0m] Started [0;1;39mHelper to synchronize boot up for ifupdown[0m.
+[[0;32m  OK  [0m] Started [0;1;39mNetwork Time Synchronization[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mSystem Time Synchronized[0m.
+[   92.179918] audit: type=1400 audit(1731251678.170:2): apparmor="STATUS" operation="profile_load" name="libreoffice-senddoc" pid=6010 comm="apparmor_parser"
+[   92.626825] audit: type=1400 audit(1731251678.620:3): apparmor="STATUS" operation="profile_load" name="libreoffice-xpdfimport" pid=6013 comm="apparmor_parser"
+[   92.783318] audit: type=1400 audit(1731251678.780:4): apparmor="STATUS" operation="profile_load" name="/usr/bin/man" pid=6012 comm="apparmor_parser"
+[   92.969610] audit: type=1400 audit(1731251678.960:5): apparmor="STATUS" operation="profile_load" name="man_filter" pid=6012 comm="apparmor_parser"
+[   93.019969] audit: type=1400 audit(1731251679.010:6): apparmor="STATUS" operation="profile_load" name="man_groff" pid=6012 comm="apparmor_parser"
+[   93.284381] audit: type=1400 audit(1731251679.270:7): apparmor="STATUS" operation="profile_load" name="/usr/lib/cups/backend/cups-pdf" pid=6011 comm="apparmor_parser"
+[   94.593803] audit: type=1400 audit(1731251680.590:8): apparmor="STATUS" operation="profile_load" name="/usr/sbin/cupsd" pid=6011 comm="apparmor_parser"
+[   95.034101] audit: type=1400 audit(1731251681.030:9): apparmor="STATUS" operation="profile_load" name="third_party" pid=6011 comm="apparmor_parser"
+[   95.486512] audit: type=1400 audit(1731251681.470:10): apparmor="STATUS" operation="profile_load" name="nvidia_modprobe" pid=6016 comm="apparmor_parser"
+[[0m[0;31m*     [0m] (1 of 3) A start job is running for /dev/ttyS0 (43s / 1min 31s)
+[   95.605309] audit: type=1400 audit(1731251681.590:11): apparmor="STATUS" operation="profile_load" name="kmod" pid=6016 comm="apparmor_parser"
+M[K[[0;1;31m*[0m[0;31m*    [0m] (1 of 3) A start job is running for /dev/ttyS0 (44s / 1min 31s)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (1 of 3) A start job is running for /dev/ttyS0 (44s / 1min 31s)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (2 of 3) A start job is running for…AppArmor profiles (45s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (2 of 3) A start job is running for…AppArmor profiles (45s / no limit)
+[   97.805684] audit_printk_skb: 21 callbacks suppressed
+[   97.835217] audit: type=1400 audit(1731251683.800:19): apparmor="STATUS" operation="profile_load" name="libreoffice-soffice" pid=6018 comm="apparmor_parser"
+[   97.920569] audit: type=1400 audit(1731251683.900:20): apparmor="STATUS" operation="profile_load" name="gpg" pid=6018 comm="apparmor_parser"
+M[K[[0;32m  OK  [0m] Started [0;1;39mLoad AppArmor profiles[0m.
+[K         Starting [0;1;39mRaise network interfaces[0m...
+[[0;32m  OK  [0m] Started [0;1;39mRaise network interfaces[0m.
+[[0;32m  OK  [0m] Started [0;1;39mudev Kernel Device Manager[0m.
+         Starting [0;1;39mShow Plymouth Boot Screen[0m...
+[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (2 of 2) A start job is running for…mouth Boot Screen (56s / 2min 26s)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 2) A start job is running for /dev/ttyS0 (57s / 1min 31s)
+M[K[     [0;31m*[0m] (1 of 2) A start job is running for /dev/ttyS0 (57s / 1min 31s)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 2) A start job is running for /dev/ttyS0 (58s / 1min 31s)
+M[K[[0;32m  OK  [0m] Started [0;1;39mShow Plymouth Boot Screen[0m.
+[K[[0;32m  OK  [0m] Started [0;1;39mForward Password R…s to Plymouth Directory Watch[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mLocal Encrypted Volumes[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mSystem Initialization[0m.
+[[0;32m  OK  [0m] Started [0;1;39mDaily Cleanup of Temporary Directories[0m.
+[[0;32m  OK  [0m] Listening on [0;1;39mD-Bus System Message Bus Socket[0m.
+[[0;32m  OK  [0m] Listening on [0;1;39mAvahi mDNS/DNS-SD Stack Activation Socket[0m.
+[[0;32m  OK  [0m] Started [0;1;39mCUPS Scheduler[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mPaths[0m.
+[[0;32m  OK  [0m] Started [0;1;39mDaily man-db regeneration[0m.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mDaily apt download activities[0m.
+See 'systemctl status apt-daily.timer' for details.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mDaily apt upgrade and clean activities[0m.
+See 'systemctl status apt-daily-upgrade.timer' for details.
+[[0;32m  OK  [0m] Started [0;1;39mTrigger anacron every hour[0m.
+[[0;32m  OK  [0m] Started [0;1;39mDaily rotation of log files[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mTimers[0m.
+[[0;32m  OK  [0m] Listening on [0;1;39mCUPS Scheduler[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mSockets[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mBasic System[0m.
+         Starting [0;1;39mLogin Service[0m...
+         Starting [0;1;39mModem Manager[0m...
+         Starting [0;1;39mSystem Logging Service[0m...
+         Starting [0;1;39mRestore /etc/reso… the ppp link was shut down[0m...
+         Starting [0;1;39mAccounts Service[0m...
+         Starting [0;1;39mAvahi mDNS/DNS-SD Stack[0m...
+         Starting [0;1;39mDisk Manager[0m...
+[[0;32m  OK  [0m] Started [0;1;39mRegular background program processing daemon[0m.
+[[0;32m  OK  [0m] Started [0;1;39mD-Bus System Message Bus[0m.
+         Starting [0;1;39mNetwork Manager[0m...
+         Starting [0;1;39mWPA supplicant[0m...
+[[0;32m  OK  [0m] Started [0;1;39mRun anacron jobs[0m.
+         Starting [0;1;39mSwitcheroo Control Proxy service[0m...
+[[0;32m  OK  [0m] Started [0;1;39mCUPS Scheduler[0m.
+[[0;32m  OK  [0m] Started [0;1;39mRestore /etc/resol…re the ppp link was shut down[0m.
+         Starting [0;1;39mRotate log files[0m...
+         Starting [0;1;39mDaily man-db regeneration[0m...
+[[0;32m  OK  [0m] Started [0;1;39mSystem Logging Service[0m.
+[[0;32m  OK  [0m] Started [0;1;39mSwitcheroo Control Proxy service[0m.
+[[0;1;31m TIME [0m] Timed out waiting for device [0;1;39m/dev/ttyS0[0m.
+[[0;1;33mDEPEND[0m] Dependency failed for [0;1;39mSerial Getty on ttyS0[0m.
+[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (4 of 9) A start job is running for…n-db regeneration (42s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (4 of 9) A start job is running for…n-db regeneration (44s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (4 of 9) A start job is running for…n-db regeneration (46s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (5 of 9) A start job is running for Rotate log files (58s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (5 of 9) A start job is running for…ate log files (1min 5s / no limit)
+M[K[[0m[0;31m*     [0m] (5 of 9) A start job is running for…te log files (1min 15s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (6 of 9) A start job is running for Disk Manager (2min 32s / 2min 34s)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (6 of 9) A start job is running for Disk Manager (2min 32s / 2min 34s)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (6 of 9) A start job is running for Disk Manager (2min 33s / 2min 34s)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (7 of 9) A start job is running for Modem Manager (2min 33s / 4min 2s)
+M[K[[0;1;31mFAILED[0m] Failed to start [0;1;39mAccounts Service[0m.
+[KSee 'systemctl status accounts-daemon.service' for details.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mLogin Service[0m.
+See 'systemctl status systemd-logind.service' for details.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mAvahi mDNS/DNS-SD Stack[0m.
+See 'systemctl status avahi-daemon.service' for details.
+[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 6) A start job is running for…A supplicant (2min 43s / 2min 41s)
+M[K[[0;1;31mFAILED[0m] Failed to start [0;1;39mWPA supplicant[0m.
+[KSee 'systemctl status wpa_supplicant.service' for details.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mNetwork Manager[0m.
+See 'systemctl status NetworkManager.service' for details.
+[    [0;31m*[0;1;31m*[0m] (3 of 4) A start job is running for Disk Manager (2min 55s / 4min 5s)
+M[K[     [0;31m*[0m] (4 of 4) A start job is running for Modem Manager (2min 56s / 4min 2s)
+M[K[    [0;31m*[0;1;31m*[0m] (4 of 4) A start job is running for Modem Manager (2min 59s / 4min 2s)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (4 of 4) A start job is running for Modem Manager (3min 1s / 4min 2s)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 4) A start job is running for…regeneration (1min 48s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (1 of 4) A start job is running for…regeneration (1min 49s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (1 of 4) A start job is running for…regeneration (1min 51s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 4) A start job is running for…te log files (1min 50s / no limit)
+M[K[[0m[0;31m*     [0m] (2 of 4) A start job is running for…te log files (1min 51s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 4) A start job is running for…te log files (1min 52s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (3 of 4) A start job is running for Disk Manager (3min 9s / 4min 5s)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (3 of 4) A start job is running for Disk Manager (3min 10s / 4min 5s)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (3 of 4) A start job is running for Disk Manager (3min 11s / 4min 5s)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (4 of 4) A start job is running for Modem Manager (3min 12s / 4min 2s)
+M[K[    [0;31m*[0;1;31m*[0m] (4 of 4) A start job is running for Modem Manager (3min 13s / 4min 2s)
+M[K[     [0;31m*[0m] (4 of 4) A start job is running for Modem Manager (3min 13s / 4min 2s)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 4) A start job is running for…regeneration (1min 59s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 4) A start job is running for…-db regeneration (2min / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 4) A start job is running for… regeneration (2min 1s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (2 of 4) A start job is running for Rotate log files (2min / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (2 of 4) A start job is running for…ate log files (2min 1s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 4) A start job is running for…ate log files (2min 2s / no limit)
+M[K[[0m[0;31m*     [0m] (3 of 4) A start job is running for Disk Manager (3min 19s / 4min 5s)
+M[K[[0;1;31mFAILED[0m] Failed to start [0;1;39mModem Manager[0m.
+[KSee 'systemctl status ModemManager.service' for details.
+[[0;1;31m*[0m[0;31m*    [0m] (3 of 3) A start job is running for Disk Manager (3min 25s / 4min 5s)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (3 of 3) A start job is running for Disk Manager (3min 25s / 4min 5s)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (1 of 3) A start job is running for…regeneration (2min 11s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 3) A start job is running for…regeneration (2min 11s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 3) A start job is running for…regeneration (2min 12s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (2 of 3) A start job is running for…te log files (2min 12s / no limit)
+M[K[     [0;31m*[0m] (2 of 3) A start job is running for…te log files (2min 12s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (2 of 3) A start job is running for…te log files (2min 13s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (3 of 3) A start job is running for Disk Manager (3min 30s / 4min 5s)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (3 of 3) A start job is running for Disk Manager (3min 30s / 4min 5s)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (3 of 3) A start job is running for Disk Manager (3min 31s / 4min 5s)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (1 of 3) A start job is running for…regeneration (2min 16s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (1 of 3) A start job is running for…regeneration (2min 17s / no limit)
+M[K[[0;1;31mFAILED[0m] Failed to start [0;1;39mDisk Manager[0m.
+[KSee 'systemctl status udisks2.service' for details.
+[[0m[0;31m*     [0m] (1 of 2) A start job is running for…regeneration (2min 23s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 2) A start job is running for…te log files (2min 22s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (2 of 2) A start job is running for…te log files (2min 23s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (2 of 2) A start job is running for…te log files (2min 23s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 2) A start job is running for…regeneration (2min 25s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 2) A start job is running for…regeneration (2min 25s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 2) A start job is running for…regeneration (2min 26s / no limit)
+M[K[     [0;31m*[0m] (2 of 2) A start job is running for…te log files (2min 25s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (2 of 2) A start job is running for…te log files (2min 25s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (2 of 2) A start job is running for…te log files (2min 26s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 2) A start job is running for…regeneration (2min 27s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (1 of 2) A start job is running for…regeneration (2min 28s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (1 of 2) A start job is running for…regeneration (2min 28s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 2) A start job is running for…te log files (2min 27s / no limit)
+M[K[[0m[0;31m*     [0m] (2 of 2) A start job is running for…te log files (2min 28s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 2) A start job is running for…te log files (2min 28s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (1 of 2) A start job is running for…regeneration (2min 30s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (1 of 2) A start job is running for…regeneration (2min 30s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 2) A start job is running for…regeneration (2min 31s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (2 of 2) A start job is running for…te log files (2min 30s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (2 of 2) A start job is running for…te log files (2min 30s / no limit)
+M[K[     [0;31m*[0m] (2 of 2) A start job is running for…te log files (2min 31s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 2) A start job is running for…regeneration (2min 33s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 2) A start job is running for…regeneration (2min 33s / no limit)
+M[K         Stopping [0;1;39mCUPS Scheduler[0m...
+[K[[0;32m  OK  [0m] Listening on [0;1;39mLoad/Save RF …itch Status /dev/rfkill Watch[0m.
+[[0;32m  OK  [0m] Created slice [0;1;39msystem-zram\x2dsetup.slice[0m.
+         Starting [0;1;39mSetup zram based device zram0[0m...
+[[0;32m  OK  [0m] Stopped [0;1;39mNetwork Manager[0m.
+         Starting [0;1;39mNetwork Manager[0m...
+[[0;32m  OK  [0m] Stopped [0;1;39mLogin Service[0m.
+         Starting [0;1;39mLogin Service[0m...
+[[0;32m  OK  [0m] Started [0;1;39mManage Sound Card State (restore and store)[0m.
+         Starting [0;1;39mSave/Restore Sound Card State[0m...
+[[0;32m  OK  [0m] Reached target [0;1;39mLogin Prompts[0m.
+[[0;32m  OK  [0m] Stopped [0;1;39mCUPS Scheduler[0m.
+         Starting [0;1;39mLoad/Save RF Kill Switch Status[0m...
+[[0;32m  OK  [0m] Started [0;1;39mCUPS Scheduler[0m.
+[[0;32m  OK  [0m] Started [0;1;39mMake remote CUPS printers available locally[0m.
+[[0;32m  OK  [0m] Started [0;1;39mSave/Restore Sound Card State[0m.
+[[0;32m  OK  [0m] Started [0;1;39mSetup zram based device zram0[0m.
+[[0;32m  OK  [0m] Started [0;1;39mLogin Service[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mSound Card[0m.
+[  289.306561] audit: type=1804 audit(1731251875.290:21): pid=6104 uid=0 auid=4294967295 ses=4294967295 op="invalid_pcr" cause="open_writers" comm="logrotate" name="/var/log/syslog" dev="sda1" ino=393296 res=1
+[[0;32m  OK  [0m] Started [0;1;39mLoad/Save RF Kill Switch Status[0m.
+[[0;32m  OK  [0m] Started [0;1;39mNetwork Manager[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mNetwork[0m.
+         Starting [0;1;39m/etc/rc.local Compatibility[0m...
+         Starting [0;1;39mOpenBSD Secure Shell server[0m...
+[[0;32m  OK  [0m] Started [0;1;39mUnattended Upgrades Shutdown[0m.
+         Starting [0;1;39mPermit User Sessions[0m...
+         Starting [0;1;39mHostname Service[0m...
+[  297.561301] IPVS: Creating netns size=1304 id=1
+[  297.561947] IPVS: ftp: loaded support on port[0] = 21
+[[0;32m  OK  [0m] Started [0;1;39mPermit User Sessions[0m.
+[  299.690441] audit: type=1804 audit(1731251879.360:22): pid=6104 uid=0 auid=4294967295 ses=4294967295 op="invalid_pcr" cause="open_writers" comm="logrotate" name="/var/log/syslog" dev="sda1" ino=393296 res=1
+         Starting [0;1;39mAvahi mDNS/DNS-SD Stack[0m...
+[[0;32m  OK  [0m] Started [0;1;39m/etc/rc.local Compatibility[0m.
+         Starting [0;1;39mHold until boot process finishes up[0m...
+         Starting [0;1;39mGNOME Display Manager[0m...
+[[0;32m  OK  [0m] Started [0;1;39mHostname Service[0m.
+         Starting [0;1;39mNetwork Manager Script Dispatcher Service[0m...
+[[0;32m  OK  [0m] Started [0;1;39mAvahi mDNS/DNS-SD Stack[0m.
+[[0;32m  OK  [0m] Started [0;1;39mOpenBSD Secure Shell server[0m.
+[[0;32m  OK  [0m] Started [0;1;39mNetwork Manager Script Dispatcher Service[0m.
+[[0;32m  OK  [0m] Started [0;1;39mGNOME Display Manager[0m.
+[  318.476468] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+[  318.742609] e1000: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
+[  318.809693] audit: type=1804 audit(1731251904.800:23): pid=6104 uid=0 auid=4294967295 ses=4294967295 op="invalid_pcr" cause="open_writers" comm="logrotate" name="/var/log/user.log" dev="sda1" ino=393403 res=1
+[  318.838449] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+[  318.838692] 8021q: adding VLAN 0 to HW filter on device eth0
+[  321.238370] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[  325.909231] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[  326.075841] audit: type=1804 audit(1731251912.050:24): pid=6104 uid=0 auid=4294967295 ses=4294967295 op="invalid_pcr" cause="open_writers" comm="logrotate" name="/var/log/messages" dev="sda1" ino=393453 res=1
+[  326.182030] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[  327.532407] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[  328.819289] IPv6: ADDRCONF(NETDEV_UP): wlan1: link is not ready
+[  329.419936] IPv6: ADDRCONF(NETDEV_UP): wlan1: link is not ready
+[  329.965853] IPv6: ADDRCONF(NETDEV_UP): wlan1: link is not ready
+[  340.405691] audit: type=1804 audit(1731251926.380:25): pid=6104 uid=0 auid=4294967295 ses=4294967295 op="invalid_pcr" cause="open_writers" comm="logrotate" name="/var/log/daemon.log" dev="sda1" ino=393376 res=1
+[  341.364964] audit: type=1804 audit(1731251927.360:26): pid=6104 uid=0 auid=4294967295 ses=4294967295 op="invalid_pcr" cause="open_writers" comm="logrotate" name="/var/log/kern.log" dev="sda1" ino=393378 res=1
+[  342.166372] audit: type=1804 audit(1731251928.160:27): pid=6104 uid=0 auid=4294967295 ses=4294967295 op="invalid_pcr" cause="open_writers" comm="logrotate" name="/var/log/user.log" dev="sda1" ino=393403 res=1
+[  342.893874] audit: type=1804 audit(1731251928.890:28): pid=6104 uid=0 auid=4294967295 ses=4294967295 op="invalid_pcr" cause="open_writers" comm="logrotate" name="/var/log/debug" dev="sda1" ino=393415 res=1
+[  344.646134] audit: type=1804 audit(1731251930.640:29): pid=6104 uid=0 auid=4294967295 ses=4294967295 op="invalid_pcr" cause="open_writers" comm="logrotate" name="/var/log/messages" dev="sda1" ino=393453 res=1
+[  357.254911] IPv6: ADDRCONF(NETDEV_UP): wlan1: link is not ready
+[  357.956672] IPv6: ADDRCONF(NETDEV_UP): wlan0: link is not ready
+[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (2 of 2) A start job is running for…mouth Boot Screen (56s / 2min 26s)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 2) A start job is running for /dev/ttyS0 (57s / 1min 31s)
+M[K[     [0;31m*[0m] (1 of 2) A start job is running for /dev/ttyS0 (57s / 1min 31s)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 2) A start job is running for /dev/ttyS0 (58s / 1min 31s)
+M[K[[0;32m  OK  [0m] Started [0;1;39mShow Plymouth Boot Screen[0m.
+[K[[0;32m  OK  [0m] Started [0;1;39mForward Password R…s to Plymouth Directory Watch[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mLocal Encrypted Volumes[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mSystem Initialization[0m.
+[[0;32m  OK  [0m] Started [0;1;39mDaily Cleanup of Temporary Directories[0m.
+[[0;32m  OK  [0m] Listening on [0;1;39mD-Bus System Message Bus Socket[0m.
+[[0;32m  OK  [0m] Listening on [0;1;39mAvahi mDNS/DNS-SD Stack Activation Socket[0m.
+[[0;32m  OK  [0m] Started [0;1;39mCUPS Scheduler[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mPaths[0m.
+[[0;32m  OK  [0m] Started [0;1;39mDaily man-db regeneration[0m.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mDaily apt download activities[0m.
+See 'systemctl status apt-daily.timer' for details.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mDaily apt upgrade and clean activities[0m.
+See 'systemctl status apt-daily-upgrade.timer' for details.
+[[0;32m  OK  [0m] Started [0;1;39mTrigger anacron every hour[0m.
+[[0;32m  OK  [0m] Started [0;1;39mDaily rotation of log files[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mTimers[0m.
+[[0;32m  OK  [0m] Listening on [0;1;39mCUPS Scheduler[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mSockets[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mBasic System[0m.
+         Starting [0;1;39mLogin Service[0m...
+         Starting [0;1;39mModem Manager[0m...
+         Starting [0;1;39mSystem Logging Service[0m...
+         Starting [0;1;39mRestore /etc/reso… the ppp link was shut down[0m...
+         Starting [0;1;39mAccounts Service[0m...
+         Starting [0;1;39mAvahi mDNS/DNS-SD Stack[0m...
+         Starting [0;1;39mDisk Manager[0m...
+[[0;32m  OK  [0m] Started [0;1;39mRegular background program processing daemon[0m.
+[[0;32m  OK  [0m] Started [0;1;39mD-Bus System Message Bus[0m.
+         Starting [0;1;39mNetwork Manager[0m...
+         Starting [0;1;39mWPA supplicant[0m...
+[[0;32m  OK  [0m] Started [0;1;39mRun anacron jobs[0m.
+         Starting [0;1;39mSwitcheroo Control Proxy service[0m...
+[[0;32m  OK  [0m] Started [0;1;39mCUPS Scheduler[0m.
+[[0;32m  OK  [0m] Started [0;1;39mRestore /etc/resol…re the ppp link was shut down[0m.
+         Starting [0;1;39mRotate log files[0m...
+         Starting [0;1;39mDaily man-db regeneration[0m...
+[[0;32m  OK  [0m] Started [0;1;39mSystem Logging Service[0m.
+[[0;32m  OK  [0m] Started [0;1;39mSwitcheroo Control Proxy service[0m.
+[[0;1;31m TIME [0m] Timed out waiting for device [0;1;39m/dev/ttyS0[0m.
+[[0;1;33mDEPEND[0m] Dependency failed for [0;1;39mSerial Getty on ttyS0[0m.
+[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (4 of 9) A start job is running for…n-db regeneration (42s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (4 of 9) A start job is running for…n-db regeneration (44s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (4 of 9) A start job is running for…n-db regeneration (46s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (5 of 9) A start job is running for Rotate log files (58s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (5 of 9) A start job is running for…ate log files (1min 5s / no limit)
+M[K[[0m[0;31m*     [0m] (5 of 9) A start job is running for…te log files (1min 15s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (6 of 9) A start job is running for Disk Manager (2min 32s / 2min 34s)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (6 of 9) A start job is running for Disk Manager (2min 32s / 2min 34s)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (6 of 9) A start job is running for Disk Manager (2min 33s / 2min 34s)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (7 of 9) A start job is running for Modem Manager (2min 33s / 4min 2s)
+M[K[[0;1;31mFAILED[0m] Failed to start [0;1;39mAccounts Service[0m.
+[KSee 'systemctl status accounts-daemon.service' for details.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mLogin Service[0m.
+See 'systemctl status systemd-logind.service' for details.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mAvahi mDNS/DNS-SD Stack[0m.
+See 'systemctl status avahi-daemon.service' for details.
+[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 6) A start job is running for…A supplicant (2min 43s / 2min 41s)
+M[K[[0;1;31mFAILED[0m] Failed to start [0;1;39mWPA supplicant[0m.
+[KSee 'systemctl status wpa_supplicant.service' for details.
+[[0;1;31mFAILED[0m] Failed to start [0;1;39mNetwork Manager[0m.
+See 'systemctl status NetworkManager.service' for details.
+[    [0;31m*[0;1;31m*[0m] (3 of 4) A start job is running for Disk Manager (2min 55s / 4min 5s)
+M[K[     [0;31m*[0m] (4 of 4) A start job is running for Modem Manager (2min 56s / 4min 2s)
+M[K[    [0;31m*[0;1;31m*[0m] (4 of 4) A start job is running for Modem Manager (2min 59s / 4min 2s)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (4 of 4) A start job is running for Modem Manager (3min 1s / 4min 2s)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 4) A start job is running for…regeneration (1min 48s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (1 of 4) A start job is running for…regeneration (1min 49s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (1 of 4) A start job is running for…regeneration (1min 51s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 4) A start job is running for…te log files (1min 50s / no limit)
+M[K[[0m[0;31m*     [0m] (2 of 4) A start job is running for…te log files (1min 51s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 4) A start job is running for…te log files (1min 52s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (3 of 4) A start job is running for Disk Manager (3min 9s / 4min 5s)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (3 of 4) A start job is running for Disk Manager (3min 10s / 4min 5s)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (3 of 4) A start job is running for Disk Manager (3min 11s / 4min 5s)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (4 of 4) A start job is running for Modem Manager (3min 12s / 4min 2s)
+M[K[    [0;31m*[0;1;31m*[0m] (4 of 4) A start job is running for Modem Manager (3min 13s / 4min 2s)
+M[K[     [0;31m*[0m] (4 of 4) A start job is running for Modem Manager (3min 13s / 4min 2s)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 4) A start job is running for…regeneration (1min 59s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 4) A start job is running for…-db regeneration (2min / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 4) A start job is running for… regeneration (2min 1s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (2 of 4) A start job is running for Rotate log files (2min / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (2 of 4) A start job is running for…ate log files (2min 1s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 4) A start job is running for…ate log files (2min 2s / no limit)
+M[K[[0m[0;31m*     [0m] (3 of 4) A start job is running for Disk Manager (3min 19s / 4min 5s)
+M[K[[0;1;31mFAILED[0m] Failed to start [0;1;39mModem Manager[0m.
+[KSee 'systemctl status ModemManager.service' for details.
+[[0;1;31m*[0m[0;31m*    [0m] (3 of 3) A start job is running for Disk Manager (3min 25s / 4min 5s)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (3 of 3) A start job is running for Disk Manager (3min 25s / 4min 5s)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (1 of 3) A start job is running for…regeneration (2min 11s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 3) A start job is running for…regeneration (2min 11s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 3) A start job is running for…regeneration (2min 12s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (2 of 3) A start job is running for…te log files (2min 12s / no limit)
+M[K[     [0;31m*[0m] (2 of 3) A start job is running for…te log files (2min 12s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (2 of 3) A start job is running for…te log files (2min 13s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (3 of 3) A start job is running for Disk Manager (3min 30s / 4min 5s)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (3 of 3) A start job is running for Disk Manager (3min 30s / 4min 5s)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (3 of 3) A start job is running for Disk Manager (3min 31s / 4min 5s)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (1 of 3) A start job is running for…regeneration (2min 16s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (1 of 3) A start job is running for…regeneration (2min 17s / no limit)
+M[K[[0;1;31mFAILED[0m] Failed to start [0;1;39mDisk Manager[0m.
+[KSee 'systemctl status udisks2.service' for details.
+[[0m[0;31m*     [0m] (1 of 2) A start job is running for…regeneration (2min 23s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 2) A start job is running for…te log files (2min 22s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (2 of 2) A start job is running for…te log files (2min 23s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (2 of 2) A start job is running for…te log files (2min 23s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 2) A start job is running for…regeneration (2min 25s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 2) A start job is running for…regeneration (2min 25s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 2) A start job is running for…regeneration (2min 26s / no limit)
+M[K[     [0;31m*[0m] (2 of 2) A start job is running for…te log files (2min 25s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (2 of 2) A start job is running for…te log files (2min 25s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (2 of 2) A start job is running for…te log files (2min 26s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 2) A start job is running for…regeneration (2min 27s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (1 of 2) A start job is running for…regeneration (2min 28s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (1 of 2) A start job is running for…regeneration (2min 28s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 2) A start job is running for…te log files (2min 27s / no limit)
+M[K[[0m[0;31m*     [0m] (2 of 2) A start job is running for…te log files (2min 28s / no limit)
+M[K[[0;1;31m*[0m[0;31m*    [0m] (2 of 2) A start job is running for…te log files (2min 28s / no limit)
+M[K[[0;31m*[0;1;31m*[0m[0;31m*   [0m] (1 of 2) A start job is running for…regeneration (2min 30s / no limit)
+M[K[ [0;31m*[0;1;31m*[0m[0;31m*  [0m] (1 of 2) A start job is running for…regeneration (2min 30s / no limit)
+M[K[  [0;31m*[0;1;31m*[0m[0;31m* [0m] (1 of 2) A start job is running for…regeneration (2min 31s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (2 of 2) A start job is running for…te log files (2min 30s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (2 of 2) A start job is running for…te log files (2min 30s / no limit)
+M[K[     [0;31m*[0m] (2 of 2) A start job is running for…te log files (2min 31s / no limit)
+M[K[    [0;31m*[0;1;31m*[0m] (1 of 2) A start job is running for…regeneration (2min 33s / no limit)
+M[K[   [0;31m*[0;1;31m*[0m[0;31m*[0m] (1 of 2) A start job is running for…regeneration (2min 33s / no limit)
+M[K         Stopping [0;1;39mCUPS Scheduler[0m...
+[K[[0;32m  OK  [0m] Listening on [0;1;39mLoad/Save RF …itch Status /dev/rfkill Watch[0m.
+[[0;32m  OK  [0m] Created slice [0;1;39msystem-zram\x2dsetup.slice[0m.
+         Starting [0;1;39mSetup zram based device zram0[0m...
+[[0;32m  OK  [0m] Stopped [0;1;39mNetwork Manager[0m.
+         Starting [0;1;39mNetwork Manager[0m...
+[[0;32m  OK  [0m] Stopped [0;1;39mLogin Service[0m.
+         Starting [0;1;39mLogin Service[0m...
+[[0;32m  OK  [0m] Started [0;1;39mManage Sound Card State (restore and store)[0m.
+         Starting [0;1;39mSave/Restore Sound Card State[0m...
+[[0;32m  OK  [0m] Reached target [0;1;39mLogin Prompts[0m.
+[[0;32m  OK  [0m] Stopped [0;1;39mCUPS Scheduler[0m.
+         Starting [0;1;39mLoad/Save RF Kill Switch Status[0m...
+[[0;32m  OK  [0m] Started [0;1;39mCUPS Scheduler[0m.
+[[0;32m  OK  [0m] Started [0;1;39mMake remote CUPS printers available locally[0m.
+[[0;32m  OK  [0m] Started [0;1;39mSave/Restore Sound Card State[0m.
+[[0;32m  OK  [0m] Started [0;1;39mSetup zram based device zram0[0m.
+[[0;32m  OK  [0m] Started [0;1;39mLogin Service[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mSound Card[0m.
+[[0;32m  OK  [0m] Started [0;1;39mLoad/Save RF Kill Switch Status[0m.
+[[0;32m  OK  [0m] Started [0;1;39mNetwork Manager[0m.
+[[0;32m  OK  [0m] Reached target [0;1;39mNetwork[0m.
+         Starting [0;1;39m/etc/rc.local Compatibility[0m...
+         Starting [0;1;39mOpenBSD Secure Shell server[0m...
+[[0;32m  OK  [0m] Started [0;1;39mUnattended Upgrades Shutdown[0m.
+         Starting [0;1;39mPermit User Sessions[0m...
+         Starting [0;1;39mHostname Service[0m...
+[[0;32m  OK  [0m] Started [0;1;39mPermit User Sessions[0m.
+         Starting [0;1;39mAvahi mDNS/DNS-SD Stack[0m...
+[[0;32m  OK  [0m] Started [0;1;39m/etc/rc.local Compatibility[0m.
+         Starting [0;1;39mHold until boot process finishes up[0m...
+         Starting [0;1;39mGNOME Display Manager[0m...
+[[0;32m  OK  [0m] Started [0;1;39mHostname Service[0m.
+         Starting [0;1;39mNetwork Manager Script Dispatcher Service[0m...
+[[0;32m  OK  [0m] Started [0;1;39mAvahi mDNS/DNS-SD Stack[0m.
+[[0;32m  OK  [0m] Started [0;1;39mOpenBSD Secure Shell server[0m.
+[[0;32m  OK  [0m] Started [0;1;39mNetwork Manager Script Dispatcher Service[0m.
+[[0;32m  OK  [0m] Started [0;1;39mGNOME Display Manager[0m.

@@ -1,0 +1,829 @@
+vmlinux map is loaded
+Waiting for data race records
+
+('Analyed ', 500, 4777, ' data races in total')
+('Analyed ', 1000, 4777, ' data races in total')
+('Analyed ', 1500, 4777, ' data races in total')
+('Analyed ', 2000, 4777, ' data races in total')
+('Analyed ', 2500, 4777, ' data races in total')
+('Analyed ', 3000, 4777, ' data races in total')
+('Analyed ', 3500, 4777, ' data races in total')
+('Analyed ', 4000, 4777, ' data races in total')
+('Analyed ', 4500, 4777, ' data races in total')
+
+====================================================================================================================================================================================
+Total: 4	Addresses: c10c7558 c10caa12
+2	0xc10c7556: finish_lock_switch at /root/2016-8655-i386/linux-4.4/kernel/sched/sched.h:1094
+2	0xc10caa12: try_to_wake_up at /root/2016-8655-i386/linux-4.4/kernel/sched/core.c:1972
+
+2	c10c7558 __write_once_size T: trace_20241110_161215_3_3_19.txt S: 19 I1: 3 I2: 3 IP1: c10c7558 IP2: c10caa12 PMA1: 35986598 PMA2: 35986598 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 193448 IC2: 192424
+2	c10caa12 try_to_wake_up T: trace_20241110_161215_3_3_19.txt S: 19 I1: 3 I2: 3 IP1: c10c7558 IP2: c10caa12 PMA1: 35986598 PMA2: 35986598 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 193448 IC2: 192424
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/sched/sched.h:1094
+      1074		 * finished.
+      1075		 *
+      1076		 * In particular, the load of prev->state in finish_task_switch() must
+      1077		 * happen before this.
+      1078		 *
+      1079		 * Pairs with the control dependency and rmb in try_to_wake_up().
+      1080		 */
+      1081		smp_store_release(&prev->on_cpu, 0);
+      1082	#endif
+      1083	#ifdef CONFIG_DEBUG_SPINLOCK
+      1084		/* this is a valid case when another task releases the spinlock */
+      1085		rq->lock.owner = current;
+      1086	#endif
+      1087		/*
+      1088		 * If we are tracking spinlock dependencies then we have to
+      1089		 * fix up the runqueue lock - which gets 'carried over' from
+      1090		 * prev into current:
+      1091		 */
+      1092		spin_acquire(&rq->lock.dep_map, 0, 0, _THIS_IP_);
+      1093	
+==>   1094		raw_spin_unlock_irq(&rq->lock);       
+      1095	}
+      1096	
+      1097	/*
+      1098	 * wake flags
+      1099	 */
+      1100	#define WF_SYNC		0x01		/* waker goes to sleep after wakeup */
+      1101	#define WF_FORK		0x02		/* child wakeup after fork */
+      1102	#define WF_MIGRATED	0x4		/* internal use, task got migrated */
+      1103	
+      1104	/*
+      1105	 * To aid in avoiding the subversion of "niceness" due to uneven distribution
+      1106	 * of tasks with abnormal "nice" values across CPUs the contribution that
+      1107	 * each task makes to its run queue's load is weighted according to its
+      1108	 * scheduling class and "nice" value. For SCHED_NORMAL tasks this is just a
+      1109	 * scaled version of the new time slice allocation that they receive on time
+      1110	 * slice expiry etc.
+      1111	 */
+      1112	
+      1113	#define WEIGHT_IDLEPRIO                3
+      1114	#define WMULT_IDLEPRIO         1431655765
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/sched/core.c:1972
+      1952		 *
+      1953		 * One must be running (->on_cpu == 1) in order to remove oneself
+      1954		 * from the runqueue.
+      1955		 *
+      1956		 *  [S] ->on_cpu = 1;	[L] ->on_rq
+      1957		 *      UNLOCK rq->lock
+      1958		 *			RMB
+      1959		 *      LOCK   rq->lock
+      1960		 *  [S] ->on_rq = 0;    [L] ->on_cpu
+      1961		 *
+      1962		 * Pairs with the full barrier implied in the UNLOCK+LOCK on rq->lock
+      1963		 * from the consecutive calls to schedule(); the first switching to our
+      1964		 * task, the second putting it to sleep.
+      1965		 */
+      1966		smp_rmb();
+      1967	
+      1968		/*
+      1969		 * If the owning (remote) cpu is still in the middle of schedule() with
+      1970		 * this task as prev, wait until its done referencing the task.
+      1971		 */
+==>   1972		while (p->on_cpu)       
+      1973			cpu_relax();
+      1974		/*
+      1975		 * Combined with the control dependency above, we have an effective
+      1976		 * smp_load_acquire() without the need for full barriers.
+      1977		 *
+      1978		 * Pairs with the smp_store_release() in finish_lock_switch().
+      1979		 *
+      1980		 * This ensures that tasks getting woken will be fully ordered against
+      1981		 * their previous state and preserve Program Order.
+      1982		 */
+      1983		smp_rmb();
+      1984	
+      1985		p->sched_contributes_to_load = !!task_contributes_to_load(p);
+      1986		p->state = TASK_WAKING;
+      1987	
+      1988		if (p->sched_class->task_waking)
+      1989			p->sched_class->task_waking(p);
+      1990	
+      1991		cpu = select_task_rq(p, p->wake_cpu, SD_BALANCE_WAKE, wake_flags);
+      1992		if (task_cpu(p) != cpu) {
+
+
+====================================================================================================================================================================================
+Total: 78	Addresses: c10e3f8a c10e406a
+39	0xc10e3f88: rep_nop at /root/2016-8655-i386/linux-4.4/./arch/x86/include/asm/processor.h:562
+39	0xc10e4068: osq_unlock at /root/2016-8655-i386/linux-4.4/kernel/locking/osq_lock.c:202
+
+39	c10e3f8a __read_once_size T: trace_20241110_161224_2_3_61.txt S: 61 I1: 2 I2: 3 IP1: c10e3f8a IP2: c10e406a PMA1: 365b45c8 PMA2: 365b45c8 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 151505 IC2: 151503
+39	c10e406a __write_once_size T: trace_20241110_161224_2_3_61.txt S: 61 I1: 2 I2: 3 IP1: c10e3f8a IP2: c10e406a PMA1: 365b45c8 PMA2: 365b45c8 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 151505 IC2: 151503
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//./arch/x86/include/asm/processor.h:562
+       542	{
+       543		unsigned int eax, ebx, ecx, edx;
+       544	
+       545		cpuid(op, &eax, &ebx, &ecx, &edx);
+       546	
+       547		return ecx;
+       548	}
+       549	
+       550	static inline unsigned int cpuid_edx(unsigned int op)
+       551	{
+       552		unsigned int eax, ebx, ecx, edx;
+       553	
+       554		cpuid(op, &eax, &ebx, &ecx, &edx);
+       555	
+       556		return edx;
+       557	}
+       558	
+       559	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       560	static __always_inline void rep_nop(void)
+       561	{
+==>    562		asm volatile("rep; nop" ::: "memory");       
+       563	}
+       564	
+       565	static __always_inline void cpu_relax(void)
+       566	{
+       567		rep_nop();
+       568	}
+       569	
+       570	#define cpu_relax_lowlatency() cpu_relax()
+       571	
+       572	/* Stop speculative execution and prefetching of modified code. */
+       573	static inline void sync_core(void)
+       574	{
+       575		int tmp;
+       576	
+       577	#ifdef CONFIG_M486
+       578		/*
+       579		 * Do a CPUID if available, otherwise do a jump.  The jump
+       580		 * can conveniently enough be the jump around CPUID.
+       581		 */
+       582		asm volatile("cmpl %2,%1\n\t"
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/osq_lock.c:202
+       182		return false;
+       183	}
+       184	
+       185	void osq_unlock(struct optimistic_spin_queue *lock)
+       186	{
+       187		struct optimistic_spin_node *node, *next;
+       188		int curr = encode_cpu(smp_processor_id());
+       189	
+       190		/*
+       191		 * Fast path for the uncontended case.
+       192		 */
+       193		if (likely(atomic_cmpxchg_release(&lock->tail, curr,
+       194						  OSQ_UNLOCKED_VAL) == curr))
+       195			return;
+       196	
+       197		/*
+       198		 * Second most likely case.
+       199		 */
+       200		node = this_cpu_ptr(&osq_node);
+       201		next = xchg(&node->next, NULL);
+==>    202		if (next) {       
+       203			WRITE_ONCE(next->locked, 1);
+       204			return;
+       205		}
+       206	
+       207		next = osq_wait_next(lock, node, NULL);
+       208		if (next)
+       209			WRITE_ONCE(next->locked, 1);
+       210	}
+
+
+====================================================================================================================================================================================
+Total: 798	Addresses: c10e3817 c2559313 c10e3742 c10e37b6
+49	0xc10e3742: mutex_spin_on_owner at /root/2016-8655-i386/linux-4.4/kernel/locking/mutex.c:230
+95	0xc10e37b1: rcu_read_lock at /root/2016-8655-i386/linux-4.4/include/linux/rcupdate.h:859
+255	0xc10e3815: mutex_optimistic_spin at /root/2016-8655-i386/linux-4.4/kernel/locking/mutex.c:337
+399	0xc2559313: mutex_clear_owner at /root/2016-8655-i386/linux-4.4/kernel/locking/mutex.h:27
+
+49	c10e3742 mutex_spin_on_owner T: trace_20241110_161223_2_3_46.txt S: 46 I1: 2 I2: 3 IP1: c10e3742 IP2: c2559313 PMA1: 3584b230 PMA2: 3584b230 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 211857 IC2: 211856
+95	c10e37b6 __read_once_size T: trace_20241110_161223_2_3_46.txt S: 46 I1: 2 I2: 3 IP1: c10e37b6 IP2: c2559313 PMA1: 3584b230 PMA2: 3584b230 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 238566 IC2: 212382
+255	c10e3817 __read_once_size T: trace_20241110_161223_2_3_46.txt S: 46 I1: 2 I2: 3 IP1: c10e3817 IP2: c2559313 PMA1: 3584b230 PMA2: 3584b230 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 275715 IC2: 275701
+399	c2559313 mutex_clear_owner T: trace_20241110_161223_2_3_46.txt S: 46 I1: 2 I2: 3 IP1: c10e3817 IP2: c2559313 PMA1: 3584b230 PMA2: 3584b230 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 275715 IC2: 275701
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/mutex.c:230
+       210		 * Give any possible sleeping processes the chance to wake up,
+       211		 * so they can recheck if they have to back off.
+       212		 */
+       213		list_for_each_entry(cur, &lock->base.wait_list, list) {
+       214			debug_mutex_wake_waiter(&lock->base, cur);
+       215			wake_up_process(cur->task);
+       216		}
+       217	}
+       218	
+       219	#ifdef CONFIG_MUTEX_SPIN_ON_OWNER
+       220	/*
+       221	 * Look out! "owner" is an entirely speculative pointer
+       222	 * access and not reliable.
+       223	 */
+       224	static noinline
+       225	bool mutex_spin_on_owner(struct mutex *lock, struct task_struct *owner)
+       226	{
+       227		bool ret = true;
+       228	
+       229		rcu_read_lock();
+==>    230		while (lock->owner == owner) {       
+       231			/*
+       232			 * Ensure we emit the owner->on_cpu, dereference _after_
+       233			 * checking lock->owner still matches owner. If that fails,
+       234			 * owner might point to freed memory. If it still matches,
+       235			 * the rcu_read_lock() ensures the memory stays valid.
+       236			 */
+       237			barrier();
+       238	
+       239			if (!owner->on_cpu || need_resched()) {
+       240				ret = false;
+       241				break;
+       242			}
+       243	
+       244			cpu_relax_lowlatency();
+       245		}
+       246		rcu_read_unlock();
+       247	
+       248		return ret;
+       249	}
+       250	
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//include/linux/rcupdate.h:859
+       839	 * RCU read-side critical sections may be nested.  Any deferred actions
+       840	 * will be deferred until the outermost RCU read-side critical section
+       841	 * completes.
+       842	 *
+       843	 * You can avoid reading and understanding the next paragraph by
+       844	 * following this rule: don't put anything in an rcu_read_lock() RCU
+       845	 * read-side critical section that would block in a !PREEMPT kernel.
+       846	 * But if you want the full story, read on!
+       847	 *
+       848	 * In non-preemptible RCU implementations (TREE_RCU and TINY_RCU),
+       849	 * it is illegal to block while in an RCU read-side critical section.
+       850	 * In preemptible RCU implementations (PREEMPT_RCU) in CONFIG_PREEMPT
+       851	 * kernel builds, RCU read-side critical sections may be preempted,
+       852	 * but explicit blocking is illegal.  Finally, in preemptible RCU
+       853	 * implementations in real-time (with -rt patchset) kernel builds, RCU
+       854	 * read-side critical sections may be preempted and they may also block, but
+       855	 * only when acquiring spinlocks that are subject to priority inheritance.
+       856	 */
+       857	static inline void rcu_read_lock(void)
+       858	{
+==>    859		__rcu_read_lock();       
+       860		__acquire(RCU);
+       861		rcu_lock_acquire(&rcu_lock_map);
+       862		RCU_LOCKDEP_WARN(!rcu_is_watching(),
+       863				 "rcu_read_lock() used illegally while idle");
+       864	}
+       865	
+       866	/*
+       867	 * So where is rcu_write_lock()?  It does not exist, as there is no
+       868	 * way for writers to lock out RCU readers.  This is a feature, not
+       869	 * a bug -- this property is what provides RCU's performance benefits.
+       870	 * Of course, writers must coordinate with each other.  The normal
+       871	 * spinlock primitives work well for this, but any other technique may be
+       872	 * used as well.  RCU does not care how the writers keep out of each
+       873	 * others' way, as long as they do so.
+       874	 */
+       875	
+       876	/**
+       877	 * rcu_read_unlock() - marks the end of an RCU read-side critical section.
+       878	 *
+       879	 * In most situations, rcu_read_unlock() is immune from deadlock.
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/mutex.c:337
+       317		 * MCS (queued) lock first before spinning on the owner field.
+       318		 */
+       319		if (!osq_lock(&lock->osq))
+       320			goto done;
+       321	
+       322		while (true) {
+       323			struct task_struct *owner;
+       324	
+       325			if (use_ww_ctx && ww_ctx->acquired > 0) {
+       326				struct ww_mutex *ww;
+       327	
+       328				ww = container_of(lock, struct ww_mutex, base);
+       329				/*
+       330				 * If ww->ctx is set the contents are undefined, only
+       331				 * by acquiring wait_lock there is a guarantee that
+       332				 * they are not invalid when reading.
+       333				 *
+       334				 * As such, when deadlock detection needs to be
+       335				 * performed the optimistic spinning cannot be done.
+       336				 */
+==>    337				if (READ_ONCE(ww->ctx))       
+       338					break;
+       339			}
+       340	
+       341			/*
+       342			 * If there's an owner, wait for it to either
+       343			 * release the lock or go to sleep.
+       344			 */
+       345			owner = READ_ONCE(lock->owner);
+       346			if (owner && !mutex_spin_on_owner(lock, owner))
+       347				break;
+       348	
+       349			/* Try to acquire the mutex if it is unlocked. */
+       350			if (mutex_try_to_acquire(lock)) {
+       351				lock_acquired(&lock->dep_map, ip);
+       352	
+       353				if (use_ww_ctx) {
+       354					struct ww_mutex *ww;
+       355					ww = container_of(lock, struct ww_mutex, base);
+       356	
+       357					ww_mutex_set_context_fastpath(ww, ww_ctx);
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/mutex.h:27
+         7	 *
+         8	 * This file contains mutex debugging related internal prototypes, for the
+         9	 * !CONFIG_DEBUG_MUTEXES case. Most of them are NOPs:
+        10	 */
+        11	
+        12	#define spin_lock_mutex(lock, flags) \
+        13			do { spin_lock(lock); (void)(flags); } while (0)
+        14	#define spin_unlock_mutex(lock, flags) \
+        15			do { spin_unlock(lock); (void)(flags); } while (0)
+        16	#define mutex_remove_waiter(lock, waiter, ti) \
+        17			__list_del((waiter)->list.prev, (waiter)->list.next)
+        18	
+        19	#ifdef CONFIG_MUTEX_SPIN_ON_OWNER
+        20	static inline void mutex_set_owner(struct mutex *lock)
+        21	{
+        22		lock->owner = current;
+        23	}
+        24	
+        25	static inline void mutex_clear_owner(struct mutex *lock)
+        26	{
+==>     27		lock->owner = NULL;       
+        28	}
+        29	#else
+        30	static inline void mutex_set_owner(struct mutex *lock)
+        31	{
+        32	}
+        33	
+        34	static inline void mutex_clear_owner(struct mutex *lock)
+        35	{
+        36	}
+        37	#endif
+        38	
+        39	#define debug_mutex_wake_waiter(lock, waiter)		do { } while (0)
+        40	#define debug_mutex_free_waiter(waiter)			do { } while (0)
+        41	#define debug_mutex_add_waiter(lock, waiter, ti)	do { } while (0)
+        42	#define debug_mutex_unlock(lock)			do { } while (0)
+        43	#define debug_mutex_init(lock, name, key)		do { } while (0)
+        44	
+        45	static inline void
+        46	debug_mutex_lock_common(struct mutex *lock, struct mutex_waiter *waiter)
+        47	{
+
+
+====================================================================================================================================================================================
+Total: 2374	Addresses: c255b0a9 c10e4436 c10e4430 c255b15f
+200	0xc10e4434: virt_spin_lock at /root/2016-8655-i386/linux-4.4/./arch/x86/include/asm/qspinlock.h:56
+406	0xc10e4422: __static_cpu_has at /root/2016-8655-i386/linux-4.4/./arch/x86/include/asm/cpufeature.h:446
+677	0xc255b15f: pv_queued_spin_unlock at /root/2016-8655-i386/linux-4.4/./arch/x86/include/asm/paravirt.h:701
+1091	0xc255b099: __preempt_count_add at /root/2016-8655-i386/linux-4.4/./arch/x86/include/asm/preempt.h:69
+
+200	c10e4436 atomic_cmpxchg T: trace_20241110_161217_3_3_63.txt S: 63 I1: 3 I2: 3 IP1: c10e4436 IP2: c255b15f PMA1: 3584b238 PMA2: 3584b238 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 1 IC1: 254365 IC2: 254357
+406	c10e4430 __read_once_size T: trace_20241110_161217_3_3_63.txt S: 63 I1: 3 I2: 3 IP1: c10e4430 IP2: c255b15f PMA1: 3584b238 PMA2: 3584b238 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 1 IC1: 254362 IC2: 254357
+677	c255b15f pv_queued_spin_unlock T: trace_20241110_161217_3_3_62.txt S: 62 I1: 3 I2: 3 IP1: c255b15f IP2: c255b15f PMA1: 3584b238 PMA2: 3584b238 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 1 L2: 1 IC1: 254305 IC2: 254252
+1091	c255b0a9 atomic_cmpxchg T: trace_20241110_161217_3_3_62.txt S: 62 I1: 3 I2: 3 IP1: c255b0a9 IP2: c255b15f PMA1: 3584b238 PMA2: 3584b238 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 1 IC1: 254256 IC2: 254252
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//./arch/x86/include/asm/qspinlock.h:56
+        36	static inline void queued_spin_unlock(struct qspinlock *lock)
+        37	{
+        38		native_queued_spin_unlock(lock);
+        39	}
+        40	#endif
+        41	
+        42	#ifdef CONFIG_PARAVIRT
+        43	#define virt_spin_lock virt_spin_lock
+        44	static inline bool virt_spin_lock(struct qspinlock *lock)
+        45	{
+        46		if (!static_cpu_has(X86_FEATURE_HYPERVISOR))
+        47			return false;
+        48	
+        49		/*
+        50		 * On hypervisors without PARAVIRT_SPINLOCKS support we fall
+        51		 * back to a Test-and-Set spinlock, because fair locks have
+        52		 * horrible lock 'holder' preemption issues.
+        53		 */
+        54	
+        55		do {
+==>     56			while (atomic_read(&lock->val) != 0)       
+        57				cpu_relax();
+        58		} while (atomic_cmpxchg(&lock->val, 0, _Q_LOCKED_VAL) != 0);
+        59	
+        60		return true;
+        61	}
+        62	#endif /* CONFIG_PARAVIRT */
+        63	
+        64	#include <asm-generic/qspinlock.h>
+        65	
+        66	#endif /* _ASM_X86_QSPINLOCK_H */
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//./arch/x86/include/asm/cpufeature.h:446
+       426	
+       427			/*
+       428			 * Catch too early usage of this before alternatives
+       429			 * have run.
+       430			 */
+       431			asm_volatile_goto("1: jmp %l[t_warn]\n"
+       432				 "2:\n"
+       433				 ".section .altinstructions,\"a\"\n"
+       434				 " .long 1b - .\n"
+       435				 " .long 0\n"		/* no replacement */
+       436				 " .word %P0\n"		/* 1: do replace */
+       437				 " .byte 2b - 1b\n"	/* source len */
+       438				 " .byte 0\n"		/* replacement len */
+       439				 " .byte 0\n"		/* pad len */
+       440				 ".previous\n"
+       441				 /* skipping size check since replacement size = 0 */
+       442				 : : "i" (X86_FEATURE_ALWAYS) : : t_warn);
+       443	
+       444	#endif
+       445	
+==>    446			asm_volatile_goto("1: jmp %l[t_no]\n"       
+       447				 "2:\n"
+       448				 ".section .altinstructions,\"a\"\n"
+       449				 " .long 1b - .\n"
+       450				 " .long 0\n"		/* no replacement */
+       451				 " .word %P0\n"		/* feature bit */
+       452				 " .byte 2b - 1b\n"	/* source len */
+       453				 " .byte 0\n"		/* replacement len */
+       454				 " .byte 0\n"		/* pad len */
+       455				 ".previous\n"
+       456				 /* skipping size check since replacement size = 0 */
+       457				 : : "i" (bit) : : t_no);
+       458			return true;
+       459		t_no:
+       460			return false;
+       461	
+       462	#ifdef CONFIG_X86_DEBUG_STATIC_CPU_HAS
+       463		t_warn:
+       464			warn_pre_alternatives();
+       465			return false;
+       466	#endif
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//./arch/x86/include/asm/paravirt.h:701
+       681	}
+       682	
+       683	static inline void __set_fixmap(unsigned /* enum fixed_addresses */ idx,
+       684					phys_addr_t phys, pgprot_t flags)
+       685	{
+       686		pv_mmu_ops.set_fixmap(idx, phys, flags);
+       687	}
+       688	
+       689	#if defined(CONFIG_SMP) && defined(CONFIG_PARAVIRT_SPINLOCKS)
+       690	
+       691	#ifdef CONFIG_QUEUED_SPINLOCKS
+       692	
+       693	static __always_inline void pv_queued_spin_lock_slowpath(struct qspinlock *lock,
+       694								u32 val)
+       695	{
+       696		PVOP_VCALL2(pv_lock_ops.queued_spin_lock_slowpath, lock, val);
+       697	}
+       698	
+       699	static __always_inline void pv_queued_spin_unlock(struct qspinlock *lock)
+       700	{
+==>    701		PVOP_VCALLEE1(pv_lock_ops.queued_spin_unlock, lock);       
+       702	}
+       703	
+       704	static __always_inline void pv_wait(u8 *ptr, u8 val)
+       705	{
+       706		PVOP_VCALL2(pv_lock_ops.wait, ptr, val);
+       707	}
+       708	
+       709	static __always_inline void pv_kick(int cpu)
+       710	{
+       711		PVOP_VCALL1(pv_lock_ops.kick, cpu);
+       712	}
+       713	
+       714	#else /* !CONFIG_QUEUED_SPINLOCKS */
+       715	
+       716	static __always_inline void __ticket_lock_spinning(struct arch_spinlock *lock,
+       717								__ticket_t ticket)
+       718	{
+       719		PVOP_VCALLEE2(pv_lock_ops.lock_spinning, lock, ticket);
+       720	}
+       721	
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//./arch/x86/include/asm/preempt.h:69
+        49	{
+        50		raw_cpu_and_4(__preempt_count, ~PREEMPT_NEED_RESCHED);
+        51	}
+        52	
+        53	static __always_inline void clear_preempt_need_resched(void)
+        54	{
+        55		raw_cpu_or_4(__preempt_count, PREEMPT_NEED_RESCHED);
+        56	}
+        57	
+        58	static __always_inline bool test_preempt_need_resched(void)
+        59	{
+        60		return !(raw_cpu_read_4(__preempt_count) & PREEMPT_NEED_RESCHED);
+        61	}
+        62	
+        63	/*
+        64	 * The various preempt_count add/sub methods
+        65	 */
+        66	
+        67	static __always_inline void __preempt_count_add(int val)
+        68	{
+==>     69		raw_cpu_add_4(__preempt_count, val);       
+        70	}
+        71	
+        72	static __always_inline void __preempt_count_sub(int val)
+        73	{
+        74		raw_cpu_add_4(__preempt_count, -val);
+        75	}
+        76	
+        77	/*
+        78	 * Because we keep PREEMPT_NEED_RESCHED set when we do _not_ need to reschedule
+        79	 * a decrement which hits zero means we have no preempt_count and should
+        80	 * reschedule.
+        81	 */
+        82	static __always_inline bool __preempt_count_dec_and_test(void)
+        83	{
+        84		GEN_UNARY_RMWcc("decl", __preempt_count, __percpu_arg(0), "e");
+        85	}
+        86	
+        87	/*
+        88	 * Returns true when we need to resched and can (barring IRQ state).
+        89	 */
+
+
+====================================================================================================================================================================================
+Total: 6298	Addresses: c25592f6 c10e3887 c2559bfa c10e37f6 c255931a c10e381e
+376	0xc10e37f4: mutex_optimistic_spin at /root/2016-8655-i386/linux-4.4/kernel/locking/mutex.c:346 (discriminator 1)
+436	0xc10e387f: mutex_optimistic_spin at /root/2016-8655-i386/linux-4.4/kernel/locking/mutex.c:311
+498	0xc2559bf8: __mutex_unlock_slowpath at /root/2016-8655-i386/linux-4.4/kernel/locking/mutex.c:758
+1195	0xc10e381c: mutex_optimistic_spin at /root/2016-8655-i386/linux-4.4/kernel/locking/mutex.c:346 (discriminator 1)
+1671	0xc25592f6: mutex_lock at /root/2016-8655-i386/linux-4.4/kernel/locking/mutex.c:102
+2124	0xc255931a: mutex_unlock at /root/2016-8655-i386/linux-4.4/kernel/locking/mutex.c:437
+
+376	c10e37f6 __read_once_size T: trace_20241110_161223_2_3_50.txt S: 50 I1: 2 I2: 3 IP1: c10e37f6 IP2: c255931a PMA1: 3584b220 PMA2: 3584b220 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 275450 IC2: 275423
+436	c10e3887 atomic_cmpxchg T: trace_20241110_161224_2_3_63.txt S: 63 I1: 2 I2: 3 IP1: c10e3887 IP2: c255931a PMA1: 3584b220 PMA2: 3584b220 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 357678 IC2: 357656
+498	c2559bfa __write_once_size T: trace_20241110_161224_2_3_63.txt S: 63 I1: 2 I2: 3 IP1: c2559bfa IP2: c25592f6 PMA1: 3584b220 PMA2: 3584b220 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 347528 IC2: 347098
+1195	c10e381e __read_once_size T: trace_20241110_161224_2_3_63.txt S: 63 I1: 2 I2: 3 IP1: c10e381e IP2: c255931a PMA1: 3584b220 PMA2: 3584b220 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 357673 IC2: 357656
+1671	c25592f6 mutex_lock T: trace_20241110_161224_2_3_63.txt S: 63 I1: 2 I2: 3 IP1: c10e381e IP2: c25592f6 PMA1: 3584b220 PMA2: 3584b220 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 357482 IC2: 357385
+2124	c255931a mutex_unlock T: trace_20241110_161224_2_3_63.txt S: 63 I1: 2 I2: 3 IP1: c255931a IP2: c255931a PMA1: 3584b220 PMA2: 3584b220 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 358095 IC2: 357656
+
+++++++++++++++++++++++++
+STATS: Distinct IPs: 18 Distinct pairs: 27 Distinct clusters: 5
+++++++++++++++++++++++++
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/mutex.c:346
+       326				struct ww_mutex *ww;
+       327	
+       328				ww = container_of(lock, struct ww_mutex, base);
+       329				/*
+       330				 * If ww->ctx is set the contents are undefined, only
+       331				 * by acquiring wait_lock there is a guarantee that
+       332				 * they are not invalid when reading.
+       333				 *
+       334				 * As such, when deadlock detection needs to be
+       335				 * performed the optimistic spinning cannot be done.
+       336				 */
+       337				if (READ_ONCE(ww->ctx))
+       338					break;
+       339			}
+       340	
+       341			/*
+       342			 * If there's an owner, wait for it to either
+       343			 * release the lock or go to sleep.
+       344			 */
+       345			owner = READ_ONCE(lock->owner);
+==>    346			if (owner && !mutex_spin_on_owner(lock, owner))       
+       347				break;
+       348	
+       349			/* Try to acquire the mutex if it is unlocked. */
+       350			if (mutex_try_to_acquire(lock)) {
+       351				lock_acquired(&lock->dep_map, ip);
+       352	
+       353				if (use_ww_ctx) {
+       354					struct ww_mutex *ww;
+       355					ww = container_of(lock, struct ww_mutex, base);
+       356	
+       357					ww_mutex_set_context_fastpath(ww, ww_ctx);
+       358				}
+       359	
+       360				mutex_set_owner(lock);
+       361				osq_unlock(&lock->osq);
+       362				return true;
+       363			}
+       364	
+       365			/*
+       366			 * When there's no owner, we might have preempted between the
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/mutex.c:311
+       291	 * Since this needs the lock owner, and this mutex implementation
+       292	 * doesn't track the owner atomically in the lock field, we need to
+       293	 * track it non-atomically.
+       294	 *
+       295	 * We can't do this for DEBUG_MUTEXES because that relies on wait_lock
+       296	 * to serialize everything.
+       297	 *
+       298	 * The mutex spinners are queued up using MCS lock so that only one
+       299	 * spinner can compete for the mutex. However, if mutex spinning isn't
+       300	 * going to happen, there is no point in going through the lock/unlock
+       301	 * overhead.
+       302	 *
+       303	 * Returns true when the lock was taken, otherwise false, indicating
+       304	 * that we need to jump to the slowpath and sleep.
+       305	 */
+       306	static bool mutex_optimistic_spin(struct mutex *lock,
+       307					  struct ww_acquire_ctx *ww_ctx, const bool use_ww_ctx)
+       308	{
+       309		struct task_struct *task = current;
+       310	
+==>    311		if (!mutex_can_spin_on_owner(lock))       
+       312			goto done;
+       313	
+       314		/*
+       315		 * In order to avoid a stampede of mutex spinners trying to
+       316		 * acquire the mutex all at once, the spinners need to take a
+       317		 * MCS (queued) lock first before spinning on the owner field.
+       318		 */
+       319		if (!osq_lock(&lock->osq))
+       320			goto done;
+       321	
+       322		while (true) {
+       323			struct task_struct *owner;
+       324	
+       325			if (use_ww_ctx && ww_ctx->acquired > 0) {
+       326				struct ww_mutex *ww;
+       327	
+       328				ww = container_of(lock, struct ww_mutex, base);
+       329				/*
+       330				 * If ww->ctx is set the contents are undefined, only
+       331				 * by acquiring wait_lock there is a guarantee that
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/mutex.c:758
+       738	
+       739		if (!list_empty(&lock->wait_list)) {
+       740			/* get the first entry from the wait-list: */
+       741			struct mutex_waiter *waiter =
+       742					list_entry(lock->wait_list.next,
+       743						   struct mutex_waiter, list);
+       744	
+       745			debug_mutex_wake_waiter(lock, waiter);
+       746	
+       747			wake_up_process(waiter->task);
+       748		}
+       749	
+       750		spin_unlock_mutex(&lock->wait_lock, flags);
+       751	}
+       752	
+       753	/*
+       754	 * Release the lock, slowpath:
+       755	 */
+       756	__visible void
+       757	__mutex_unlock_slowpath(atomic_t *lock_count)
+==>    758	{       
+       759		struct mutex *lock = container_of(lock_count, struct mutex, count);
+       760	
+       761		__mutex_unlock_common_slowpath(lock, 1);
+       762	}
+       763	
+       764	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       765	/*
+       766	 * Here come the less common (and hence less performance-critical) APIs:
+       767	 * mutex_lock_interruptible() and mutex_trylock().
+       768	 */
+       769	static noinline int __sched
+       770	__mutex_lock_killable_slowpath(struct mutex *lock);
+       771	
+       772	static noinline int __sched
+       773	__mutex_lock_interruptible_slowpath(struct mutex *lock);
+       774	
+       775	/**
+       776	 * mutex_lock_interruptible - acquire the mutex, interruptible
+       777	 * @lock: the mutex to be acquired
+       778	 *
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/mutex.c:346
+       326				struct ww_mutex *ww;
+       327	
+       328				ww = container_of(lock, struct ww_mutex, base);
+       329				/*
+       330				 * If ww->ctx is set the contents are undefined, only
+       331				 * by acquiring wait_lock there is a guarantee that
+       332				 * they are not invalid when reading.
+       333				 *
+       334				 * As such, when deadlock detection needs to be
+       335				 * performed the optimistic spinning cannot be done.
+       336				 */
+       337				if (READ_ONCE(ww->ctx))
+       338					break;
+       339			}
+       340	
+       341			/*
+       342			 * If there's an owner, wait for it to either
+       343			 * release the lock or go to sleep.
+       344			 */
+       345			owner = READ_ONCE(lock->owner);
+==>    346			if (owner && !mutex_spin_on_owner(lock, owner))       
+       347				break;
+       348	
+       349			/* Try to acquire the mutex if it is unlocked. */
+       350			if (mutex_try_to_acquire(lock)) {
+       351				lock_acquired(&lock->dep_map, ip);
+       352	
+       353				if (use_ww_ctx) {
+       354					struct ww_mutex *ww;
+       355					ww = container_of(lock, struct ww_mutex, base);
+       356	
+       357					ww_mutex_set_context_fastpath(ww, ww_ctx);
+       358				}
+       359	
+       360				mutex_set_owner(lock);
+       361				osq_unlock(&lock->osq);
+       362				return true;
+       363			}
+       364	
+       365			/*
+       366			 * When there's no owner, we might have preempted between the
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/mutex.c:102
+        82	 * acquired it. Recursive locking is not allowed. The task
+        83	 * may not exit without first unlocking the mutex. Also, kernel
+        84	 * memory where the mutex resides must not be freed with
+        85	 * the mutex still locked. The mutex must first be initialized
+        86	 * (or statically defined) before it can be locked. memset()-ing
+        87	 * the mutex to 0 is not allowed.
+        88	 *
+        89	 * ( The CONFIG_DEBUG_MUTEXES .config option turns on debugging
+        90	 *   checks that will enforce the restrictions and will also do
+        91	 *   deadlock debugging. )
+        92	 *
+        93	 * This function is similar to (but not equivalent to) down().
+        94	 */
+        95	void __sched mutex_lock(struct mutex *lock)
+        96	{
+        97		might_sleep();
+        98		/*
+        99		 * The locking fastpath is the 1->0 transition from
+       100		 * 'unlocked' into 'locked' state.
+       101		 */
+==>    102		__mutex_fastpath_lock(&lock->count, __mutex_lock_slowpath);       
+       103		mutex_set_owner(lock);
+       104	}
+       105	
+       106	EXPORT_SYMBOL(mutex_lock);
+       107	#endif
+       108	
+       109	static __always_inline void ww_mutex_lock_acquired(struct ww_mutex *ww,
+       110							   struct ww_acquire_ctx *ww_ctx)
+       111	{
+       112	#ifdef CONFIG_DEBUG_MUTEXES
+       113		/*
+       114		 * If this WARN_ON triggers, you used ww_mutex_lock to acquire,
+       115		 * but released with a normal mutex_unlock in this call.
+       116		 *
+       117		 * This should never happen, always use ww_mutex_unlock.
+       118		 */
+       119		DEBUG_LOCKS_WARN_ON(ww->ctx);
+       120	
+       121		/*
+       122		 * Not quite done after calling ww_acquire_done() ?
+
+/root/snowboard-2016-8655/testsuite/kernel/2016-8655/source//kernel/locking/mutex.c:437
+       417	 *
+       418	 * This function must not be used in interrupt context. Unlocking
+       419	 * of a not locked mutex is not allowed.
+       420	 *
+       421	 * This function is similar to (but not equivalent to) up().
+       422	 */
+       423	void __sched mutex_unlock(struct mutex *lock)
+       424	{
+       425		/*
+       426		 * The unlocking fastpath is the 0->1 transition from 'locked'
+       427		 * into 'unlocked' state:
+       428		 */
+       429	#ifndef CONFIG_DEBUG_MUTEXES
+       430		/*
+       431		 * When debugging is enabled we must not clear the owner before time,
+       432		 * the slow path will always be taken, and that clears the owner field
+       433		 * after verifying that it was indeed current.
+       434		 */
+       435		mutex_clear_owner(lock);
+       436	#endif
+==>    437		__mutex_fastpath_unlock(&lock->count, __mutex_unlock_slowpath);       
+       438	}
+       439	
+       440	EXPORT_SYMBOL(mutex_unlock);
+       441	
+       442	/**
+       443	 * ww_mutex_unlock - release the w/w mutex
+       444	 * @lock: the mutex to be released
+       445	 *
+       446	 * Unlock a mutex that has been locked by this task previously with any of the
+       447	 * ww_mutex_lock* functions (with or without an acquire context). It is
+       448	 * forbidden to release the locks after releasing the acquire context.
+       449	 *
+       450	 * This function must not be used in interrupt context. Unlocking
+       451	 * of a unlocked mutex is not allowed.
+       452	 */
+       453	void __sched ww_mutex_unlock(struct ww_mutex *lock)
+       454	{
+       455		/*
+       456		 * The unlocking fastpath is the 0->1 transition from 'locked'
+       457		 * into 'unlocked' state:
+
+
