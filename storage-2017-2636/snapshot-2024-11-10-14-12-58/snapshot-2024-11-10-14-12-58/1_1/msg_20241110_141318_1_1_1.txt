@@ -1,0 +1,800 @@
+[MSG] [CPU 3] Guest finished booting
+[MSG] [CPU 2] [SKI-TESTCASE-RUN.SH] Running setup
+[MSG] [CPU 0] PID F S UID PID PPID C PRI NI ADDR SZ WCHAN STIME TTY TIME CMD
+[MSG] [CPU 0] taskset: invalid PID argument: 'PID'
+[MSG] [CPU 0] pid 1's current affinity mask: f 1 4 S root 1 0 22 80 0 - 8962 SyS_ep 09:13 ? 00:01:33 /sbin/init no_hash_pointers nopcid -v...
+[MSG] [CPU 2] pid 2's current affinity mask: f 2 1 S root 2 0 0 80 0 - 0 kthrea 09:13 ? 00:00:00 [kthreadd]
+[MSG] [CPU 2] Found [ in 1 S root         2     0  0  80   0 -     0 kthrea 09:13 ?        00:00:00 [kthreadd]
+[MSG] [CPU 0] Updated: pid 2's current affinity mask: 4 2 1 S root 2 0 0 80 0 - 0 kthrea 09:13 ? 00:00:00 [kthreadd]
+[MSG] [CPU 2] pid 3's current affinity mask: 1 3 1 S root 3 2 1 80 0 - 0 worker 09:13 ? 00:00:04 [kworker/0:0]
+[MSG] [CPU 2] Found [ in 1 S root         3     2  1  80   0 -     0 worker 09:13 ?        00:00:04 [kworker/0:0]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3
+[MSG] [CPU 1] pid 4's current affinity mask: 1 4 1 S root 4 2 0 60 -20 - 0 worker 09:13 ? 00:00:00 [kworker/0:0H]
+[MSG] [CPU 3] Found [ in 1 S root         4     2  0  60 -20 -     0 worker 09:13 ?        00:00:00 [kworker/0:0H]
+[MSG] [CPU 1] fail to set CPU affinity for PID 4
+[MSG] [CPU 1] pid 6's current affinity mask: 1 6 1 S root 6 2 0 80 0 - 0 smpboo 09:13 ? 00:00:03 [ksoftirqd/0]
+[MSG] [CPU 0] Found [ in 1 S root         6     2  0  80   0 -     0 smpboo 09:13 ?        00:00:03 [ksoftirqd/0]
+[MSG] [CPU 0] fail to set CPU affinity for PID 6
+[MSG] [CPU 0] pid 7's current affinity mask: f 7 1 S root 7 2 0 80 0 - 0 rcu_gp 09:13 ? 00:00:02 [rcu_preempt]
+[MSG] [CPU 1] Found [ in 1 S root         7     2  0  80   0 -     0 rcu_gp 09:13 ?        00:00:02 [rcu_preempt]
+[MSG] [CPU 1] Updated: pid 7's current affinity mask: 4 7 1 S root 7 2 0 80 0 - 0 rcu_gp 09:13 ? 00:00:02 [rcu_preempt]
+[MSG] [CPU 1] pid 8's current affinity mask: f 8 1 S root 8 2 0 80 0 - 0 rcu_gp 09:13 ? 00:00:00 [rcu_sched]
+[MSG] [CPU 1] Found [ in 1 S root         8     2  0  80   0 -     0 rcu_gp 09:13 ?        00:00:00 [rcu_sched]
+[MSG] [CPU 1] Updated: pid 8's current affinity mask: 4 8 1 S root 8 2 0 80 0 - 0 rcu_gp 09:13 ? 00:00:00 [rcu_sched]
+[MSG] [CPU 1] pid 9's current affinity mask: f 9 1 S root 9 2 0 80 0 - 0 rcu_gp 09:13 ? 00:00:00 [rcu_bh]
+[MSG] [CPU 2] Found [ in 1 S root         9     2  0  80   0 -     0 rcu_gp 09:13 ?        00:00:00 [rcu_bh]
+[MSG] [CPU 1] Updated: pid 9's current affinity mask: 4 9 1 S root 9 2 0 80 0 - 0 rcu_gp 09:13 ? 00:00:00 [rcu_bh]
+[MSG] [CPU 1] pid 10's current affinity mask: 1 10 1 S root 10 2 0 -40 - - 0 smpboo 09:13 ? 00:00:00 [migration/0]
+[MSG] [CPU 2] Found [ in 1 S root        10     2  0 -40   - -     0 smpboo 09:13 ?        00:00:00 [migration/0]
+[MSG] [CPU 3] fail to set CPU affinity for PID 10
+[MSG] [CPU 2] pid 11's current affinity mask: f 11 1 S root 11 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [lru-add-drain]
+[MSG] [CPU 1] Found [ in 1 S root        11     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [lru-add-drain]
+[MSG] [CPU 2] fail to set CPU affinity for PID 11
+[MSG] [CPU 2] pid 12's current affinity mask: 1 12 1 S root 12 2 0 80 0 - 0 smpboo 09:13 ? 00:00:00 [cpuhp/0]
+[MSG] [CPU 3] Found [ in 1 S root        12     2  0  80   0 -     0 smpboo 09:13 ?        00:00:00 [cpuhp/0]
+[MSG] [CPU 1] fail to set CPU affinity for PID 12
+[MSG] [CPU 3] pid 13's current affinity mask: 2 13 1 S root 13 2 0 80 0 - 0 smpboo 09:13 ? 00:00:00 [cpuhp/1]
+[MSG] [CPU 0] Found [ in 1 S root        13     2  0  80   0 -     0 smpboo 09:13 ?        00:00:00 [cpuhp/1]
+[MSG] [CPU 0] fail to set CPU affinity for PID 13
+[MSG] [CPU 0] pid 14's current affinity mask: 2 14 1 S root 14 2 0 -40 - - 0 smpboo 09:13 ? 00:00:00 [migration/1]
+[MSG] [CPU 0] Found [ in 1 S root        14     2  0 -40   - -     0 smpboo 09:13 ?        00:00:00 [migration/1]
+[MSG] [CPU 0] fail to set CPU affinity for PID 14
+[MSG] [CPU 0] pid 15's current affinity mask: 2 15 1 S root 15 2 0 80 0 - 0 smpboo 09:13 ? 00:00:03 [ksoftirqd/1]
+[MSG] [CPU 2] Found [ in 1 S root        15     2  0  80   0 -     0 smpboo 09:13 ?        00:00:03 [ksoftirqd/1]
+[MSG] [CPU 2] fail to set CPU affinity for PID 15
+[MSG] [CPU 0] pid 16's current affinity mask: 2 16 1 S root 16 2 1 80 0 - 0 worker 09:13 ? 00:00:05 [kworker/1:0]
+[MSG] [CPU 2] Found [ in 1 S root        16     2  1  80   0 -     0 worker 09:13 ?        00:00:05 [kworker/1:0]
+[MSG] [CPU 2] fail to set CPU affinity for PID 16
+[MSG] [CPU 0] pid 17's current affinity mask: 2 17 1 S root 17 2 0 60 -20 - 0 worker 09:13 ? 00:00:00 [kworker/1:0H]
+[MSG] [CPU 0] Found [ in 1 S root        17     2  0  60 -20 -     0 worker 09:13 ?        00:00:00 [kworker/1:0H]
+[MSG] [CPU 0] fail to set CPU affinity for PID 17
+[MSG] [CPU 2] pid 18's current affinity mask: 4 18 1 S root 18 2 0 80 0 - 0 smpboo 09:13 ? 00:00:00 [cpuhp/2]
+[MSG] [CPU 3] Found [ in 1 S root        18     2  0  80   0 -     0 smpboo 09:13 ?        00:00:00 [cpuhp/2]
+[MSG] [CPU 2] fail to set CPU affinity for PID 18
+[MSG] [CPU 2] pid 19's current affinity mask: 4 19 1 S root 19 2 0 -40 - - 0 smpboo 09:13 ? 00:00:01 [migration/2]
+[MSG] [CPU 3] Found [ in 1 S root        19     2  0 -40   - -     0 smpboo 09:13 ?        00:00:01 [migration/2]
+[MSG] [CPU 0] fail to set CPU affinity for PID 19
+[MSG] [CPU 1] pid 20's current affinity mask: 4 20 1 S root 20 2 0 80 0 - 0 smpboo 09:13 ? 00:00:02 [ksoftirqd/2]
+[MSG] [CPU 1] Found [ in 1 S root        20     2  0  80   0 -     0 smpboo 09:13 ?        00:00:02 [ksoftirqd/2]
+[MSG] [CPU 1] fail to set CPU affinity for PID 20
+[MSG] [CPU 0] pid 21's current affinity mask: 4 21 1 S root 21 2 0 80 0 - 0 worker 09:13 ? 00:00:00 [kworker/2:0]
+[MSG] [CPU 0] Found [ in 1 S root        21     2  0  80   0 -     0 worker 09:13 ?        00:00:00 [kworker/2:0]
+[MSG] [CPU 3] fail to set CPU affinity for PID 21
+[MSG] [CPU 3] pid 22's current affinity mask: 4 22 1 S root 22 2 0 60 -20 - 0 worker 09:13 ? 00:00:01 [kworker/2:0H]
+[MSG] [CPU 3] Found [ in 1 S root        22     2  0  60 -20 -     0 worker 09:13 ?        00:00:01 [kworker/2:0H]
+[MSG] [CPU 1] fail to set CPU affinity for PID 22
+[MSG] [CPU 0] pid 23's current affinity mask: 8 23 1 S root 23 2 0 80 0 - 0 smpboo 09:13 ? 00:00:00 [cpuhp/3]
+[MSG] [CPU 0] Found [ in 1 S root        23     2  0  80   0 -     0 smpboo 09:13 ?        00:00:00 [cpuhp/3]
+[MSG] [CPU 2] fail to set CPU affinity for PID 23
+[MSG] [CPU 1] pid 24's current affinity mask: 8 24 1 S root 24 2 0 -40 - - 0 smpboo 09:13 ? 00:00:01 [migration/3]
+[MSG] [CPU 1] Found [ in 1 S root        24     2  0 -40   - -     0 smpboo 09:13 ?        00:00:01 [migration/3]
+[MSG] [CPU 1] fail to set CPU affinity for PID 24
+[MSG] [CPU 1] pid 25's current affinity mask: 8 25 1 S root 25 2 1 80 0 - 0 smpboo 09:13 ? 00:00:04 [ksoftirqd/3]
+[MSG] [CPU 1] Found [ in 1 S root        25     2  1  80   0 -     0 smpboo 09:13 ?        00:00:04 [ksoftirqd/3]
+[MSG] [CPU 3] fail to set CPU affinity for PID 25
+[MSG] [CPU 3] pid 26's current affinity mask: 8 26 1 S root 26 2 0 80 0 - 0 worker 09:13 ? 00:00:00 [kworker/3:0]
+[MSG] [CPU 2] Found [ in 1 S root        26     2  0  80   0 -     0 worker 09:13 ?        00:00:00 [kworker/3:0]
+[MSG] [CPU 1] fail to set CPU affinity for PID 26
+[MSG] [CPU 1] pid 27's current affinity mask: 8 27 1 S root 27 2 0 60 -20 - 0 worker 09:13 ? 00:00:00 [kworker/3:0H]
+[MSG] [CPU 2] Found [ in 1 S root        27     2  0  60 -20 -     0 worker 09:13 ?        00:00:00 [kworker/3:0H]
+[MSG] [CPU 2] fail to set CPU affinity for PID 27
+[MSG] [CPU 2] pid 28's current affinity mask: f 28 5 S root 28 2 0 80 0 - 0 devtmp 09:13 ? 00:00:00 [kdevtmpfs]
+[MSG] [CPU 1] Found [ in 5 S root        28     2  0  80   0 -     0 devtmp 09:13 ?        00:00:00 [kdevtmpfs]
+[MSG] [CPU 1] Updated: pid 28's current affinity mask: 4 28 5 S root 28 2 0 80 0 - 0 devtmp 09:13 ? 00:00:00 [kdevtmpfs]
+[MSG] [CPU 2] pid 29's current affinity mask: f 29 1 S root 29 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [netns]
+[MSG] [CPU 1] Found [ in 1 S root        29     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [netns]
+[MSG] [CPU 0] fail to set CPU affinity for PID 29
+[MSG] [CPU 0] pid 40's current affinity mask: 1 40 1 S root 40 2 0 80 0 - 0 worker 09:13 ? 00:00:00 [kworker/0:1]
+[MSG] [CPU 1] Found [ in 1 S root        40     2  0  80   0 -     0 worker 09:13 ?        00:00:00 [kworker/0:1]
+[MSG] [CPU 1] fail to set CPU affinity for PID 40
+[MSG] [CPU 2] pid 107's current affinity mask: f 107 1 S root 107 2 0 80 0 - 0 worker 09:13 ? 00:00:00 [kworker/u8:5]
+[MSG] [CPU 0] Found [ in 1 S root       107     2  0  80   0 -     0 worker 09:13 ?        00:00:00 [kworker/u8:5]
+[MSG] [CPU 1] fail to set CPU affinity for PID 107
+[MSG] [CPU 1] pid 281's current affinity mask: f 281 1 S root 281 2 3 80 0 - 0 worker 09:13 ? 00:00:13 [kworker/u8:6]
+[MSG] [CPU 0] Found [ in 1 S root       281     2  3  80   0 -     0 worker 09:13 ?        00:00:13 [kworker/u8:6]
+[MSG] [CPU 2] fail to set CPU affinity for PID 281
+[MSG] [CPU 1] pid 590's current affinity mask: f 590 1 S root 590 2 1 80 0 - 0 worker 09:13 ? 00:00:06 [kworker/u8:7]
+[MSG] [CPU 0] Found [ in 1 S root       590     2  1  80   0 -     0 worker 09:13 ?        00:00:06 [kworker/u8:7]
+[MSG] [CPU 1] fail to set CPU affinity for PID 590
+[MSG] [CPU 1] pid 1103's current affinity mask: f 1103 1 S root 1103 2 0 80 0 - 0 worker 09:13 ? 00:00:02 [kworker/u8:9]
+[MSG] [CPU 0] Found [ in 1 S root      1103     2  0  80   0 -     0 worker 09:13 ?        00:00:02 [kworker/u8:9]
+[MSG] [CPU 1] fail to set CPU affinity for PID 1103
+[MSG] [CPU 1] pid 1264's current affinity mask: f 1264 1 S root 1264 2 0 80 0 - 0 oom_re 09:13 ? 00:00:00 [oom_reaper]
+[MSG] [CPU 0] Found [ in 1 S root      1264     2  0  80   0 -     0 oom_re 09:13 ?        00:00:00 [oom_reaper]
+[MSG] [CPU 3] Updated: pid 1264's current affinity mask: 4 1264 1 S root 1264 2 0 80 0 - 0 oom_re 09:13 ? 00:00:00 [oom_reaper]
+[MSG] [CPU 3] pid 1265's current affinity mask: f 1265 1 S root 1265 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [writeback]
+[MSG] [CPU 0] Found [ in 1 S root      1265     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [writeback]
+[MSG] [CPU 3] fail to set CPU affinity for PID 1265
+[MSG] [CPU 3] pid 1266's current affinity mask: f 1266 1 S root 1266 2 0 80 0 - 0 kcompa 09:13 ? 00:00:00 [kcompactd0]
+[MSG] [CPU 1] Found [ in 1 S root      1266     2  0  80   0 -     0 kcompa 09:13 ?        00:00:00 [kcompactd0]
+[MSG] [CPU 3] Updated: pid 1266's current affinity mask: 4 1266 1 S root 1266 2 0 80 0 - 0 kcompa 09:13 ? 00:00:00 [kcompactd0]
+[MSG] [CPU 1] pid 1267's current affinity mask: f 1267 1 S root 1267 2 0 85 5 - 0 ksm_sc 09:13 ? 00:00:00 [ksmd]
+[MSG] [CPU 0] Found [ in 1 S root      1267     2  0  85   5 -     0 ksm_sc 09:13 ?        00:00:00 [ksmd]
+[MSG] [CPU 3] Updated: pid 1267's current affinity mask: 4 1267 1 S root 1267 2 0 85 5 - 0 ksm_sc 09:13 ? 00:00:00 [ksmd]
+[MSG] [CPU 1] pid 1268's current affinity mask: f 1268 1 S root 1268 2 0 99 19 - 0 khugep 09:13 ? 00:00:00 [khugepaged]
+[MSG] [CPU 2] Found [ in 1 S root      1268     2  0  99  19 -     0 khugep 09:13 ?        00:00:00 [khugepaged]
+[MSG] [CPU 2] Updated: pid 1268's current affinity mask: 4 1268 1 S root 1268 2 0 99 19 - 0 khugep 09:13 ? 00:00:00 [khugepaged]
+[MSG] [CPU 0] pid 1269's current affinity mask: f 1269 1 S root 1269 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [crypto]
+[MSG] [CPU 0] Found [ in 1 S root      1269     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [crypto]
+[MSG] [CPU 2] fail to set CPU affinity for PID 1269
+[MSG] [CPU 2] pid 1272's current affinity mask: f 1272 1 S root 1272 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [kintegrityd]
+[MSG] [CPU 0] Found [ in 1 S root      1272     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [kintegrityd]
+[MSG] [CPU 2] fail to set CPU affinity for PID 1272
+[MSG] [CPU 3] pid 1273's current affinity mask: f 1273 1 S root 1273 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      1273     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 1273
+[MSG] [CPU 3] pid 1275's current affinity mask: 4 1275 1 S root 1275 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [kblockd]
+[MSG] [CPU 0] Found [ in 1 S root      1275     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [kblockd]
+[MSG] [CPU 1] fail to set CPU affinity for PID 1275
+[MSG] [CPU 3] pid 1383's current affinity mask: 8 1383 1 S root 1383 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [ata_sff]
+[MSG] [CPU 3] Found [ in 1 S root      1383     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [ata_sff]
+[MSG] [CPU 3] fail to set CPU affinity for PID 1383
+[MSG] [CPU 1] pid 1410's current affinity mask: f 1410 1 S root 1410 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [md]
+[MSG] [CPU 1] Found [ in 1 S root      1410     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [md]
+[MSG] [CPU 2] fail to set CPU affinity for PID 1410
+[MSG] [CPU 1] pid 1430's current affinity mask: f 1430 1 S root 1430 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [cfg80211]
+[MSG] [CPU 3] Found [ in 1 S root      1430     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [cfg80211]
+[MSG] [CPU 1] fail to set CPU affinity for PID 1430
+[MSG] [CPU 3] pid 1436's current affinity mask: 2 1436 1 S root 1436 2 0 80 0 - 0 worker 09:13 ? 00:00:00 [kworker/1:1]
+[MSG] [CPU 1] Found [ in 1 S root      1436     2  0  80   0 -     0 worker 09:13 ?        00:00:00 [kworker/1:1]
+[MSG] [CPU 3] fail to set CPU affinity for PID 1436
+[MSG] [CPU 0] pid 1437's current affinity mask: 4 1437 1 S root 1437 2 0 80 0 - 0 worker 09:13 ? 00:00:01 [kworker/2:1]
+[MSG] [CPU 0] Found [ in 1 S root      1437     2  0  80   0 -     0 worker 09:13 ?        00:00:01 [kworker/2:1]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1437
+[MSG] [CPU 2] pid 1438's current affinity mask: 8 1438 1 S root 1438 2 0 80 0 - 0 worker 09:13 ? 00:00:02 [kworker/3:1]
+[MSG] [CPU 2] Found [ in 1 S root      1438     2  0  80   0 -     0 worker 09:13 ?        00:00:02 [kworker/3:1]
+[MSG] [CPU 2] fail to set CPU affinity for PID 1438
+[MSG] [CPU 1] pid 1533's current affinity mask: f 1533 1 S root 1533 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [rpciod]
+[MSG] [CPU 0] Found [ in 1 S root      1533     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [rpciod]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1533
+[MSG] [CPU 0] pid 1534's current affinity mask: f 1534 1 S root 1534 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [xprtiod]
+[MSG] [CPU 1] Found [ in 1 S root      1534     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [xprtiod]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1534
+[MSG] [CPU 0] pid 1560's current affinity mask: f 1560 1 S root 1560 2 1 80 0 - 0 kaudit 09:13 ? 00:00:04 [kauditd]
+[MSG] [CPU 0] Found [ in 1 S root      1560     2  1  80   0 -     0 kaudit 09:13 ?        00:00:04 [kauditd]
+[MSG] [CPU 0] Updated: pid 1560's current affinity mask: 4 1560 1 S root 1560 2 1 80 0 - 0 kaudit 09:13 ? 00:00:04 [kauditd]
+[MSG] [CPU 0] pid 1566's current affinity mask: f 1566 1 S root 1566 2 0 80 0 - 0 kswapd 09:13 ? 00:00:00 [kswapd0]
+[MSG] [CPU 0] Found [ in 1 S root      1566     2  0  80   0 -     0 kswapd 09:13 ?        00:00:00 [kswapd0]
+[MSG] [CPU 3] Updated: pid 1566's current affinity mask: 4 1566 1 S root 1566 2 0 80 0 - 0 kswapd 09:13 ? 00:00:00 [kswapd0]
+[MSG] [CPU 0] pid 1567's current affinity mask: f 1567 1 S root 1567 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vmstat]
+[MSG] [CPU 0] Found [ in 1 S root      1567     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vmstat]
+[MSG] [CPU 3] fail to set CPU affinity for PID 1567
+[MSG] [CPU 2] pid 1568's current affinity mask: f 1568 1 S root 1568 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      1568     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 1568
+[MSG] [CPU 0] pid 1572's current affinity mask: f 1572 1 S root 1572 2 0 80 0 - 0 ecrypt 09:13 ? 00:00:00 [ecryptfs-kthrea]
+[MSG] [CPU 3] Found [ in 1 S root      1572     2  0  80   0 -     0 ecrypt 09:13 ?        00:00:00 [ecryptfs-kthrea]
+[MSG] [CPU 1] Updated: pid 1572's current affinity mask: 4 1572 1 S root 1572 2 0 80 0 - 0 ecrypt 09:13 ? 00:00:00 [ecryptfs-kthrea]
+[MSG] [CPU 1] pid 1574's current affinity mask: f 1574 1 S root 1574 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [nfsiod]
+[MSG] [CPU 1] Found [ in 1 S root      1574     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [nfsiod]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1574
+[MSG] [CPU 0] pid 1575's current affinity mask: f 1575 1 S root 1575 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [cifsiod]
+[MSG] [CPU 0] Found [ in 1 S root      1575     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [cifsiod]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1575
+[MSG] [CPU 0] pid 1580's current affinity mask: f 1580 1 S root 1580 2 0 80 0 - 0 jfsIOW 09:13 ? 00:00:00 [jfsIO]
+[MSG] [CPU 0] Found [ in 1 S root      1580     2  0  80   0 -     0 jfsIOW 09:13 ?        00:00:00 [jfsIO]
+[MSG] [CPU 1] Updated: pid 1580's current affinity mask: 4 1580 1 S root 1580 2 0 80 0 - 0 jfsIOW 09:13 ? 00:00:00 [jfsIO]
+[MSG] [CPU 3] pid 1581's current affinity mask: f 1581 1 S root 1581 2 0 80 0 - 0 jfs_la 09:13 ? 00:00:00 [jfsCommit]
+[MSG] [CPU 3] Found [ in 1 S root      1581     2  0  80   0 -     0 jfs_la 09:13 ?        00:00:00 [jfsCommit]
+[MSG] [CPU 0] Updated: pid 1581's current affinity mask: 4 1581 1 S root 1581 2 0 80 0 - 0 jfs_la 09:13 ? 00:00:00 [jfsCommit]
+[MSG] [CPU 1] pid 1582's current affinity mask: f 1582 1 S root 1582 2 0 80 0 - 0 jfs_la 09:13 ? 00:00:00 [jfsCommit]
+[MSG] [CPU 3] Found [ in 1 S root      1582     2  0  80   0 -     0 jfs_la 09:13 ?        00:00:00 [jfsCommit]
+[MSG] [CPU 3] Updated: pid 1582's current affinity mask: 4 1582 1 S root 1582 2 0 80 0 - 0 jfs_la 09:13 ? 00:00:00 [jfsCommit]
+[MSG] [CPU 0] pid 1583's current affinity mask: f 1583 1 S root 1583 2 0 80 0 - 0 jfs_la 09:13 ? 00:00:00 [jfsCommit]
+[MSG] [CPU 0] Found [ in 1 S root      1583     2  0  80   0 -     0 jfs_la 09:13 ?        00:00:00 [jfsCommit]
+[MSG] [CPU 2] Updated: pid 1583's current affinity mask: 4 1583 1 S root 1583 2 0 80 0 - 0 jfs_la 09:13 ? 00:00:00 [jfsCommit]
+[MSG] [CPU 0] pid 1584's current affinity mask: f 1584 1 S root 1584 2 0 80 0 - 0 jfs_la 09:13 ? 00:00:00 [jfsCommit]
+[MSG] [CPU 1] Found [ in 1 S root      1584     2  0  80   0 -     0 jfs_la 09:13 ?        00:00:00 [jfsCommit]
+[MSG] [CPU 1] Updated: pid 1584's current affinity mask: 4 1584 1 S root 1584 2 0 80 0 - 0 jfs_la 09:13 ? 00:00:00 [jfsCommit]
+[MSG] [CPU 0] pid 1585's current affinity mask: f 1585 1 S root 1585 2 0 80 0 - 0 jfs_sy 09:13 ? 00:00:00 [jfsSync]
+[MSG] [CPU 0] Found [ in 1 S root      1585     2  0  80   0 -     0 jfs_sy 09:13 ?        00:00:00 [jfsSync]
+[MSG] [CPU 1] Updated: pid 1585's current affinity mask: 4 1585 1 S root 1585 2 0 80 0 - 0 jfs_sy 09:13 ? 00:00:00 [jfsSync]
+[MSG] [CPU 3] pid 1586's current affinity mask: f 1586 1 S root 1586 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      1586     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 1586
+[MSG] [CPU 3] pid 1587's current affinity mask: f 1587 1 S root 1587 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [xfsalloc]
+[MSG] [CPU 3] Found [ in 1 S root      1587     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [xfsalloc]
+[MSG] [CPU 3] fail to set CPU affinity for PID 1587
+[MSG] [CPU 1] pid 1588's current affinity mask: f 1588 1 S root 1588 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [xfs_mru_cache]
+[MSG] [CPU 1] Found [ in 1 S root      1588     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [xfs_mru_cache]
+[MSG] [CPU 3] fail to set CPU affinity for PID 1588
+[MSG] [CPU 0] pid 1590's current affinity mask: f 1590 1 S root 1590 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [user_dlm]
+[MSG] [CPU 0] Found [ in 1 S root      1590     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [user_dlm]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1590
+[MSG] [CPU 0] pid 1592's current affinity mask: f 1592 1 S root 1592 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [glock_workqueue]
+[MSG] [CPU 0] Found [ in 1 S root      1592     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [glock_workqueue]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1592
+[MSG] [CPU 1] pid 1593's current affinity mask: f 1593 1 S root 1593 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [delete_workqueu]
+[MSG] [CPU 1] Found [ in 1 S root      1593     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [delete_workqueu]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1593
+[MSG] [CPU 0] pid 1594's current affinity mask: f 1594 1 S root 1594 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [gfs_recovery]
+[MSG] [CPU 0] Found [ in 1 S root      1594     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [gfs_recovery]
+[MSG] [CPU 3] fail to set CPU affinity for PID 1594
+[MSG] [CPU 3] pid 1612's current affinity mask: f 1612 1 S root 1612 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [pencrypt]
+[MSG] [CPU 3] Found [ in 1 S root      1612     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [pencrypt]
+[MSG] [CPU 1] fail to set CPU affinity for PID 1612
+[MSG] [CPU 3] pid 1614's current affinity mask: f 1614 1 S root 1614 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [pdecrypt]
+[MSG] [CPU 3] Found [ in 1 S root      1614     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [pdecrypt]
+[MSG] [CPU 3] fail to set CPU affinity for PID 1614
+[MSG] [CPU 3] pid 1677's current affinity mask: f 1677 1 S root 1677 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [kthrotld]
+[MSG] [CPU 3] Found [ in 1 S root      1677     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [kthrotld]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1677
+[MSG] [CPU 0] pid 1708's current affinity mask: f 1708 1 S root 1708 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [acpi_thermal_pm]
+[MSG] [CPU 0] Found [ in 1 S root      1708     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [acpi_thermal_pm]
+[MSG] [CPU 0] fail to set CPU affinity for PID 1708
+[MSG] [CPU 2] pid 2272's current affinity mask: f 2272 1 S root 2272 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2272     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2272
+[MSG] [CPU 0] pid 2273's current affinity mask: f 2273 1 S root 2273 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2273     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2273
+[MSG] [CPU 0] pid 2274's current affinity mask: f 2274 1 S root 2274 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2274     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2274
+[MSG] [CPU 3] pid 2275's current affinity mask: f 2275 1 S root 2275 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2275     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2275
+[MSG] [CPU 2] pid 2276's current affinity mask: f 2276 1 S root 2276 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2276     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2276
+[MSG] [CPU 2] pid 2277's current affinity mask: f 2277 1 S root 2277 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2277     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2277
+[MSG] [CPU 1] pid 2278's current affinity mask: f 2278 1 S root 2278 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2278     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2278
+[MSG] [CPU 3] pid 2279's current affinity mask: f 2279 1 S root 2279 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2279     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2279
+[MSG] [CPU 3] pid 2280's current affinity mask: f 2280 1 S root 2280 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2280     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2280
+[MSG] [CPU 2] pid 2281's current affinity mask: f 2281 1 S root 2281 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2281     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2281
+[MSG] [CPU 2] pid 2282's current affinity mask: f 2282 1 S root 2282 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2282     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2282
+[MSG] [CPU 1] pid 2283's current affinity mask: f 2283 1 S root 2283 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2283     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2283
+[MSG] [CPU 0] pid 2284's current affinity mask: f 2284 1 S root 2284 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2284     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2284
+[MSG] [CPU 0] pid 2286's current affinity mask: f 2286 1 S root 2286 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2286     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2286
+[MSG] [CPU 1] pid 2287's current affinity mask: f 2287 1 S root 2287 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2287     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2287
+[MSG] [CPU 0] pid 2288's current affinity mask: f 2288 1 S root 2288 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2288     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2288
+[MSG] [CPU 0] pid 2289's current affinity mask: f 2289 1 S root 2289 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2289     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2289
+[MSG] [CPU 3] pid 2290's current affinity mask: f 2290 1 S root 2290 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2290     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2290
+[MSG] [CPU 0] pid 2291's current affinity mask: f 2291 1 S root 2291 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2291     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2291
+[MSG] [CPU 0] pid 2292's current affinity mask: f 2292 1 S root 2292 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2292     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2292
+[MSG] [CPU 1] pid 2293's current affinity mask: f 2293 1 S root 2293 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2293     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2293
+[MSG] [CPU 3] pid 2294's current affinity mask: f 2294 1 S root 2294 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2294     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2294
+[MSG] [CPU 1] pid 2295's current affinity mask: f 2295 1 S root 2295 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2295     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2295
+[MSG] [CPU 3] pid 2296's current affinity mask: f 2296 1 S root 2296 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2296     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2296
+[MSG] [CPU 3] pid 2329's current affinity mask: f 2329 1 S root 2329 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2329     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2329
+[MSG] [CPU 2] pid 2333's current affinity mask: f 2333 1 S root 2333 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2333     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2333
+[MSG] [CPU 2] pid 2335's current affinity mask: f 2335 1 S root 2335 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2335     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2335
+[MSG] [CPU 1] pid 2338's current affinity mask: f 2338 1 S root 2338 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2338     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2338
+[MSG] [CPU 3] pid 2341's current affinity mask: f 2341 1 S root 2341 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2341     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2341
+[MSG] [CPU 2] pid 2345's current affinity mask: f 2345 1 S root 2345 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2345     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2345
+[MSG] [CPU 0] pid 2347's current affinity mask: f 2347 1 S root 2347 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2347     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2347
+[MSG] [CPU 3] pid 2351's current affinity mask: f 2351 1 S root 2351 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2351     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2351
+[MSG] [CPU 3] pid 2353's current affinity mask: f 2353 1 S root 2353 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2353     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2353
+[MSG] [CPU 0] pid 2357's current affinity mask: f 2357 1 S root 2357 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2357     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2357
+[MSG] [CPU 0] pid 2359's current affinity mask: f 2359 1 S root 2359 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2359     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2359
+[MSG] [CPU 0] pid 2362's current affinity mask: f 2362 1 S root 2362 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2362     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2362
+[MSG] [CPU 3] pid 2365's current affinity mask: f 2365 1 S root 2365 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2365     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2365
+[MSG] [CPU 3] pid 2368's current affinity mask: f 2368 1 S root 2368 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2368     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2368
+[MSG] [CPU 1] pid 2372's current affinity mask: f 2372 1 S root 2372 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2372     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2372
+[MSG] [CPU 0] pid 2374's current affinity mask: f 2374 1 S root 2374 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2374     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2374
+[MSG] [CPU 1] pid 2378's current affinity mask: f 2378 1 S root 2378 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2378     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2378
+[MSG] [CPU 0] pid 2379's current affinity mask: f 2379 1 S root 2379 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2379     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2379
+[MSG] [CPU 0] pid 2380's current affinity mask: f 2380 1 S root 2380 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2380     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2380
+[MSG] [CPU 3] pid 2381's current affinity mask: f 2381 1 S root 2381 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2381     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2381
+[MSG] [CPU 0] pid 2382's current affinity mask: f 2382 1 S root 2382 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2382     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2382
+[MSG] [CPU 0] pid 2383's current affinity mask: f 2383 1 S root 2383 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2383     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2383
+[MSG] [CPU 1] pid 2384's current affinity mask: f 2384 1 S root 2384 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2384     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2384
+[MSG] [CPU 3] pid 2385's current affinity mask: f 2385 1 S root 2385 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2385     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2385
+[MSG] [CPU 2] pid 2386's current affinity mask: f 2386 1 S root 2386 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2386     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2386
+[MSG] [CPU 2] pid 2387's current affinity mask: f 2387 1 S root 2387 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2387     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2387
+[MSG] [CPU 3] pid 2388's current affinity mask: f 2388 1 S root 2388 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2388     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2388
+[MSG] [CPU 2] pid 2389's current affinity mask: f 2389 1 S root 2389 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2389     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2389
+[MSG] [CPU 2] pid 2390's current affinity mask: f 2390 1 S root 2390 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2390     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2390
+[MSG] [CPU 1] pid 2391's current affinity mask: f 2391 1 S root 2391 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2391     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2391
+[MSG] [CPU 3] pid 2392's current affinity mask: f 2392 1 S root 2392 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      2392     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2392
+[MSG] [CPU 3] pid 2393's current affinity mask: f 2393 1 S root 2393 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      2393     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2393
+[MSG] [CPU 2] pid 2425's current affinity mask: f 2425 1 S root 2425 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2425     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2425
+[MSG] [CPU 0] pid 2430's current affinity mask: f 2430 1 S root 2430 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 2] Found [ in 1 S root      2430     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2430
+[MSG] [CPU 2] pid 2434's current affinity mask: f 2434 1 S root 2434 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2434     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2434
+[MSG] [CPU 2] pid 2458's current affinity mask: f 2458 1 S root 2458 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [iscsi_eh]
+[MSG] [CPU 2] Found [ in 1 S root      2458     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [iscsi_eh]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2458
+[MSG] [CPU 2] pid 2476's current affinity mask: f 2476 1 S root 2476 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [nvme]
+[MSG] [CPU 1] Found [ in 1 S root      2476     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [nvme]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2476
+[MSG] [CPU 2] pid 2489's current affinity mask: f 2489 1 S root 2489 2 3 80 0 - 0 scsi_e 09:13 ? 00:00:14 [scsi_eh_0]
+[MSG] [CPU 2] Found [ in 1 S root      2489     2  3  80   0 -     0 scsi_e 09:13 ?        00:00:14 [scsi_eh_0]
+[MSG] [CPU 3] Updated: pid 2489's current affinity mask: 4 2489 1 S root 2489 2 3 80 0 - 0 scsi_e 09:13 ? 00:00:14 [scsi_eh_0]
+[MSG] [CPU 3] pid 2495's current affinity mask: f 2495 1 S root 2495 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [scsi_tmf_0]
+[MSG] [CPU 3] Found [ in 1 S root      2495     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [scsi_tmf_0]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2495
+[MSG] [CPU 3] pid 2498's current affinity mask: f 2498 1 S root 2498 2 0 80 0 - 0 scsi_e 09:13 ? 00:00:00 [scsi_eh_1]
+[MSG] [CPU 1] Found [ in 1 S root      2498     2  0  80   0 -     0 scsi_e 09:13 ?        00:00:00 [scsi_eh_1]
+[MSG] [CPU 2] Updated: pid 2498's current affinity mask: 4 2498 1 S root 2498 2 0 80 0 - 0 scsi_e 09:13 ? 00:00:00 [scsi_eh_1]
+[MSG] [CPU 3] pid 2499's current affinity mask: f 2499 1 S root 2499 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [scsi_tmf_1]
+[MSG] [CPU 0] Found [ in 1 S root      2499     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [scsi_tmf_1]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2499
+[MSG] [CPU 2] pid 2507's current affinity mask: f 2507 1 S root 2507 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [target_completi]
+[MSG] [CPU 2] Found [ in 1 S root      2507     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [target_completi]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2507
+[MSG] [CPU 0] pid 2508's current affinity mask: f 2508 1 S root 2508 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [tmr-rd_mcp]
+[MSG] [CPU 0] Found [ in 1 S root      2508     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [tmr-rd_mcp]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2508
+[MSG] [CPU 1] pid 2509's current affinity mask: f 2509 1 S root 2509 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [xcopy_wq]
+[MSG] [CPU 3] Found [ in 1 S root      2509     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [xcopy_wq]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2509
+[MSG] [CPU 2] pid 2516's current affinity mask: f 2516 1 S root 2516 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      2516     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bioset]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2516
+[MSG] [CPU 2] pid 2520's current affinity mask: f 2520 1 S root 2520 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bond0]
+[MSG] [CPU 0] Found [ in 1 S root      2520     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bond0]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2520
+[MSG] [CPU 2] pid 2596's current affinity mask: f 2596 1 S root 2596 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [mlx4]
+[MSG] [CPU 3] Found [ in 1 S root      2596     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [mlx4]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2596
+[MSG] [CPU 1] pid 2661's current affinity mask: f 2661 1 S root 2661 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [firewire]
+[MSG] [CPU 0] Found [ in 1 S root      2661     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [firewire]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2661
+[MSG] [CPU 1] pid 2663's current affinity mask: f 2663 1 S root 2663 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [firewire_ohci]
+[MSG] [CPU 1] Found [ in 1 S root      2663     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [firewire_ohci]
+[MSG] [CPU 2] fail to set CPU affinity for PID 2663
+[MSG] [CPU 2] pid 2671's current affinity mask: f 2671 1 S root 2671 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vfio-irqfd-clea]
+[MSG] [CPU 2] Found [ in 1 S root      2671     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vfio-irqfd-clea]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2671
+[MSG] [CPU 2] pid 2672's current affinity mask: f 2672 1 S root 2672 2 0 70 -10 - 0 kthrea 09:13 ? 00:00:00 [aoe_tx0]
+[MSG] [CPU 0] Found [ in 1 S root      2672     2  0  70 -10 -     0 kthrea 09:13 ?        00:00:00 [aoe_tx0]
+[MSG] [CPU 2] Updated: pid 2672's current affinity mask: 4 2672 1 S root 2672 2 0 70 -10 - 0 kthrea 09:13 ? 00:00:00 [aoe_tx0]
+[MSG] [CPU 0] pid 2681's current affinity mask: f 2681 1 S root 2681 2 0 70 -10 - 0 kthrea 09:13 ? 00:00:00 [aoe_ktio0]
+[MSG] [CPU 2] Found [ in 1 S root      2681     2  0  70 -10 -     0 kthrea 09:13 ?        00:00:00 [aoe_ktio0]
+[MSG] [CPU 0] Updated: pid 2681's current affinity mask: 4 2681 1 S root 2681 2 0 70 -10 - 0 kthrea 09:13 ? 00:00:00 [aoe_ktio0]
+[MSG] [CPU 2] pid 2704's current affinity mask: f 2704 1 S root 2704 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [u132]
+[MSG] [CPU 0] Found [ in 1 S root      2704     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [u132]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2704
+[MSG] [CPU 1] pid 2908's current affinity mask: f 2908 1 S root 2908 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [usbip_event]
+[MSG] [CPU 1] Found [ in 1 S root      2908     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [usbip_event]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2908
+[MSG] [CPU 2] pid 2978's current affinity mask: f 2978 1 S root 2978 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-000-cec]
+[MSG] [CPU 2] Found [ in 1 S root      2978     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-000-cec]
+[MSG] [CPU 1] fail to set CPU affinity for PID 2978
+[MSG] [CPU 0] pid 2986's current affinity mask: f 2986 1 S root 2986 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-001-cec]
+[MSG] [CPU 1] Found [ in 1 S root      2986     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-001-cec]
+[MSG] [CPU 0] fail to set CPU affinity for PID 2986
+[MSG] [CPU 0] pid 2994's current affinity mask: f 2994 1 S root 2994 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-002-cec]
+[MSG] [CPU 2] Found [ in 1 S root      2994     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-002-cec]
+[MSG] [CPU 3] fail to set CPU affinity for PID 2994
+[MSG] [CPU 3] pid 3002's current affinity mask: f 3002 1 S root 3002 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-003-cec]
+[MSG] [CPU 1] Found [ in 1 S root      3002     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-003-cec]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3002
+[MSG] [CPU 3] pid 3010's current affinity mask: f 3010 1 S root 3010 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-004-cec]
+[MSG] [CPU 1] Found [ in 1 S root      3010     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-004-cec]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3010
+[MSG] [CPU 1] pid 3018's current affinity mask: f 3018 1 S root 3018 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-005-cec]
+[MSG] [CPU 3] Found [ in 1 S root      3018     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-005-cec]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3018
+[MSG] [CPU 3] pid 3026's current affinity mask: f 3026 1 S root 3026 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-006-cec]
+[MSG] [CPU 3] Found [ in 1 S root      3026     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-006-cec]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3026
+[MSG] [CPU 3] pid 3035's current affinity mask: f 3035 1 S root 3035 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-007-cec]
+[MSG] [CPU 3] Found [ in 1 S root      3035     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-007-cec]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3035
+[MSG] [CPU 0] pid 3043's current affinity mask: f 3043 1 S root 3043 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-008-cec]
+[MSG] [CPU 0] Found [ in 1 S root      3043     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-008-cec]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3043
+[MSG] [CPU 3] pid 3051's current affinity mask: f 3051 1 S root 3051 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-009-cec]
+[MSG] [CPU 2] Found [ in 1 S root      3051     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-009-cec]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3051
+[MSG] [CPU 2] pid 3052's current affinity mask: f 3052 1 S root 3052 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-010-cec]
+[MSG] [CPU 2] Found [ in 1 S root      3052     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-010-cec]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3052
+[MSG] [CPU 1] pid 3067's current affinity mask: f 3067 1 S root 3067 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-011-cec]
+[MSG] [CPU 0] Found [ in 1 S root      3067     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-011-cec]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3067
+[MSG] [CPU 1] pid 3075's current affinity mask: f 3075 1 S root 3075 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-012-cec]
+[MSG] [CPU 3] Found [ in 1 S root      3075     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-012-cec]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3075
+[MSG] [CPU 3] pid 3083's current affinity mask: f 3083 1 S root 3083 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-013-cec]
+[MSG] [CPU 3] Found [ in 1 S root      3083     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-013-cec]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3083
+[MSG] [CPU 0] pid 3084's current affinity mask: f 3084 1 S root 3084 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-014-cec]
+[MSG] [CPU 1] Found [ in 1 S root      3084     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-014-cec]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3084
+[MSG] [CPU 0] pid 3099's current affinity mask: f 3099 1 S root 3099 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [vivid-015-cec]
+[MSG] [CPU 0] Found [ in 1 S root      3099     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [vivid-015-cec]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3099
+[MSG] [CPU 3] pid 3186's current affinity mask: f 3186 1 S root 3186 2 0 80 0 - 0 pvr2_c 09:13 ? 00:00:00 [pvrusb2-context]
+[MSG] [CPU 1] Found [ in 1 S root      3186     2  0  80   0 -     0 pvr2_c 09:13 ?        00:00:00 [pvrusb2-context]
+[MSG] [CPU 1] Updated: pid 3186's current affinity mask: 4 3186 1 S root 3186 2 0 80 0 - 0 pvr2_c 09:13 ? 00:00:00 [pvrusb2-context]
+[MSG] [CPU 1] pid 3187's current affinity mask: f 3187 1 S root 3187 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [raid5wq]
+[MSG] [CPU 1] Found [ in 1 S root      3187     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [raid5wq]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3187
+[MSG] [CPU 2] pid 3211's current affinity mask: f 3211 1 S root 3211 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [bcache]
+[MSG] [CPU 0] Found [ in 1 S root      3211     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [bcache]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3211
+[MSG] [CPU 3] pid 3213's current affinity mask: f 3213 1 S root 3213 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [dm_bufio_cache]
+[MSG] [CPU 2] Found [ in 1 S root      3213     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [dm_bufio_cache]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3213
+[MSG] [CPU 1] pid 3214's current affinity mask: f 3214 1 S root 3214 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [kmpathd]
+[MSG] [CPU 0] Found [ in 1 S root      3214     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [kmpathd]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3214
+[MSG] [CPU 2] pid 3215's current affinity mask: f 3215 1 S root 3215 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [kmpath_handlerd]
+[MSG] [CPU 3] Found [ in 1 S root      3215     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [kmpath_handlerd]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3215
+[MSG] [CPU 2] pid 3229's current affinity mask: f 3229 1 S root 3229 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [kvub300c]
+[MSG] [CPU 0] Found [ in 1 S root      3229     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [kvub300c]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3229
+[MSG] [CPU 3] pid 3230's current affinity mask: f 3230 1 S root 3230 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [kvub300p]
+[MSG] [CPU 1] Found [ in 1 S root      3230     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [kvub300p]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3230
+[MSG] [CPU 1] pid 3231's current affinity mask: f 3231 1 S root 3231 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [kvub300d]
+[MSG] [CPU 2] Found [ in 1 S root      3231     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [kvub300d]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3231
+[MSG] [CPU 3] pid 3232's current affinity mask: f 3232 1 S root 3232 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [kmemstick]
+[MSG] [CPU 1] Found [ in 1 S root      3232     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [kmemstick]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3232
+[MSG] [CPU 3] pid 3237's current affinity mask: f 3237 1 S root 3237 2 0 60 -20 - 0 worker 09:13 ? 00:00:00 [kworker/u9:0]
+[MSG] [CPU 3] Found [ in 1 S root      3237     2  0  60 -20 -     0 worker 09:13 ?        00:00:00 [kworker/u9:0]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3237
+[MSG] [CPU 3] pid 3238's current affinity mask: f 3238 1 S root 3238 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [ib-comp-wq]
+[MSG] [CPU 2] Found [ in 1 S root      3238     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [ib-comp-wq]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3238
+[MSG] [CPU 0] pid 3239's current affinity mask: f 3239 1 S root 3239 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [ib_addr]
+[MSG] [CPU 0] Found [ in 1 S root      3239     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [ib_addr]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3239
+[MSG] [CPU 3] pid 3240's current affinity mask: f 3240 1 S root 3240 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [ib_mcast]
+[MSG] [CPU 0] Found [ in 1 S root      3240     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [ib_mcast]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3240
+[MSG] [CPU 0] pid 3241's current affinity mask: f 3241 1 S root 3241 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [ib_nl_sa_wq]
+[MSG] [CPU 0] Found [ in 1 S root      3241     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [ib_nl_sa_wq]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3241
+[MSG] [CPU 0] pid 3243's current affinity mask: f 3243 1 S root 3243 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [ib_cm]
+[MSG] [CPU 0] Found [ in 1 S root      3243     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [ib_cm]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3243
+[MSG] [CPU 2] pid 3245's current affinity mask: f 3245 1 S root 3245 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [iw_cm_wq]
+[MSG] [CPU 2] Found [ in 1 S root      3245     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [iw_cm_wq]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3245
+[MSG] [CPU 2] pid 3246's current affinity mask: f 3246 1 S root 3246 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [rdma_cm]
+[MSG] [CPU 0] Found [ in 1 S root      3246     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [rdma_cm]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3246
+[MSG] [CPU 0] pid 3247's current affinity mask: f 3247 1 S root 3247 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [mlx4_ib]
+[MSG] [CPU 2] Found [ in 1 S root      3247     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [mlx4_ib]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3247
+[MSG] [CPU 2] pid 3251's current affinity mask: f 3251 1 S root 3251 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [mlx4_ib_mcg]
+[MSG] [CPU 2] Found [ in 1 S root      3251     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [mlx4_ib_mcg]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3251
+[MSG] [CPU 2] pid 3252's current affinity mask: f 3252 1 S root 3252 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [ipoib_flush]
+[MSG] [CPU 3] Found [ in 1 S root      3252     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [ipoib_flush]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3252
+[MSG] [CPU 0] pid 3253's current affinity mask: f 3253 1 S root 3253 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [srp_remove]
+[MSG] [CPU 2] Found [ in 1 S root      3253     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [srp_remove]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3253
+[MSG] [CPU 2] pid 3254's current affinity mask: f 3254 1 S root 3254 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [qat_device_rese]
+[MSG] [CPU 1] Found [ in 1 S root      3254     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [qat_device_rese]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3254
+[MSG] [CPU 0] pid 3261's current affinity mask: f 3261 1 S root 3261 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [qat_pf2vf_resp_]
+[MSG] [CPU 0] Found [ in 1 S root      3261     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [qat_pf2vf_resp_]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3261
+[MSG] [CPU 0] pid 3262's current affinity mask: f 3262 1 S root 3262 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [adf_vf_stop_wq]
+[MSG] [CPU 0] Found [ in 1 S root      3262     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [adf_vf_stop_wq]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3262
+[MSG] [CPU 0] pid 3286's current affinity mask: f 3286 1 S root 3286 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [elousb]
+[MSG] [CPU 0] Found [ in 1 S root      3286     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [elousb]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3286
+[MSG] [CPU 2] pid 3450's current affinity mask: 4 3450 1 S root 3450 2 0 80 0 - 0 worker 09:13 ? 00:00:01 [kworker/2:2]
+[MSG] [CPU 3] Found [ in 1 S root      3450     2  0  80   0 -     0 worker 09:13 ?        00:00:01 [kworker/2:2]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3450
+[MSG] [CPU 1] pid 3456's current affinity mask: 1 3456 1 S root 3456 2 0 80 0 - 0 worker 09:13 ? 00:00:00 [kworker/0:2]
+[MSG] [CPU 3] Found [ in 1 S root      3456     2  0  80   0 -     0 worker 09:13 ?        00:00:00 [kworker/0:2]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3456
+[MSG] [CPU 0] pid 3457's current affinity mask: 1 3457 1 S root 3457 2 0 60 -20 - 0 worker 09:13 ? 00:00:00 [kworker/0:1H]
+[MSG] [CPU 0] Found [ in 1 S root      3457     2  0  60 -20 -     0 worker 09:13 ?        00:00:00 [kworker/0:1H]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3457
+[MSG] [CPU 2] pid 3477's current affinity mask: f 3477 1 S root 3477 2 0 60 -20 - 0 rescue 09:13 ? 00:00:00 [ipv6_addrconf]
+[MSG] [CPU 0] Found [ in 1 S root      3477     2  0  60 -20 -     0 rescue 09:13 ?        00:00:00 [ipv6_addrconf]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3477
+[MSG] [CPU 0] pid 3588's current affinity mask: f 3588 5 S root 3588 2 0 70 -10 - 0 wait_w 09:13 ? 00:00:00 [krfcommd]
+[MSG] [CPU 0] Found [ in 5 S root      3588     2  0  70 -10 -     0 wait_w 09:13 ?        00:00:00 [krfcommd]
+[MSG] [CPU 2] Updated: pid 3588's current affinity mask: 4 3588 5 S root 3588 2 0 70 -10 - 0 wait_w 09:13 ? 00:00:00 [krfcommd]
+[MSG] [CPU 0] pid 3593's current affinity mask: f 3593 1 S root 3593 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [krdsd]
+[MSG] [CPU 0] Found [ in 1 S root      3593     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [krdsd]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3593
+[MSG] [CPU 0] pid 3594's current affinity mask: f 3594 1 S root 3594 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [rds_mr_flushd]
+[MSG] [CPU 3] Found [ in 1 S root      3594     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [rds_mr_flushd]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3594
+[MSG] [CPU 1] pid 3603's current affinity mask: f 3603 1 S root 3603 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [ceph-msgr]
+[MSG] [CPU 1] Found [ in 1 S root      3603     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [ceph-msgr]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3603
+[MSG] [CPU 3] pid 3605's current affinity mask: f 3605 1 S root 3605 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [bat_events]
+[MSG] [CPU 1] Found [ in 1 S root      3605     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [bat_events]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3605
+[MSG] [CPU 2] pid 3614's current affinity mask: f 3614 1 S root 3614 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [kafs_vlupdated]
+[MSG] [CPU 1] Found [ in 1 S root      3614     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [kafs_vlupdated]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3614
+[MSG] [CPU 3] pid 3615's current affinity mask: f 3615 1 S root 3615 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [kafs_callbackd]
+[MSG] [CPU 3] Found [ in 1 S root      3615     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [kafs_callbackd]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3615
+[MSG] [CPU 2] pid 3616's current affinity mask: f 3616 1 S root 3616 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [kafsd]
+[MSG] [CPU 2] Found [ in 1 S root      3616     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [kafsd]
+[MSG] [CPU 2] fail to set CPU affinity for PID 3616
+[MSG] [CPU 1] pid 3617's current affinity mask: f 3617 1 S root 3617 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [bioset]
+[MSG] [CPU 1] Found [ in 1 S root      3617     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3617
+[MSG] [CPU 1] pid 3639's current affinity mask: f 3639 1 S root 3639 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [bioset]
+[MSG] [CPU 3] Found [ in 1 S root      3639     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [bioset]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3639
+[MSG] [CPU 3] pid 3651's current affinity mask: f 3651 1 S root 3651 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      3651     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [bioset]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3651
+[MSG] [CPU 0] pid 3655's current affinity mask: 8 3655 1 S root 3655 2 0 80 0 - 0 worker 09:14 ? 00:00:00 [kworker/3:2]
+[MSG] [CPU 3] Found [ in 1 S root      3655     2  0  80   0 -     0 worker 09:14 ?        00:00:00 [kworker/3:2]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3655
+[MSG] [CPU 0] pid 3661's current affinity mask: f 3661 1 S root 3661 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [bioset]
+[MSG] [CPU 0] Found [ in 1 S root      3661     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [bioset]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3661
+[MSG] [CPU 0] pid 3665's current affinity mask: f 3665 1 S root 3665 2 0 80 0 - 0 kjourn 09:14 ? 00:00:01 [jbd2/sda1-8]
+[MSG] [CPU 0] Found [ in 1 S root      3665     2  0  80   0 -     0 kjourn 09:14 ?        00:00:01 [jbd2/sda1-8]
+[MSG] [CPU 0] Updated: pid 3665's current affinity mask: 4 3665 1 S root 3665 2 0 80 0 - 0 kjourn 09:14 ? 00:00:01 [jbd2/sda1-8]
+[MSG] [CPU 0] pid 3666's current affinity mask: f 3666 1 S root 3666 2 0 60 -20 - 0 rescue 09:14 ? 00:00:00 [ext4-rsv-conver]
+[MSG] [CPU 3] Found [ in 1 S root      3666     2  0  60 -20 -     0 rescue 09:14 ?        00:00:00 [ext4-rsv-conver]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3666
+[MSG] [CPU 1] pid 3667's current affinity mask: 8 3667 1 S root 3667 2 0 60 -20 - 0 worker 09:14 ? 00:00:01 [kworker/3:1H]
+[MSG] [CPU 0] Found [ in 1 S root      3667     2  0  60 -20 -     0 worker 09:14 ?        00:00:01 [kworker/3:1H]
+[MSG] [CPU 0] fail to set CPU affinity for PID 3667
+[MSG] [CPU 0] pid 3681's current affinity mask: 2 3681 1 S root 3681 2 0 60 -20 - 0 worker 09:14 ? 00:00:00 [kworker/1:1H]
+[MSG] [CPU 0] Found [ in 1 S root      3681     2  0  60 -20 -     0 worker 09:14 ?        00:00:00 [kworker/1:1H]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3681
+[MSG] [CPU 3] pid 3682's current affinity mask: 4 3682 1 S root 3682 2 0 60 -20 - 0 worker 09:14 ? 00:00:00 [kworker/2:1H]
+[MSG] [CPU 3] Found [ in 1 S root      3682     2  0  60 -20 -     0 worker 09:14 ?        00:00:00 [kworker/2:1H]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3682
+[MSG] [CPU 1] pid 3688's current affinity mask: f 3688 4 S root 3688 1 2 80 0 - 5738 SyS_ep 09:14 ? 00:00:09 /lib/systemd/systemd-journald
+[MSG] [CPU 0] pid 3703's current affinity mask: 4 3703 1 S root 3703 2 0 80 0 - 0 worker 09:14 ? 00:00:02 [kworker/2:3]
+[MSG] [CPU 0] Found [ in 1 S root      3703     2  0  80   0 -     0 worker 09:14 ?        00:00:02 [kworker/2:3]
+[MSG] [CPU 3] fail to set CPU affinity for PID 3703
+[MSG] [CPU 3] pid 3714's current affinity mask: 2 3714 1 S root 3714 2 1 80 0 - 0 worker 09:14 ? 00:00:04 [kworker/1:3]
+[MSG] [CPU 3] Found [ in 1 S root      3714     2  1  80   0 -     0 worker 09:14 ?        00:00:04 [kworker/1:3]
+[MSG] [CPU 1] fail to set CPU affinity for PID 3714
+[MSG] [CPU 3] pid 4843's current affinity mask: 8 4843 1 S root 4843 2 0 80 0 - 0 worker 09:14 ? 00:00:00 [kworker/3:3]
+[MSG] [CPU 3] Found [ in 1 S root      4843     2  0  80   0 -     0 worker 09:14 ?        00:00:00 [kworker/3:3]
+[MSG] [CPU 3] fail to set CPU affinity for PID 4843
+[MSG] [CPU 1] pid 4848's current affinity mask: f 4848 4 S root 4848 1 8 80 0 - 4630 SyS_ep 09:14 ? 00:00:26 /lib/systemd/systemd-udevd
+[MSG] [CPU 3] pid 4853's current affinity mask: f 4853 4 S systemd+ 4853 1 1 80 0 - 5973 SyS_ep 09:14 ? 00:00:03 /lib/systemd/systemd-time...
+[MSG] [CPU 1] pid 6033's current affinity mask: 1 6033 1 S root 6033 2 0 80 0 - 0 worker 09:15 ? 00:00:00 [kworker/0:3]
+[MSG] [CPU 2] Found [ in 1 S root      6033     2  0  80   0 -     0 worker 09:15 ?        00:00:00 [kworker/0:3]
+[MSG] [CPU 2] fail to set CPU affinity for PID 6033
+[MSG] [CPU 2] pid 6079's current affinity mask: f 6079 4 S root 6079 1 0 80 0 - 1749 sigsus 09:15 ? 00:00:00 /usr/sbin/anacron -d -q -s
+[MSG] [CPU 1] pid 6080's current affinity mask: f 6080 4 S root 6080 1 1 80 0 - 3751 SyS_ep 09:15 ? 00:00:03 /lib/systemd/systemd-logind
+[MSG] [CPU 3] pid 6082's current affinity mask: f 6082 4 S root 6082 1 0 80 0 - 2057 hrtime 09:15 ? 00:00:00 /usr/sbin/cron -f
+[MSG] [CPU 2] pid 6083's current affinity mask: f 6083 4 S message+ 6083 1 3 80 0 - 1850 SyS_ep 09:15 ? 00:00:09 /usr/bin/dbus-daemon --sy...
+[MSG] [CPU 0] pid 6086's current affinity mask: f 6086 4 S root 6086 1 1 80 0 - 6421 poll_s 09:15 ? 00:00:03 /usr/sbin/rsyslogd -n -iNONE
+[MSG] [CPU 0] pid 6677's current affinity mask: f 6677 4 S root 6677 1 10 80 0 - 17073 poll_s 09:18 ? 00:00:13 /usr/sbin/NetworkManager --...
+[MSG] [CPU 0] pid 6679's current affinity mask: f 6679 4 S root 6679 1 0 99 19 - 3142 poll_s 09:18 ? 00:00:00 /usr/sbin/alsactl -E HOME=/r...
+[MSG] [CPU 2] pid 6684's current affinity mask: f 6684 4 S root 6684 1 0 80 0 - 6670 SyS_ep 09:18 ? 00:00:00 /usr/sbin/cupsd -l
+[MSG] [CPU 0] pid 6685's current affinity mask: f 6685 4 S root 6685 1 5 80 0 - 10611 poll_s 09:18 ? 00:00:06 /usr/sbin/cups-browsed
+[MSG] [CPU 3] pid 6686's current affinity mask: 1 6686 1 S root 6686 2 0 80 0 - 0 worker 09:18 ? 00:00:00 [kworker/0:4]
+[MSG] [CPU 1] Found [ in 1 S root      6686     2  0  80   0 -     0 worker 09:18 ?        00:00:00 [kworker/0:4]
+[MSG] [CPU 0] fail to set CPU affinity for PID 6686
+[MSG] [CPU 3] pid 6696's current affinity mask: f 6696 4 S root 6696 1 20 80 0 - 11695 poll_s 09:18 ? 00:00:23 /usr/bin/python3 /usr/share...
+[MSG] [CPU 3] pid 6717's current affinity mask: 8 6717 1 S root 6717 2 0 80 0 - 0 worker 09:18 ? 00:00:00 [kworker/3:4]
+[MSG] [CPU 0] Found [ in 1 S root      6717     2  0  80   0 -     0 worker 09:18 ?        00:00:00 [kworker/3:4]
+[MSG] [CPU 3] fail to set CPU affinity for PID 6717
+[MSG] [CPU 0] pid 6719's current affinity mask: f 6719 4 S root 6719 1 0 80 0 - 2908 poll_s 09:18 ? 00:00:00 /usr/sbin/sshd -D
+[MSG] [CPU 0] pid 6720's current affinity mask: f 6720 4 S avahi 6720 1 0 80 0 - 1570 poll_s 09:18 ? 00:00:00 avahi-daemon: running [debia...
+[MSG] [CPU 0] Found [ in 4 S avahi     6720     1  0  80   0 -  1570 poll_s 09:18 ?        00:00:00 avahi-daemon: running [debian.local]
+[MSG] [CPU 3] Updated: pid 6720's current affinity mask: 4 6720 4 S avahi 6720 1 0 80 0 - 1570 poll_s 09:18 ? 00:00:00 avahi-daemon: runni...
+[MSG] [CPU 1] pid 6724's current affinity mask: f 6724 1 S avahi 6724 6720 0 80 0 - 1537 unix_s 09:18 ? 00:00:00 avahi-daemon: chroot help...
+[MSG] [CPU 3] pid 6729's current affinity mask: f 6729 4 S root 6729 1 1 80 0 - 11062 poll_s 09:18 ? 00:00:01 /usr/sbin/gdm3
+[MSG] [CPU 1] pid 6738's current affinity mask: f 6738 4 S root 6738 1 2 80 0 - 10759 poll_s 09:18 ? 00:00:02 /usr/lib/accountsservice/acc...
+[MSG] [CPU 3] pid 6745's current affinity mask: f 6745 4 S root 6745 1 4 80 0 - 10054 poll_s 09:18 ? 00:00:03 /usr/lib/policykit-1/polkitd...
+[MSG] [CPU 3] pid 6827's current affinity mask: f 6827 4 S root 6827 1 1 80 0 - 3394 poll_s 09:18 ? 00:00:01 /sbin/wpa_supplicant -u -s -O...
+[MSG] [CPU 0] pid 6830's current affinity mask: f 6830 4 S root 6830 6677 5 80 0 - 2410 poll_s 09:18 ? 00:00:04 /sbin/dhclient -d -q -sf /...
+[MSG] [CPU 3] pid 6837's current affinity mask: f 6837 4 S Debian-+ 6837 1 16 80 0 - 4307 SyS_ep 09:19 ? 00:00:10 /lib/systemd/systemd --u...
+[MSG] [CPU 0] pid 6839's current affinity mask: 4 6839 1 S root 6839 2 0 80 0 - 0 worker 09:19 ? 00:00:00 [kworker/2:4]
+[MSG] [CPU 0] Found [ in 1 S root      6839     2  0  80   0 -     0 worker 09:19 ?        00:00:00 [kworker/2:4]
+[MSG] [CPU 0] fail to set CPU affinity for PID 6839
+[MSG] [CPU 3] pid 6841's current affinity mask: f 6841 5 S Debian-+ 6841 6837 0 80 0 - 9284 do_sig 09:19 ? 00:00:00 (sd-pam)
+[MSG] [CPU 0] taskset: failed to set pid 6852's affinity: No such process
+[MSG] [CPU 3] 6852 4 S root 6852 1 1 80 0 - 8608 poll_s 09:19 ? 00:00:00 /usr/lib/NetworkManager/nm-dispatcher
+[MSG] [CPU 0] taskset: failed to set pid 6857's affinity: No such process
+[MSG] [CPU 3] 6857 0 S root 6857 6852 0 80 0 - 627 do_wai 09:19 ? 00:00:00 /bin/sh -e /etc/NetworkManager/dispatcher.d/01-ifupdown eth0 up
+[MSG] [CPU 1] 6858 0 S root 6858 6857 0 80 0 - 600 do_wai 09:19 ? 00:00:00 run-parts /etc/network/if-up.d
+[MSG] [CPU 0] taskset: failed to set pid 6858's affinity: No such process
+[MSG] [CPU 0] taskset: failed to set pid 6859's affinity: No such process
+[MSG] [CPU 1] 6859 0 S root 6859 6858 0 80 0 - 628 pipe_w 09:19 ? 00:00:00 /bin/sh /usr/lib/avahi/avahi-daemon-check-dns.sh
+[MSG] [CPU 1] 6872 0 R root 6872 6859 44 80 0 - 5190 - 09:19 ? 00:00:22 host -t soa local.
+[MSG] [CPU 2] taskset: failed to set pid 6872's affinity: No such process
+[MSG] [CPU 0] pid 6874's current affinity mask: f 6874 4 S root 6874 1 21 80 0 - 4303 SyS_ep 09:19 ? 00:00:10 /lib/systemd/systemd --user
+[MSG] [CPU 1] pid 6876's current affinity mask: f 6876 5 S root 6876 6874 0 80 0 - 9213 do_sig 09:19 ? 00:00:00 (sd-pam)
+[MSG] [CPU 0] pid 6897's current affinity mask: 2 6897 1 S root 6897 2 1 80 0 - 0 worker 09:19 ? 00:00:00 [kworker/1:2]
+[MSG] [CPU 0] Found [ in 1 S root      6897     2  1  80   0 -     0 worker 09:19 ?        00:00:00 [kworker/1:2]
+[MSG] [CPU 1] fail to set CPU affinity for PID 6897
+[MSG] [CPU 3] pid 6906's current affinity mask: f 6906 4 S root 6906 1 5 80 0 - 2122 do_wai 09:20 ? 00:00:00 /bin/bash ./ski-testcase-run....
+[MSG] [CPU 2] pid 6910's current affinity mask: f 6910 1 S root 6910 6906 1 80 0 - 2122 do_wai 09:20 ? 00:00:00 /bin/bash ./ski-testcase-r...
+[MSG] [CPU 1] pid 6911's current affinity mask: f 6911 1 S root 6911 6906 3 80 0 - 2122 do_wai 09:20 ? 00:00:00 /bin/bash ./ski-testcase-r...
+[MSG] [CPU 3] pid 6912's current affinity mask: f 6912 0 S root 6912 6911 13 80 0 - 1750 pipe_w 09:20 ? 00:00:00 tee -a log-vm-test.txt
+[MSG] [CPU 1] pid 6913's current affinity mask: f 6913 0 S root 6913 6911 17 80 0 - 1825 pipe_w 09:20 ? 00:00:00 xargs -d n -n 1 /root/use...
+[MSG] [CPU 2] pid 6914's current affinity mask: f 6914 0 S root 6914 6910 6 80 0 - 1750 pipe_w 09:20 ? 00:00:00 tee -a log-vm-test.txt
+[MSG] [CPU 3] pid 6915's current affinity mask: f 6915 0 S root 6915 6910 12 80 0 - 1825 pipe_w 09:20 ? 00:00:00 xargs -d n -n 1 /root/use...
+[MSG] [CPU 1] pid 6917's current affinity mask: f 6917 0 S root 6917 6906 7 80 0 - 2122 do_wai 09:20 ? 00:00:00 /bin/bash ./setup.sh
+[MSG] [CPU 1] pid 6920's current affinity mask: f 6920 0 S root 6920 6917 14 80 0 - 2122 pipe_w 09:20 ? 00:00:00 /bin/bash ./misc/update-a...
+[MSG] [CPU 2] taskset: failed to set pid 6921's affinity: No such process
+[MSG] [CPU 0] 6921 1 S root 6921 6920 0 80 0 - 2122 do_wai 09:20 ? 00:00:00 /bin/bash ./misc/update-affinity.sh
+[MSG] [CPU 0] taskset: failed to set pid 6922's affinity: No such process
+[MSG] [CPU 1] 6922 0 R root 6922 6921 81 80 0 - 2528 - 09:20 ? 00:00:00 ps -All -f
+[MSG] [CPU 0] unlimited
+[MSG] [CPU 1] ** lsmod:
+[MSG] [CPU 0] Module                  Size  Used by
+[MSG] [CPU 2] ** /proc/modules:
+[MSG] [CPU 3] [SKI-TESTCASE-RUN.SH] Finished setup
+[MSG] [CPU 2] [SKI-TESTCASE-RUN.SH] Running trinity and the empty process
+[MSG] [CPU 2] Process 1 & 2 (with FORK):
+[MSG] [CPU 2] Process 3: ./executor/empty/empty
+[MSG] [CPU 2] Process 4: ./executor/empty/empty
+[MSG] [CPU 1] Spark: env variable USC_SKI_ENABLED = 1 (using default 0)
+[MSG] [CPU 3] Spark: env variable USC_SKI_FORK_ENABLED = 0 (using default 0)
+[MSG] [CPU 1] Spark: env variable USC_SKI_CPU_AFFINITY = 3 (using default 0)
+[MSG] [CPU 3] Spark: env variable USC_SKI_TOTAL_CPUS = 4 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_HYPERCALLS = 1 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_SOFT_EXIT_BARRIER = 0 (using default 0)
+[MSG] [CPU 1] Spark: env variable USC_SKI_USER_BARRIER = 0 (using default 0)
+[MSG] [CPU 3] Spark: env variable USC_SKI_TEST_NUMBER = 1 (using default 0)
+[MSG] [CPU 3] Spark: env variable USC_SKI_PROFILE_ENABLED = 0 (using default 1)
+[MSG] [CPU 3] Spark: env variable USC_SKI_WAIT_FOR_RESULTS = 1 (using default 1)
+[MSG] [CPU 3] [CPU_AFFI=3] calling ski_tests_init
+[MSG] [CPU 3] [SKI] [ski_tests_init CPU3] barrier addr=B7FFA000
+[MSG] [CPU 3] [SKI] [ski_tests_init CPU3] Sleeping for 10 seconds.
+[MSG] [CPU 3] Spark: env variable USC_SKI_ENABLED = 1 (using default 0)
+[MSG] [CPU 1] Spark: env variable USC_SKI_FORK_ENABLED = 0 (using default 0)
+[MSG] [CPU 1] Spark: env variable USC_SKI_CPU_AFFINITY = 2 (using default 0)
+[MSG] [CPU 1] Spark: env variable USC_SKI_TOTAL_CPUS = 4 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_HYPERCALLS = 1 (using default 0)
+[MSG] [CPU 1] Spark: env variable USC_SKI_SOFT_EXIT_BARRIER = 0 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_USER_BARRIER = 0 (using default 0)
+[MSG] [CPU 1] Spark: env variable USC_SKI_TEST_NUMBER = 1 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_PROFILE_ENABLED = 0 (using default 1)
+[MSG] [CPU 1] Spark: env variable USC_SKI_WAIT_FOR_RESULTS = 1 (using default 1)
+[MSG] [CPU 2] [CPU_AFFI=2] calling ski_tests_init
+[MSG] [CPU 2] [SKI] [ski_tests_init CPU2] barrier addr=B7FFA000
+[MSG] [CPU 2] [SKI] [ski_tests_init CPU2] Sleeping for 10 seconds.
+[MSG] [CPU 2] Spark: env variable USC_SKI_ENABLED = 1 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_FORK_ENABLED = 1 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_CPU_AFFINITY = 1 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_TOTAL_CPUS = 4 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_HYPERCALLS = 1 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_SOFT_EXIT_BARRIER = 0 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_USER_BARRIER = 0 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_TEST_NUMBER = 1 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_PROFILE_ENABLED = 0 (using default 1)
+[MSG] [CPU 2] Spark: env variable USC_SKI_WAIT_FOR_RESULTS = 1 (using default 1)
+[MSG] [CPU 2] [CPU_AFFI=1] calling ski_tests_init
+[MSG] [CPU 2] [SKI] [ski_tests_init CPU1] barrier addr=B7FFA000
+[MSG] [CPU 2] [SKI] [ski_tests_init CPU1] Sleeping for 10 seconds.
+[MSG] [CPU 2] Spark: env variable USC_SKI_ENABLED = 1 (using default 0)
+[MSG] [CPU 0] Spark: env variable USC_SKI_FORK_ENABLED = 1 (using default 0)
+[MSG] [CPU 3] Spark: env variable USC_SKI_CPU_AFFINITY = 0 (using default 0)
+[MSG] [CPU 3] Spark: env variable USC_SKI_TOTAL_CPUS = 4 (using default 0)
+[MSG] [CPU 0] Spark: env variable USC_SKI_HYPERCALLS = 1 (using default 0)
+[MSG] [CPU 3] Spark: env variable USC_SKI_SOFT_EXIT_BARRIER = 0 (using default 0)
+[MSG] [CPU 0] Spark: env variable USC_SKI_USER_BARRIER = 0 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_TEST_NUMBER = 1 (using default 0)
+[MSG] [CPU 2] Spark: env variable USC_SKI_PROFILE_ENABLED = 0 (using default 1)
+[MSG] [CPU 0] Spark: env variable USC_SKI_WAIT_FOR_RESULTS = 1 (using default 1)
+[MSG] [CPU 2] [CPU_AFFI=0] calling ski_tests_init
+[MSG] [CPU 0] [SKI] [ski_tests_init CPU0] barrier addr=B7FFA000
+[MSG] [CPU 2] [SKI] mutx and cond are created
+[MSG] [CPU 0] [SKI] [ski_tests_init CPU0] Sleeping for 10 seconds.
+[MSG] [CPU 0] [CPU_AFFI=3] finishing ski_test_init
+[MSG] [CPU 2] [CPU_AFFI=2] finishing ski_test_init
+[MSG] [CPU 0] [SKI] [3] Thread id: 9331
+[MSG] [CPU 0] [SKI] A new process reaches the barrier, called=1 needed=4
+[MSG] [CPU 0] [SKI] [2] Thread id: 9329
+[MSG] [CPU 2] [SKI] A new process reaches the barrier, called=2 needed=4
+[MSG] [CPU 3] [CPU_AFFI=1] finishing ski_test_init
+[MSG] [CPU 2] [CPU_AFFI=0] finishing ski_test_init
+[MSG] [CPU 0] [SKI] [1] Thread id: 9328
+[MSG] [CPU 0] [set_syscal_nr CPU0] ski_start return 1, for SNAPSHOT use
+[MSG] [CPU 2] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[MSG] [CPU 3] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 4 
+[MSG] [CPU 1] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[MSG] [CPU 0] END INFO

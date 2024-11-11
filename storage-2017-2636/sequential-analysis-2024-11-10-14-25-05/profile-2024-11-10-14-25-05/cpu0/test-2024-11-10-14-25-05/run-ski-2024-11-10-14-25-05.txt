@@ -1,0 +1,464 @@
+This will be logged to the file and to the screen
+declare -x BASEIMAGE="/root/snowboard-2017-2636/testsuite/image/base-vm.img"
+declare -x BROWSER="/root/.vscode-server/bin/38c31bc77e0dd6ae88a4e9cc93428cc27a56ba40-legacy/bin/helpers/browser.sh"
+declare -x COLORTERM="truecolor"
+declare -x GCC_INSTALL="/root/snowboard-2017-2636/tools/gcc/gcc-5.4.0/install/"
+declare -x GIT_ASKPASS="/root/.vscode-server/bin/38c31bc77e0dd6ae88a4e9cc93428cc27a56ba40-legacy/extensions/git/dist/askpass.sh"
+declare -x GOROOT="/usr/local/go"
+declare -x HOME="/root"
+declare -x HOSTNAME="9528d62cb6b2"
+declare -x KERNEL_DIR="/root/snowboard-2017-2636/testsuite/kernel/2017-2636"
+declare -x LANG="en_US.UTF-8"
+declare -x LESSCLOSE="/usr/bin/lesspipe %s %s"
+declare -x LESSOPEN="| /usr/bin/lesspipe %s"
+declare -x LIBVIRT_DEFAULT_URI="qemu:///system"
+declare -x LS_COLORS="rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:"
+declare -x MAIN_HOME="/root/snowboard-2017-2636"
+declare -x OLDPWD="/root/snowboard-2017-2636/scripts"
+declare -x PATH="/root/.vscode-server/bin/38c31bc77e0dd6ae88a4e9cc93428cc27a56ba40-legacy/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go/bin:/usr/local/go/bin"
+declare -x PWD="/root/snowboard-2017-2636/scripts/test"
+declare -x REDIS_URL="redis://:snowboard-testing@localhost:6380"
+declare -x REMOTE_CONTAINERS="true"
+declare -x REMOTE_CONTAINERS_IPC="/tmp/vscode-remote-containers-ipc-2da544d5-458d-4518-99dd-41802f8bb305.sock"
+declare -x REMOTE_CONTAINERS_SOCKETS="[\"/tmp/vscode-ssh-auth-2da544d5-458d-4518-99dd-41802f8bb305.sock\",\"/root/.gnupg/S.gpg-agent\"]"
+declare -x SB_INSTALL_DIR="/root/snowboard-2017-2636/vmm/install/"
+declare -x SEQUENTIAL_CORPUS="/root/snowboard-2017-2636/testsuite/test-input/data"
+declare -x SHELL="/bin/bash"
+declare -x SHLVL="4"
+declare -x SKI_FORKALL_CONCURRENCY="48"
+declare -x SKI_INPUT1_RANGE="1-7"
+declare -x SKI_INPUT2_RANGE="1-1"
+declare -x SKI_OUTPUT_DIR="/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05"
+declare -x SKI_TRACE_SET_CPU="0"
+declare -x SNAPSHOT="/root/snowboard-2017-2636/testsuite/image/vm-image.img"
+declare -x SNOWBOARD_STORAGE="/root/storage-2017-2636"
+declare -x SSH_AUTH_SOCK="/tmp/vscode-ssh-auth-2da544d5-458d-4518-99dd-41802f8bb305.sock"
+declare -x S_COLORS="auto"
+declare -x TERM="xterm-256color"
+declare -x TERM_PROGRAM="vscode"
+declare -x TERM_PROGRAM_VERSION="1.93.1"
+declare -x VSCODE_GIT_ASKPASS_EXTRA_ARGS=""
+declare -x VSCODE_GIT_ASKPASS_MAIN="/root/.vscode-server/bin/38c31bc77e0dd6ae88a4e9cc93428cc27a56ba40-legacy/extensions/git/dist/askpass-main.js"
+declare -x VSCODE_GIT_ASKPASS_NODE="/root/.vscode-server/bin/38c31bc77e0dd6ae88a4e9cc93428cc27a56ba40-legacy/node"
+declare -x VSCODE_GIT_IPC_HANDLE="/tmp/vscode-git-a2cf1debb6.sock"
+declare -x VSCODE_IPC_HOOK_CLI="/tmp/vscode-ipc-20449573-18e4-4d18-a532-61a371dccd11.sock"
+[PROFILE.SH] Sleeping for a few seconds...
+core file size          (blocks, -c) unlimited
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 771044
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 1048576
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) unlimited
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+rm: cannot remove '/dev/shm/ski/*img': No such file or directory
+[PROFILE.SH] Copying the VM image to tmp
+[PROFILE.SH] Running command
+
+(process:1178836): GLib-WARNING **: 14:25:11.387: ../../../../glib/gmem.c:489: custom memory allocation vtable not supported
+[SKI] Dynamic Ticks disabled
+[SKI] QEMU launched.
+[SKI] Not sleeping for 10 seconds (ski_start_sleep_enabled=0)
+[SKI] Parsing range: 1-7 (env. variable SKI_INPUT1_RANGE)
+[SKI] d1 = 1
+[SKI] d2 = 7
+[SKI] Parsing range: 1-1 (env. variable SKI_INPUT2_RANGE)
+[SKI] d1 = 1
+[SKI] d2 = 1
+[SKI] Parsing range: 1-1 (env. variable SKI_INTERLEAVING_RANGE)
+[SKI] d1 = 1
+[SKI] d2 = 1
+[SKI] ski_input_init: Executing 7 tests
+[SKI] SKI_CORPUS_DIR=/root/snowboard-2017-2636/testsuite/test-input/data
+[SKI] SKI_OUTPUT_DIR=/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05
+[SKI] SKI_OUTPUT_DIR_PER_INPUT_ENABLED=1
+[SKI] SKI_WATCHDOG_SECONDS=60
+[SKI] SKI_RACE_DETECTOR_ENABLED=0
+[SKI] SKI_INSTRUCTIONS_DETECTOR_FILENAME=
+[SKI] SKI_SELECTIVE_TRACE_FILENAME=
+[SKI] SKI_HEURISTICS_STATISTICS_ENABLED=0
+[SKI] SKI_INPUT_FILENAME=
+[SKI] SKI_INPUT_PAIRS_FILENAME=
+[SKI] SKI_DEBUG_ONLY_AGGREGATE_OUTPUT_ENABLED=0
+[SKI] SKI_DEBUG_CHILD_WAIT_START_SECONDS=0
+[SKI] SKI_DEBUG_PARENT_EXECUTES_ENABLED=0
+[SKI] SKI_DEBUG_EXIT_AFTER_HYPERCALL_ENABLED=0
+[SKI] SKI_IPFILTER_FILENAME=
+[SKI] SKI_PRIORITIES_FILENAME=/root/snowboard-2017-2636/vmm/install//../testcase.priorities
+[SKI] SKI_FORKALL_ENABLED=1
+[SKI] SKI_FORKALL_CONCURRENCY=48
+[SKI] SKI_RESCHEDULE_POINTS=1
+[SKI] SKI_RESCHEDULE_K=1
+[SKI] SKI_QUIT_HYPERCALL_THRESHOLD=1
+[SKI] SKI_DEBUG_ASSERT_TRAP_ENABLED=0
+[SKI] SKI_TRACE_INSTRUCTIONS_ENABLED=1
+[SKI] SKI_TRACE_MEMORY_ACCESSES_ENABLED=1
+[SKI] SKI_TRACE_WRITE_SET_ENABLED=0
+[SKI] SKI_TRACE_READ_SET_ENABLED=0
+[SKI] SKI_TRACE_EXEC_SET_ENABLED=0
+[SKI] SKI_TRACE_SET_CPU=0
+[SKI] SKI_TEST_CPU_1_MODE=3
+[SKI] SKI_TEST_CPU_2_MODE=3
+[SKI] SKI_PREEMPTION_BY_EIP=0
+[SKI] SKI_SHORT_PROFILE=0
+[SKI] SKI_PREEMPTION_BY_ACCESS=0
+[SKI] ski_init_options_input_number:
+[SKI] [MEMFS] Initialized the wrappers
+[SKI] [MEMFS]  Option ski_memfs_test_mode_enabled = 0
+[SKI] [MEMFS]  Option ski_memfs_enabled = 1
+[SKI] [MEMFS]  Option ski_memfs_log_level = 1
+[SKI] [MEMFS] WARNING: fopen file /root/snowboard/vmm/install/etc/qemu/qemu.conf returned 0
+[SKI] [MEMFS] WARNING: fopen file /root/snowboard/vmm/install/etc/qemu/target-i386.conf returned 0
+[SKI] Hashing disk_filename: /dev/shm/ski//tmp.1178760.img
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+[SKI] Finished hashing (hash: 7c8b8b8fac1d3b22723b64f77ca407fc3b159de0)
+[SKI] Raw ski options: 0,input_number=210:210,preemptions=119:97
+[SKI] QEMU parameters parsed
+[SKI] Control preemption trace filename: "forkall_preemption_points.txt"
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/20241110_142511_forkall_preemption_points.txt' because it has suffix '.txt' and contains 'forkall'
+[SKI] Control parameters trace filename: "forkall_parameters.txt"
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/20241110_142511_forkall_parameters.txt' because it has suffix '.txt' and contains 'forkall'
+[SKI] Control coverage trace filename: "forkall_coverage.txt"
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/20241110_142511_forkall_coverage.txt' because it has suffix '.txt' and contains 'forkall'
+[SKI] Instruction trace filename: "forkall_instruction_detector.txt"
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/20241110_142511_forkall_instruction_detector.txt' because it has suffix '.txt' and contains 'forkall'
+[SKI] Finished opening the trace files
+[SKI] Hashing kernel_filename: /root/snowboard-2017-2636/testsuite/kernel/2017-2636/bzImage
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/testsuite/kernel/2017-2636/bzImage)
+[SKI] Finished hashing (hash : ff3bc5518609ee6a5de848b95c1e9398d6aea3a9)
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+image: /dev/shm/ski//tmp.1178760.img
+file format: qcow2
+virtual size: 15G (16106127360 bytes)
+disk size: 4.7G
+cluster_size: 65536
+Snapshot list:
+ID        TAG                 VM SIZE                DATE       VM CLOCK
+1         ski-vm-20241110142139   419M 2024-11-10 14:21:39   00:08:21.393
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+[SKI] [MEMFS] memfs_open: opened the file (/dev/shm/ski//tmp.1178760.img)
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/console.txt' because it has suffix '.txt' and contains 'console'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/bios.bin)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/bios.bin)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/testsuite/kernel/2017-2636/bzImage)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/linuxboot.bin)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/vgabios-cirrus.bin)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/vgabios-cirrus.bin)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/pxe-e1000.rom)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/pxe-e1000.rom)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/keymaps/en-us)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/keymaps/common)
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install/share/qemu/keymaps/modifiers)
+[SKI] Disk flush still enabled (lower performance)
+[SKI] Using snapshot name automatically extracted form the VM image (ski-vm-XXX vs. ski-vm-20241110142139)
+Loading vm: ski-vm-20241110142139
+[SKI] Finished loading the VM
+[SKI] [STATS] ski_stats_init: setting up 48 slots
+[SKI] [STATS] Trying to allocate with size: 11610400128
+[SKI] [STATS] Shared memory attached at address 0x7f68b5367000
+[SKI] [STATS] Segment size: 11610400128
+[SKI] [STATS] Trying to set auto delete flag
+[SKI] Launching 48 concurrent processes
+[SKI] [FORKALL] Trying to fork process
+[SKI] Next child will explore inputs 1 and 1 and interleaving: 1
+[SKI] WARNING: number of interleaving (1) should be higher than the number of parallel executions (48)
+[SKI] SKI_OUTPUT_DIR=/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05
+[SKI] [FORKALL] [PARENT] Reseting the preemption points because we're going to explore new input
+[SKI] Restoring the ipfilter with 0 backups
+[SKI] Next child will explore inputs 2 and 1 and interleaving: 1
+[SKI] WARNING: number of interleaving (1) should be higher than the number of parallel executions (48)
+[SKI] SKI_OUTPUT_DIR=/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05
+[SKI] [FORKALL] [PARENT] Reseting the preemption points because we're going to explore new input
+[SKI] Restoring the ipfilter with 0 backups
+[SKI] [FORKALL] [CHILD] =========================================================
+[SKI] [FORKALL] [CHILD] New child process!!
+[SKI] [WATCHDOG] Timer set to 60 seconds
+[SKI] Current time: 1731248721.892510
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/1_1//console_20241110_142521_1_1_1.txt' because it has suffix '.txt' and contains 'console_'
+[SKI] Aio reset done
+[SKI] [FORKALL] [CHILD] Executing test.
+[SKI] [DEBUG] Warning: Sleeping for 1 seconds (SKI_DEBUG_CHILD_START_SLEEP_SECONDS)
+[SKI] Next child will explore inputs 3 and 1 and interleaving: 1
+[SKI] WARNING: number of interleaving (1) should be higher than the number of parallel executions (48)
+[SKI] SKI_OUTPUT_DIR=/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05
+[SKI] [FORKALL] [PARENT] Reseting the preemption points because we're going to explore new input
+[SKI] Restoring the ipfilter with 0 backups
+[SKI] [FORKALL] [CHILD] =========================================================
+[SKI] [FORKALL] [CHILD] New child process!!
+[SKI] [WATCHDOG] Timer set to 60 seconds
+[SKI] Current time: 1731248721.936342
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/2_1//console_20241110_142521_2_1_1.txt' because it has suffix '.txt' and contains 'console_'
+[SKI] Aio reset done
+[SKI] [FORKALL] [CHILD] Executing test.
+[SKI] [DEBUG] Warning: Sleeping for 1 seconds (SKI_DEBUG_CHILD_START_SLEEP_SECONDS)
+[SKI] Next child will explore inputs 4 and 1 and interleaving: 1
+[SKI] WARNING: number of interleaving (1) should be higher than the number of parallel executions (48)
+[SKI] SKI_OUTPUT_DIR=/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05
+[SKI] [FORKALL] [PARENT] Reseting the preemption points because we're going to explore new input
+[SKI] Restoring the ipfilter with 0 backups
+[SKI] [FORKALL] [CHILD] =========================================================
+[SKI] [FORKALL] [CHILD] New child process!!
+[SKI] [WATCHDOG] Timer set to 60 seconds
+[SKI] Current time: 1731248721.981275
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/3_1//console_20241110_142521_3_1_1.txt' because it has suffix '.txt' and contains 'console_'
+[SKI] Aio reset done
+[SKI] [FORKALL] [CHILD] Executing test.
+[SKI] [DEBUG] Warning: Sleeping for 1 seconds (SKI_DEBUG_CHILD_START_SLEEP_SECONDS)
+[SKI] Next child will explore inputs 5 and 1 and interleaving: 1
+[SKI] WARNING: number of interleaving (1) should be higher than the number of parallel executions (48)
+[SKI] SKI_OUTPUT_DIR=/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05
+[SKI] [FORKALL] [PARENT] Reseting the preemption points because we're going to explore new input
+[SKI] Restoring the ipfilter with 0 backups
+[SKI] [FORKALL] [CHILD] =========================================================
+[SKI] [FORKALL] [CHILD] New child process!!
+[SKI] [WATCHDOG] Timer set to 60 seconds
+[SKI] Current time: 1731248722.025399
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/4_1//console_20241110_142521_4_1_1.txt' because it has suffix '.txt' and contains 'console_'
+[SKI] Aio reset done
+[SKI] [FORKALL] [CHILD] Executing test.
+[SKI] [DEBUG] Warning: Sleeping for 1 seconds (SKI_DEBUG_CHILD_START_SLEEP_SECONDS)
+[SKI] Next child will explore inputs 6 and 1 and interleaving: 1
+[SKI] WARNING: number of interleaving (1) should be higher than the number of parallel executions (48)
+[SKI] SKI_OUTPUT_DIR=/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05
+[SKI] [FORKALL] [PARENT] Reseting the preemption points because we're going to explore new input
+[SKI] Restoring the ipfilter with 0 backups
+[SKI] [FORKALL] [CHILD] =========================================================
+[SKI] [FORKALL] [CHILD] New child process!!
+[SKI] [WATCHDOG] Timer set to 60 seconds
+[SKI] Current time: 1731248722.070234
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/5_1//console_20241110_142522_5_1_1.txt' because it has suffix '.txt' and contains 'console_'
+[SKI] Aio reset done
+[SKI] [FORKALL] [CHILD] Executing test.
+[SKI] [DEBUG] Warning: Sleeping for 1 seconds (SKI_DEBUG_CHILD_START_SLEEP_SECONDS)
+[SKI] Next child will explore inputs 7 and 1 and interleaving: 1
+[SKI] WARNING: number of interleaving (1) should be higher than the number of parallel executions (48)
+[SKI] SKI_OUTPUT_DIR=/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05
+[SKI] [FORKALL] [PARENT] Reseting the preemption points because we're going to explore new input
+[SKI] Restoring the ipfilter with 0 backups
+[SKI] [FORKALL] [CHILD] =========================================================
+[SKI] [FORKALL] [CHILD] New child process!!
+[SKI] [WATCHDOG] Timer set to 60 seconds
+[SKI] Current time: 1731248722.114207
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/6_1//console_20241110_142522_6_1_1.txt' because it has suffix '.txt' and contains 'console_'
+[SKI] Aio reset done
+[SKI] [FORKALL] [CHILD] Executing test.
+[SKI] [DEBUG] Warning: Sleeping for 1 seconds (SKI_DEBUG_CHILD_START_SLEEP_SECONDS)
+[SKI] [FORKALL] [PARENT] Finished 7 rounds. Hanging! (wait_status = 32766, exit code = 127, wait_pid = 0)
+[SKI] [FORKALL] [CHILD] =========================================================
+[SKI] [FORKALL] [CHILD] New child process!!
+[SKI] [WATCHDOG] Timer set to 60 seconds
+[SKI] Current time: 1731248722.159778
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/7_1//console_20241110_142522_7_1_1.txt' because it has suffix '.txt' and contains 'console_'
+[SKI] Aio reset done
+[SKI] [FORKALL] [CHILD] Executing test.
+[SKI] [DEBUG] Warning: Sleeping for 1 seconds (SKI_DEBUG_CHILD_START_SLEEP_SECONDS)
+[SKI] Using seed: 1
+[SKI] Changing the random seed to 1 in ski_forkall_init_random()
+[SKI] ski_forkall_init_preemptionlist: Creating preemption list (ski_init_options_forkall_k = 1)
+[SKI] Forkall random number: 1804597374847321
+[SKI] Forkall preemption point: 1
+[SKI] Forkall number of preemption points: 1
+[SKI] Finished waiting for the initial kick-off
+[SKI] VM running...
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/1_1//trace_20241110_142521_1_1_1.txt' because it has suffix '.txt' and contains 'trace_'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install//../testcase.priorities)
+ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: 8049610) - changing priority of thread 78 from 78 to 142 compare_t 4
+[SKI] [MSG] [set_syscal_nr CPU0] ski_start return 1, for SNAPSHOT use
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/1_1//msg_20241110_142521_1_1_1.txt' because it has suffix '.txt' and contains 'msg_'
+[SKI] Using seed: 1
+[SKI] Changing the random seed to 1 in ski_forkall_init_random()
+[SKI] ski_forkall_init_preemptionlist: Creating preemption list (ski_init_options_forkall_k = 1)
+[SKI] Forkall random number: 1804597374847321
+[SKI] Forkall preemption point: 1
+[SKI] Forkall number of preemption points: 1
+[SKI] Finished waiting for the initial kick-off
+[SKI] VM running...
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/2_1//trace_20241110_142521_2_1_1.txt' because it has suffix '.txt' and contains 'trace_'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install//../testcase.priorities)
+ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: 8049610) - changing priority of thread 78 from 78 to 142 compare_t 4
+[SKI] [MSG] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/testsuite/test-input/data/2.data)
+[SKI] [MSG] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[SKI] Using seed: 1
+[SKI] Changing the random seed to 1 in ski_forkall_init_random()
+[SKI] ski_forkall_init_preemptionlist: Creating preemption list (ski_init_options_forkall_k = 1)
+[SKI] Forkall random number: 1804597374847321
+[SKI] Forkall preemption point: 1
+[SKI] Forkall number of preemption points: 1
+[SKI] Finished waiting for the initial kick-off
+[SKI] VM running...
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/3_1//trace_20241110_142521_3_1_1.txt' because it has suffix '.txt' and contains 'trace_'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install//../testcase.priorities)
+ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: 8049610) - changing priority of thread 78 from 78 to 142 compare_t 4
+[SKI] [MSG] Call ioctl$TUNDETACHFILTER Call_NUM: 54 NUM_Args: 3 
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/2_1//msg_20241110_142521_2_1_1.txt' because it has suffix '.txt' and contains 'msg_'
+[SKI] [MSG] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/testsuite/test-input/data/3.data)
+[SKI] [MSG] Args0=0xffffffffffffffff
+[SKI] Using seed: 1
+[SKI] Changing the random seed to 1 in ski_forkall_init_random()
+[SKI] ski_forkall_init_preemptionlist: Creating preemption list (ski_init_options_forkall_k = 1)
+[SKI] Forkall random number: 1804597374847321
+[SKI] Forkall preemption point: 1
+[SKI] Forkall number of preemption points: 1
+[SKI] Finished waiting for the initial kick-off
+[SKI] VM running...
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/4_1//trace_20241110_142521_4_1_1.txt' because it has suffix '.txt' and contains 'trace_'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install//../testcase.priorities)
+ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: 8049610) - changing priority of thread 78 from 78 to 142 compare_t 4
+[SKI] [MSG] Call ioctl$TIOCGWINSZ Call_NUM: 54 NUM_Args: 3 
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/3_1//msg_20241110_142521_3_1_1.txt' because it has suffix '.txt' and contains 'msg_'
+[SKI] [MSG] Args1=0x5423
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/testsuite/test-input/data/4.data)
+[SKI] [MSG] Args0=0xffffffffffffffff
+[SKI] [MSG] Args2=0x200000c0
+[SKI] Using seed: 1
+[SKI] Changing the random seed to 1 in ski_forkall_init_random()
+[SKI] ski_forkall_init_preemptionlist: Creating preemption list (ski_init_options_forkall_k = 1)
+[SKI] Forkall random number: 1804597374847321
+[SKI] Forkall preemption point: 1
+[SKI] Forkall number of preemption points: 1
+[SKI] Finished waiting for the initial kick-off
+[SKI] VM running...
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/5_1//trace_20241110_142522_5_1_1.txt' because it has suffix '.txt' and contains 'trace_'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install//../testcase.priorities)
+ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: 8049610) - changing priority of thread 78 from 78 to 142 compare_t 4
+[SKI] [MSG] Args1=0x540a
+[SKI] [MSG] Call write$DESTROY_CQ Call_NUM: 4 NUM_Args: 3 
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/4_1//msg_20241110_142521_4_1_1.txt' because it has suffix '.txt' and contains 'msg_'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/testsuite/test-input/data/5.data)
+[SKI] [MSG] ioctl$TUNDETACHFILTER=0xffffffffffffffff errno=9
+[SKI] [MSG] Args2=0x0
+[SKI] [MSG] Args0=0xffffffffffffffff
+[SKI] Using seed: 1
+[SKI] Changing the random seed to 1 in ski_forkall_init_random()
+[SKI] ski_forkall_init_preemptionlist: Creating preemption list (ski_init_options_forkall_k = 1)
+[SKI] Forkall random number: 1804597374847321
+[SKI] Forkall preemption point: 1
+[SKI] Forkall number of preemption points: 1
+[SKI] Finished waiting for the initial kick-off
+[SKI] VM running...
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/6_1//trace_20241110_142522_6_1_1.txt' because it has suffix '.txt' and contains 'trace_'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install//../testcase.priorities)
+ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: 8049610) - changing priority of thread 78 from 78 to 142 compare_t 4
+[SKI] [MSG] Args1=0x20000040
+[SKI] [MSG] ioctl$TIOCGWINSZ=0xffffffffffffffff errno=9
+[SKI] [MSG] Call ioctl$TIOCGWINSZ Call_NUM: 54 NUM_Args: 3 
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/5_1//msg_20241110_142522_5_1_1.txt' because it has suffix '.txt' and contains 'msg_'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/testsuite/test-input/data/6.data)
+[SKI] [MSG] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[SKI] [MSG] Args2=0x4
+[SKI] [MSG] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[SKI] Using seed: 1
+[SKI] Changing the random seed to 1 in ski_forkall_init_random()
+[SKI] ski_forkall_init_preemptionlist: Creating preemption list (ski_init_options_forkall_k = 1)
+[SKI] Forkall random number: 1804597374847321
+[SKI] Forkall preemption point: 1
+[SKI] Forkall number of preemption points: 1
+[SKI] Finished waiting for the initial kick-off
+[SKI] VM running...
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/7_1//trace_20241110_142522_7_1_1.txt' because it has suffix '.txt' and contains 'trace_'
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/vmm/install//../testcase.priorities)
+ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: 8049610) - changing priority of thread 78 from 78 to 142 compare_t 4
+[SKI] [MSG] Call ioctl$TCSETXF Call_NUM: 54 NUM_Args: 3 
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/6_1//msg_20241110_142522_6_1_1.txt' because it has suffix '.txt' and contains 'msg_'
+[SKI] [MSG] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[SKI] [MSG] write$DESTROY_CQ=0xffffffffffffffff errno=9
+[SKI] [MEMFS] memfs_open: opened the file (/root/snowboard-2017-2636/testsuite/test-input/data/7.data)
+[SKI] [MSG] Args0=0xffffffffffffffff
+[SKI] [MSG] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[SKI] [MSG] Args0=0xffffffffffffffff
+[SKI] [MSG] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[SKI] [MSG] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[SKI] [MSG] Call connect$can_j1939 Call_NUM: 362 NUM_Args: 1 
+[SKI] [MEMFS] WARNING: Ignoring filename '/root/storage-2017-2636/sequential-analysis-2024-11-10-14-25-05/profile-2024-11-10-14-25-05//cpu0//test-2024-11-10-14-25-05/7_1//msg_20241110_142522_7_1_1.txt' because it has suffix '.txt' and contains 'msg_'
+[SKI] [MSG] Args1=0x540a
+[SKI] [MSG] Args1=0x540b
+[SKI] [MSG] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[SKI] [MSG] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[SKI] [MSG] Args0=0xffffffffffffffff
+[SKI] [MSG] Args2=0x1
+[SKI] [MSG] Args2=0x2
+[SKI] [MSG] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[SKI] [MSG] connect$can_j1939=0xffffffffffffffff errno=9
+[SKI] [MSG] ioctl$TIOCGWINSZ=0xffffffffffffffff errno=9
+[SKI] [MSG] ioctl$TCSETXF=0xffffffffffffffff errno=9
+[SKI] [MSG] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[SKI] [MSG] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[SKI] [MSG] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[SKI] [MSG] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[SKI] [MSG] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[SKI] [MSG] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[SKI] [MSG] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[SKI] [MSG] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[SKI] [MSG] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[SKI] [MSG] END INFO
+Captured a quit request
+[SKI] prepare for quit request!
+[SKI] Exiting on hypercall request!
+[SKI] [EXIT] /root/snowboard/vmm/src/ski-hyper.c:206 - Exiting! HYPER_REQUEST (code 4)
+[SKI] [STATS] Added 0 new communication eip points (found a total of 0 data and 0 eips)
+[SKI] [MSG] END INFO
+Captured a quit request
+[SKI] prepare for quit request!
+[SKI] Exiting on hypercall request!
+[SKI] [EXIT] /root/snowboard/vmm/src/ski-hyper.c:206 - Exiting! HYPER_REQUEST (code 4)
+[SKI] [STATS] Added 0 new communication eip points (found a total of 0 data and 0 eips)
+[SKI] [FORKALL] [PARENT] Pid 1178900 finished (wait_status 1024, stats slot = 0)
+[SKI] Printing instruction detector results
+[SKI] [MSG] END INFO
+Captured a quit request
+[SKI] prepare for quit request!
+[SKI] Exiting on hypercall request!
+[SKI] [EXIT] /root/snowboard/vmm/src/ski-hyper.c:206 - Exiting! HYPER_REQUEST (code 4)
+[SKI] [STATS] Added 0 new communication eip points (found a total of 0 data and 0 eips)
+[SKI] [FORKALL] [PARENT] Pid 1178904 finished (wait_status 1024, stats slot = 1)
+[SKI] Printing instruction detector results
+[SKI] [MSG] END INFO
+Captured a quit request
+[SKI] prepare for quit request!
+[SKI] Exiting on hypercall request!
+[SKI] [EXIT] /root/snowboard/vmm/src/ski-hyper.c:206 - Exiting! HYPER_REQUEST (code 4)
+[SKI] [STATS] Added 0 new communication eip points (found a total of 0 data and 0 eips)
+[SKI] [FORKALL] [PARENT] Pid 1178908 finished (wait_status 1024, stats slot = 2)
+[SKI] Printing instruction detector results
+[SKI] [MSG] END INFO
+Captured a quit request
+[SKI] prepare for quit request!
+[SKI] Exiting on hypercall request!
+[SKI] [EXIT] /root/snowboard/vmm/src/ski-hyper.c:206 - Exiting! HYPER_REQUEST (code 4)
+[SKI] [STATS] Added 0 new communication eip points (found a total of 0 data and 0 eips)
+[SKI] [FORKALL] [PARENT] Pid 1178912 finished (wait_status 1024, stats slot = 3)
+[SKI] Printing instruction detector results
+[SKI] [MSG] END INFO
+Captured a quit request
+[SKI] prepare for quit request!
+[SKI] Exiting on hypercall request!
+[SKI] [EXIT] /root/snowboard/vmm/src/ski-hyper.c:206 - Exiting! HYPER_REQUEST (code 4)
+[SKI] [STATS] Added 0 new communication eip points (found a total of 0 data and 0 eips)
+[SKI] [FORKALL] [PARENT] Pid 1178916 finished (wait_status 1024, stats slot = 4)
+[SKI] Printing instruction detector results
+[SKI] [FORKALL] [PARENT] Pid 1178920 finished (wait_status 1024, stats slot = 5)
+[SKI] Printing instruction detector results
+[SKI] [FORKALL] [PARENT] All the forkall tests finished
+[SKI] [MSG] END INFO
+Captured a quit request
+[SKI] prepare for quit request!
+[SKI] Exiting on hypercall request!
+[SKI] [EXIT] /root/snowboard/vmm/src/ski-hyper.c:206 - Exiting! HYPER_REQUEST (code 4)
+[SKI] [STATS] Added 0 new communication eip points (found a total of 0 data and 0 eips)
+[PROFILE.SH] Removing the VM image in tmp..
