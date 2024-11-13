@@ -1,0 +1,9 @@
+### Switching to thread 49, CPU 1 [49, 0] from thread -1, CPU -1 [-1, -1]
+### CPU 1 reached exit hypercall
+### Switching to thread 71, CPU 0 [71, 0] from thread 49, CPU 1 [49, 0]
+### CPU 0 reached exit hypercall
+### Switching to thread 135, CPU 3 [135, 0] from thread 71, CPU 0 [71, 0]
+### CPU 3 reached exit hypercall
+### Switching to thread 139, CPU 2 [139, 0] from thread 135, CPU 3 [135, 0]
+### CPU 2 reached exit hypercall
+### Test finished

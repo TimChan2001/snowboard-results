@@ -1,0 +1,7 @@
+[MSG] [CPU 0] Call connect$can_j1939 Call_NUM: 362 NUM_Args: 1 
+[MSG] [CPU 0] Args0=0xffffffffffffffff
+[MSG] [CPU 0] connect$can_j1939=0xffffffffffffffff errno=9
+[MSG] [CPU 2] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[MSG] [CPU 3] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[MSG] [CPU 1] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[MSG] [CPU 0] END INFO

@@ -1,0 +1,42 @@
+### Switching to thread 49, CPU 1 [49, 0] from thread -1, CPU -1 [-1, -1]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c262c226) - changing priority of thread 49 from 49 to 140 compare_t 4
+### Switching to thread 71, CPU 0 [71, 0] from thread 49, CPU 1 [140, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c1871cd4) - changing priority of thread 71 from 71 to 141 compare_t 4
+### Switching to thread 135, CPU 3 [135, 0] from thread 71, CPU 0 [141, 0]
+### CPU 3 reached exit hypercall
+### Switching to thread 139, CPU 2 [139, 0] from thread 135, CPU 3 [135, 0]
+### CPU 2 reached exit hypercall
+### Switching to thread 49, CPU 1 [140, 0] from thread 139, CPU 2 [139, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c12059df) - changing priority of thread 49 from 140 to 142 compare_t 4
+### Switching to thread 71, CPU 0 [141, 0] from thread 49, CPU 1 [142, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c112b059) - changing priority of thread 71 from 141 to 143 compare_t 4
+### Switching to thread 49, CPU 1 [142, 0] from thread 71, CPU 0 [143, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c1204673) - changing priority of thread 49 from 142 to 144 compare_t 4
+### Switching to thread 71, CPU 0 [143, 0] from thread 49, CPU 1 [144, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c112af47) - changing priority of thread 71 from 143 to 145 compare_t 4
+### Switching to thread 49, CPU 1 [144, 0] from thread 71, CPU 0 [145, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c120468f) - changing priority of thread 49 from 144 to 146 compare_t 4
+### Switching to thread 71, CPU 0 [145, 0] from thread 49, CPU 1 [146, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c112a9e0) - changing priority of thread 71 from 145 to 147 compare_t 4
+### Switching to thread 49, CPU 1 [146, 0] from thread 71, CPU 0 [147, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c17c43a9) - changing priority of thread 49 from 146 to 148 compare_t 4
+### Switching to thread 71, CPU 0 [147, 0] from thread 49, CPU 1 [148, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c110e9a7) - changing priority of thread 71 from 147 to 149 compare_t 4
+### Switching to thread 49, CPU 1 [148, 0] from thread 71, CPU 0 [149, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c12032a0) - changing priority of thread 49 from 148 to 150 compare_t 4
+### Switching to thread 71, CPU 0 [149, 0] from thread 49, CPU 1 [150, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c112a1fc) - changing priority of thread 71 from 149 to 151 compare_t 4
+### Switching to thread 49, CPU 1 [150, 0] from thread 71, CPU 0 [151, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c2628f0f) - changing priority of thread 49 from 150 to 152 compare_t 4
+### Switching to thread 71, CPU 0 [151, 0] from thread 49, CPU 1 [152, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c2629881) - changing priority of thread 71 from 151 to 153 compare_t 4
+### Switching to thread 49, CPU 1 [152, 0] from thread 71, CPU 0 [153, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c120c5e8) - changing priority of thread 49 from 152 to 154 compare_t 4
+### Switching to thread 71, CPU 0 [153, 0] from thread 49, CPU 1 [154, 0]
+### Switching to thread 49, CPU 1 [154, 0] from thread 71, CPU 0 [153, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c2629881) - changing priority of thread 49 from 154 to 155 compare_t 3
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c2629885) - changing priority of thread 49 from 155 to 156 compare_t 3
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c2629885) - changing priority of thread 49 from 156 to 157 compare_t 3
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c2628f0f) - changing priority of thread 49 from 157 to 158 compare_t 3
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c2629881) - changing priority of thread 49 from 158 to 159 compare_t 3
+### CPU 1 reached exit hypercall

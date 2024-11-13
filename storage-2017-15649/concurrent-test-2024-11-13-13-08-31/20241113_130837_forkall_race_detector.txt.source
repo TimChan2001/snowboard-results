@@ -1,0 +1,441 @@
+vmlinux map is loaded
+Waiting for data race records
+
+
+====================================================================================================================================================================================
+Total: 10	Addresses: c10d4657 c10d76f2
+5	0xc10d4655: finish_lock_switch at /root/2017-7533-i386/linux-4.11/kernel/sched/sched.h:1287
+5	0xc10d76f0: rep_nop at /root/2017-7533-i386/linux-4.11/./arch/x86/include/asm/processor.h:626
+
+5	c10d4657 __write_once_size T: trace_20241113_131036_3_3_28.txt S: 28 I1: 3 I2: 3 IP1: c10d4657 IP2: c10d76f2 PMA1: 3235f6dc PMA2: 3235f6dc CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 408062 IC2: 407349
+5	c10d76f2 __read_once_size T: trace_20241113_131036_3_3_28.txt S: 28 I1: 3 I2: 3 IP1: c10d4657 IP2: c10d76f2 PMA1: 3235f6dc PMA2: 3235f6dc CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 408062 IC2: 407349
+
+/root/snowboard-2017-15649/testsuite/kernel/2017-15649/source//kernel/sched/sched.h:1287
+      1267		 * finished.
+      1268		 *
+      1269		 * In particular, the load of prev->state in finish_task_switch() must
+      1270		 * happen before this.
+      1271		 *
+      1272		 * Pairs with the smp_cond_load_acquire() in try_to_wake_up().
+      1273		 */
+      1274		smp_store_release(&prev->on_cpu, 0);
+      1275	#endif
+      1276	#ifdef CONFIG_DEBUG_SPINLOCK
+      1277		/* this is a valid case when another task releases the spinlock */
+      1278		rq->lock.owner = current;
+      1279	#endif
+      1280		/*
+      1281		 * If we are tracking spinlock dependencies then we have to
+      1282		 * fix up the runqueue lock - which gets 'carried over' from
+      1283		 * prev into current:
+      1284		 */
+      1285		spin_acquire(&rq->lock.dep_map, 0, 0, _THIS_IP_);
+      1286	
+==>   1287		raw_spin_unlock_irq(&rq->lock);       
+      1288	}
+      1289	
+      1290	/*
+      1291	 * wake flags
+      1292	 */
+      1293	#define WF_SYNC		0x01		/* waker goes to sleep after wakeup */
+      1294	#define WF_FORK		0x02		/* child wakeup after fork */
+      1295	#define WF_MIGRATED	0x4		/* internal use, task got migrated */
+      1296	
+      1297	/*
+      1298	 * To aid in avoiding the subversion of "niceness" due to uneven distribution
+      1299	 * of tasks with abnormal "nice" values across CPUs the contribution that
+      1300	 * each task makes to its run queue's load is weighted according to its
+      1301	 * scheduling class and "nice" value. For SCHED_NORMAL tasks this is just a
+      1302	 * scaled version of the new time slice allocation that they receive on time
+      1303	 * slice expiry etc.
+      1304	 */
+      1305	
+      1306	#define WEIGHT_IDLEPRIO                3
+      1307	#define WMULT_IDLEPRIO         1431655765
+
+/root/snowboard-2017-15649/testsuite/kernel/2017-15649/source//./arch/x86/include/asm/processor.h:626
+       606	{
+       607		unsigned int eax, ebx, ecx, edx;
+       608	
+       609		cpuid(op, &eax, &ebx, &ecx, &edx);
+       610	
+       611		return ecx;
+       612	}
+       613	
+       614	static inline unsigned int cpuid_edx(unsigned int op)
+       615	{
+       616		unsigned int eax, ebx, ecx, edx;
+       617	
+       618		cpuid(op, &eax, &ebx, &ecx, &edx);
+       619	
+       620		return edx;
+       621	}
+       622	
+       623	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       624	static __always_inline void rep_nop(void)
+       625	{
+==>    626		asm volatile("rep; nop" ::: "memory");       
+       627	}
+       628	
+       629	static __always_inline void cpu_relax(void)
+       630	{
+       631		rep_nop();
+       632	}
+       633	
+       634	/*
+       635	 * This function forces the icache and prefetched instruction stream to
+       636	 * catch up with reality in two very specific cases:
+       637	 *
+       638	 *  a) Text was modified using one virtual address and is about to be executed
+       639	 *     from the same physical page at a different virtual address.
+       640	 *
+       641	 *  b) Text was modified on a different CPU, may subsequently be
+       642	 *     executed on this CPU, and you want to make sure the new version
+       643	 *     gets executed.  This generally means you're calling this in a IPI.
+       644	 *
+       645	 * If you're calling this for a different reason, you're probably doing
+       646	 * it wrong.
+
+
+====================================================================================================================================================================================
+Total: 12	Addresses: 8057cb0 c112a1f7 805de35
+3	8057cb0 Not found
+3	805de35 Not found
+6	0xc112a1f7: get_futex_value_locked at /root/2017-7533-i386/linux-4.11/kernel/futex.c:772
+
+3	8057cb0 Not found T: trace_20241113_131019_3_2_42.txt S: 42 I1: 3 I2: 2 IP1: 8057cb0 IP2: c112a1f7 PMA1: 6cdf3000 PMA2: 6cdf3000 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 120304 IC2: 118522
+3	805de35 Not found T: trace_20241113_131019_3_2_42.txt S: 42 I1: 3 I2: 2 IP1: 805de35 IP2: c112a1f7 PMA1: 6cdf3000 PMA2: 6cdf3000 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 120313 IC2: 118522
+6	c112a1f7 get_futex_value_locked T: trace_20241113_131019_3_2_42.txt S: 42 I1: 3 I2: 2 IP1: 805de35 IP2: c112a1f7 PMA1: 6cdf3000 PMA2: 6cdf3000 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 120313 IC2: 118522
+
+/root/snowboard-2017-15649/testsuite/kernel/2017-15649/source//kernel/futex.c:772
+       752		return NULL;
+       753	}
+       754	
+       755	static int cmpxchg_futex_value_locked(u32 *curval, u32 __user *uaddr,
+       756					      u32 uval, u32 newval)
+       757	{
+       758		int ret;
+       759	
+       760		pagefault_disable();
+       761		ret = futex_atomic_cmpxchg_inatomic(curval, uaddr, uval, newval);
+       762		pagefault_enable();
+       763	
+       764		return ret;
+       765	}
+       766	
+       767	static int get_futex_value_locked(u32 *dest, u32 __user *from)
+       768	{
+       769		int ret;
+       770	
+       771		pagefault_disable();
+==>    772		ret = __get_user(*dest, from);       
+       773		pagefault_enable();
+       774	
+       775		return ret ? -EFAULT : 0;
+       776	}
+       777	
+       778	
+       779	/*
+       780	 * PI code:
+       781	 */
+       782	static int refill_pi_state_cache(void)
+       783	{
+       784		struct futex_pi_state *pi_state;
+       785	
+       786		if (likely(current->pi_state_cache))
+       787			return 0;
+       788	
+       789		pi_state = kzalloc(sizeof(*pi_state), GFP_KERNEL);
+       790	
+       791		if (!pi_state)
+       792			return -ENOMEM;
+
+
+====================================================================================================================================================================================
+Total: 48	Addresses: c112ad61 c10a9261
+18	0xc112ad61: constant_test_bit at /root/2017-7533-i386/linux-4.11/./arch/x86/include/asm/bitops.h:324
+30	0xc10a9261: set_bit at /root/2017-7533-i386/linux-4.11/./arch/x86/include/asm/bitops.h:75
+
+18	c112ad61 constant_test_bit T: trace_20241113_131039_3_2_20.txt S: 20 I1: 3 I2: 2 IP1: c112ad61 IP2: c10a9261 PMA1: 3685c62c PMA2: 3685c62c CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 1 IC1: 120547 IC2: 118181
+30	c10a9261 set_bit T: trace_20241113_131039_3_2_20.txt S: 20 I1: 3 I2: 2 IP1: c112ad61 IP2: c10a9261 PMA1: 3685c62c PMA2: 3685c62c CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 1 IC1: 120547 IC2: 118181
+
+/root/snowboard-2017-15649/testsuite/kernel/2017-15649/source//./arch/x86/include/asm/bitops.h:324
+       304	
+       305		return oldbit;
+       306	}
+       307	
+       308	/**
+       309	 * test_and_change_bit - Change a bit and return its old value
+       310	 * @nr: Bit to change
+       311	 * @addr: Address to count from
+       312	 *
+       313	 * This operation is atomic and cannot be reordered.
+       314	 * It also implies a memory barrier.
+       315	 */
+       316	static __always_inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
+       317	{
+       318		GEN_BINARY_RMWcc(LOCK_PREFIX "btc", *addr, "Ir", nr, "%0", c);
+       319	}
+       320	
+       321	static __always_inline bool constant_test_bit(long nr, const volatile unsigned long *addr)
+       322	{
+       323		return ((1UL << (nr & (BITS_PER_LONG-1))) &
+==>    324			(addr[nr >> _BITOPS_LONG_SHIFT])) != 0;       
+       325	}
+       326	
+       327	static __always_inline bool variable_test_bit(long nr, volatile const unsigned long *addr)
+       328	{
+       329		bool oldbit;
+       330	
+       331		asm volatile("bt %2,%1\n\t"
+       332			     CC_SET(c)
+       333			     : CC_OUT(c) (oldbit)
+       334			     : "m" (*(unsigned long *)addr), "Ir" (nr));
+       335	
+       336		return oldbit;
+       337	}
+       338	
+       339	#if 0 /* Fool kernel-doc since it doesn't do macros yet */
+       340	/**
+       341	 * test_bit - Determine whether a bit is set
+       342	 * @nr: bit number to test
+       343	 * @addr: Address to start counting from
+       344	 */
+
+/root/snowboard-2017-15649/testsuite/kernel/2017-15649/source//./arch/x86/include/asm/bitops.h:75
+        55	
+        56	/**
+        57	 * set_bit - Atomically set a bit in memory
+        58	 * @nr: the bit to set
+        59	 * @addr: the address to start counting from
+        60	 *
+        61	 * This function is atomic and may not be reordered.  See __set_bit()
+        62	 * if you do not require the atomic guarantees.
+        63	 *
+        64	 * Note: there are no guarantees that this function will not be reordered
+        65	 * on non x86 architectures, so if you are writing portable code,
+        66	 * make sure not to rely on its reordering guarantees.
+        67	 *
+        68	 * Note that @nr may be almost arbitrarily large; this function is not
+        69	 * restricted to acting on a single-word quantity.
+        70	 */
+        71	static __always_inline void
+        72	set_bit(long nr, volatile unsigned long *addr)
+        73	{
+        74		if (IS_IMMEDIATE(nr)) {
+==>     75			asm volatile(LOCK_PREFIX "orb %1,%0"       
+        76				: CONST_MASK_ADDR(nr, addr)
+        77				: "iq" ((u8)CONST_MASK(nr))
+        78				: "memory");
+        79		} else {
+        80			asm volatile(LOCK_PREFIX "bts %1,%0"
+        81				: BITOP_ADDR(addr) : "Ir" (nr) : "memory");
+        82		}
+        83	}
+        84	
+        85	/**
+        86	 * __set_bit - Set a bit in memory
+        87	 * @nr: the bit to set
+        88	 * @addr: the address to start counting from
+        89	 *
+        90	 * Unlike set_bit(), this function is non-atomic and may be reordered.
+        91	 * If it's called on the same region of memory simultaneously, the effect
+        92	 * may be that only one operation succeeds.
+        93	 */
+        94	static __always_inline void __set_bit(long nr, volatile unsigned long *addr)
+        95	{
+
+
+====================================================================================================================================================================================
+Total: 62	Addresses: c10f7cd0 c262be1d
+31	0xc10f7cc2: _static_cpu_has at /root/2017-7533-i386/linux-4.11/./arch/x86/include/asm/cpufeature.h:146
+31	0xc262be1d: pv_queued_spin_unlock at /root/2017-7533-i386/linux-4.11/./arch/x86/include/asm/paravirt.h:674
+
+31	c10f7cd0 __read_once_size T: trace_20241113_131041_3_2_47.txt S: 47 I1: 3 I2: 2 IP1: c262be1d IP2: c10f7cd0 PMA1: 363bd084 PMA2: 363bd084 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 121097 IC2: 121000
+31	c262be1d pv_queued_spin_unlock T: trace_20241113_131041_3_2_47.txt S: 47 I1: 3 I2: 2 IP1: c262be1d IP2: c10f7cd0 PMA1: 363bd084 PMA2: 363bd084 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 121097 IC2: 121000
+
+/root/snowboard-2017-15649/testsuite/kernel/2017-15649/source//./arch/x86/include/asm/cpufeature.h:146
+       126	
+       127	#define set_cpu_cap(c, bit)	set_bit(bit, (unsigned long *)((c)->x86_capability))
+       128	#define clear_cpu_cap(c, bit)	clear_bit(bit, (unsigned long *)((c)->x86_capability))
+       129	#define setup_clear_cpu_cap(bit) do { \
+       130		clear_cpu_cap(&boot_cpu_data, bit);	\
+       131		set_bit(bit, (unsigned long *)cpu_caps_cleared); \
+       132	} while (0)
+       133	#define setup_force_cpu_cap(bit) do { \
+       134		set_cpu_cap(&boot_cpu_data, bit);	\
+       135		set_bit(bit, (unsigned long *)cpu_caps_set);	\
+       136	} while (0)
+       137	
+       138	#if defined(CC_HAVE_ASM_GOTO) && defined(CONFIG_X86_FAST_FEATURE_TESTS)
+       139	/*
+       140	 * Static testing of CPU features.  Used the same as boot_cpu_has().
+       141	 * These will statically patch the target code for additional
+       142	 * performance.
+       143	 */
+       144	static __always_inline __pure bool _static_cpu_has(u16 bit)
+       145	{
+==>    146			asm_volatile_goto("1: jmp 6f\n"       
+       147				 "2:\n"
+       148				 ".skip -(((5f-4f) - (2b-1b)) > 0) * "
+       149				         "((5f-4f) - (2b-1b)),0x90\n"
+       150				 "3:\n"
+       151				 ".section .altinstructions,\"a\"\n"
+       152				 " .long 1b - .\n"		/* src offset */
+       153				 " .long 4f - .\n"		/* repl offset */
+       154				 " .word %P1\n"			/* always replace */
+       155				 " .byte 3b - 1b\n"		/* src len */
+       156				 " .byte 5f - 4f\n"		/* repl len */
+       157				 " .byte 3b - 2b\n"		/* pad len */
+       158				 ".previous\n"
+       159				 ".section .altinstr_replacement,\"ax\"\n"
+       160				 "4: jmp %l[t_no]\n"
+       161				 "5:\n"
+       162				 ".previous\n"
+       163				 ".section .altinstructions,\"a\"\n"
+       164				 " .long 1b - .\n"		/* src offset */
+       165				 " .long 0\n"			/* no replacement */
+       166				 " .word %P0\n"			/* feature bit */
+
+/root/snowboard-2017-15649/testsuite/kernel/2017-15649/source//./arch/x86/include/asm/paravirt.h:674
+       654	{
+       655		PVOP_VCALL0(pv_mmu_ops.lazy_mode.flush);
+       656	}
+       657	
+       658	static inline void __set_fixmap(unsigned /* enum fixed_addresses */ idx,
+       659					phys_addr_t phys, pgprot_t flags)
+       660	{
+       661		pv_mmu_ops.set_fixmap(idx, phys, flags);
+       662	}
+       663	
+       664	#if defined(CONFIG_SMP) && defined(CONFIG_PARAVIRT_SPINLOCKS)
+       665	
+       666	static __always_inline void pv_queued_spin_lock_slowpath(struct qspinlock *lock,
+       667								u32 val)
+       668	{
+       669		PVOP_VCALL2(pv_lock_ops.queued_spin_lock_slowpath, lock, val);
+       670	}
+       671	
+       672	static __always_inline void pv_queued_spin_unlock(struct qspinlock *lock)
+       673	{
+==>    674		PVOP_VCALLEE1(pv_lock_ops.queued_spin_unlock, lock);       
+       675	}
+       676	
+       677	static __always_inline void pv_wait(u8 *ptr, u8 val)
+       678	{
+       679		PVOP_VCALL2(pv_lock_ops.wait, ptr, val);
+       680	}
+       681	
+       682	static __always_inline void pv_kick(int cpu)
+       683	{
+       684		PVOP_VCALL1(pv_lock_ops.kick, cpu);
+       685	}
+       686	
+       687	static __always_inline bool pv_vcpu_is_preempted(long cpu)
+       688	{
+       689		return PVOP_CALLEE1(bool, pv_lock_ops.vcpu_is_preempted, cpu);
+       690	}
+       691	
+       692	#endif /* SMP && PARAVIRT_SPINLOCKS */
+       693	
+       694	#ifdef CONFIG_X86_32
+
+
+====================================================================================================================================================================================
+Total: 104	Addresses: c10a9251 c112ad8a
+26	0xc10a924e: compound_head at /root/2017-7533-i386/linux-4.11/./include/linux/page-flags.h:149
+78	0xc112ad87: compound_head at /root/2017-7533-i386/linux-4.11/./include/linux/page-flags.h:149
+
+26	c10a9251 atomic_inc T: trace_20241113_131038_3_3_60.txt S: 60 I1: 3 I2: 3 IP1: c10a9251 IP2: c112ad8a PMA1: 3685c63c PMA2: 3685c63c CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 126472 IC2: 124300
+78	c112ad8a atomic_dec_and_test T: trace_20241113_131038_3_3_60.txt S: 60 I1: 3 I2: 3 IP1: c112ad8a IP2: c112ad8a PMA1: 3685c63c PMA2: 3685c63c CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 126596 IC2: 124300
+
+++++++++++++++++++++++++
+STATS: Distinct IPs: 11 Distinct pairs: 8 Distinct clusters: 5
+++++++++++++++++++++++++
+/root/snowboard-2017-15649/testsuite/kernel/2017-15649/source//./include/linux/page-flags.h:149
+       129	
+       130		/* SLOB */
+       131		PG_slob_free = PG_private,
+       132	
+       133		/* Compound pages. Stored in first tail page's flags */
+       134		PG_double_map = PG_private_2,
+       135	
+       136		/* non-lru isolated movable page */
+       137		PG_isolated = PG_reclaim,
+       138	};
+       139	
+       140	#ifndef __GENERATING_BOUNDS_H
+       141	
+       142	struct page;	/* forward declaration */
+       143	
+       144	static inline struct page *compound_head(struct page *page)
+       145	{
+       146		unsigned long head = READ_ONCE(page->compound_head);
+       147	
+       148		if (unlikely(head & 1))
+==>    149			return (struct page *) (head - 1);       
+       150		return page;
+       151	}
+       152	
+       153	static __always_inline int PageTail(struct page *page)
+       154	{
+       155		return READ_ONCE(page->compound_head) & 1;
+       156	}
+       157	
+       158	static __always_inline int PageCompound(struct page *page)
+       159	{
+       160		return test_bit(PG_head, &page->flags) || PageTail(page);
+       161	}
+       162	
+       163	/*
+       164	 * Page flags policies wrt compound pages
+       165	 *
+       166	 * PF_ANY:
+       167	 *     the page flag is relevant for small, head and tail pages.
+       168	 *
+       169	 * PF_HEAD:
+
+/root/snowboard-2017-15649/testsuite/kernel/2017-15649/source//./include/linux/page-flags.h:149
+       129	
+       130		/* SLOB */
+       131		PG_slob_free = PG_private,
+       132	
+       133		/* Compound pages. Stored in first tail page's flags */
+       134		PG_double_map = PG_private_2,
+       135	
+       136		/* non-lru isolated movable page */
+       137		PG_isolated = PG_reclaim,
+       138	};
+       139	
+       140	#ifndef __GENERATING_BOUNDS_H
+       141	
+       142	struct page;	/* forward declaration */
+       143	
+       144	static inline struct page *compound_head(struct page *page)
+       145	{
+       146		unsigned long head = READ_ONCE(page->compound_head);
+       147	
+       148		if (unlikely(head & 1))
+==>    149			return (struct page *) (head - 1);       
+       150		return page;
+       151	}
+       152	
+       153	static __always_inline int PageTail(struct page *page)
+       154	{
+       155		return READ_ONCE(page->compound_head) & 1;
+       156	}
+       157	
+       158	static __always_inline int PageCompound(struct page *page)
+       159	{
+       160		return test_bit(PG_head, &page->flags) || PageTail(page);
+       161	}
+       162	
+       163	/*
+       164	 * Page flags policies wrt compound pages
+       165	 *
+       166	 * PF_ANY:
+       167	 *     the page flag is relevant for small, head and tail pages.
+       168	 *
+       169	 * PF_HEAD:
+
+
