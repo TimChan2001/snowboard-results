@@ -1,0 +1,1520 @@
+vmlinux map is loaded
+Waiting for data race records
+
+('Analyed ', 500, 1969, ' data races in total')
+('Analyed ', 1000, 1969, ' data races in total')
+('Analyed ', 1500, 1969, ' data races in total')
+
+====================================================================================================================================================================================
+Total: 6	Addresses: c10d2ff2 c26c23a7
+3	0xc10d2ff2: ttwu_do_wakeup at /root/2017-17712-i386/linux-4.14/kernel/sched/core.c:1667
+3	0xc26c23a7: sched_submit_work at /root/2017-17712-i386/linux-4.14/kernel/sched/core.c:3408
+
+3	c10d2ff2 ttwu_do_wakeup T: trace_20241114_155420_2_2_41.txt S: 41 I1: 2 I2: 2 IP1: c26c23a7 IP2: c10d2ff2 PMA1: 3583ca04 PMA2: 3583ca04 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 174468 IC2: 174463
+3	c26c23a7 sched_submit_work T: trace_20241114_155420_2_2_41.txt S: 41 I1: 2 I2: 2 IP1: c26c23a7 IP2: c10d2ff2 PMA1: 3583ca04 PMA2: 3583ca04 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 174468 IC2: 174463
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/sched/core.c:1667
+      1647			schedstat_inc(p->se.statistics.nr_wakeups_sync);
+      1648	}
+      1649	
+      1650	static inline void ttwu_activate(struct rq *rq, struct task_struct *p, int en_flags)
+      1651	{
+      1652		activate_task(rq, p, en_flags);
+      1653		p->on_rq = TASK_ON_RQ_QUEUED;
+      1654	
+      1655		/* If a worker is waking up, notify the workqueue: */
+      1656		if (p->flags & PF_WQ_WORKER)
+      1657			wq_worker_waking_up(p, cpu_of(rq));
+      1658	}
+      1659	
+      1660	/*
+      1661	 * Mark the task runnable and perform wakeup-preemption.
+      1662	 */
+      1663	static void ttwu_do_wakeup(struct rq *rq, struct task_struct *p, int wake_flags,
+      1664				   struct rq_flags *rf)
+      1665	{
+      1666		check_preempt_curr(rq, p, wake_flags);
+==>   1667		p->state = TASK_RUNNING;       
+      1668		trace_sched_wakeup(p);
+      1669	
+      1670	#ifdef CONFIG_SMP
+      1671		if (p->sched_class->task_woken) {
+      1672			/*
+      1673			 * Our task @p is fully woken up and running; so its safe to
+      1674			 * drop the rq->lock, hereafter rq is only used for statistics.
+      1675			 */
+      1676			rq_unpin_lock(rq, rf);
+      1677			p->sched_class->task_woken(rq, p);
+      1678			rq_repin_lock(rq, rf);
+      1679		}
+      1680	
+      1681		if (rq->idle_stamp) {
+      1682			u64 delta = rq_clock(rq) - rq->idle_stamp;
+      1683			u64 max = 2*rq->max_idle_balance_cost;
+      1684	
+      1685			update_avg(&rq->avg_idle, delta);
+      1686	
+      1687			if (rq->avg_idle > max)
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/sched/core.c:3408
+      3388		 */
+      3389		raw_spin_lock_irq(&current->pi_lock);
+      3390		raw_spin_unlock_irq(&current->pi_lock);
+      3391	
+      3392		/* Causes final put_task_struct in finish_task_switch(): */
+      3393		__set_current_state(TASK_DEAD);
+      3394	
+      3395		/* Tell freezer to ignore us: */
+      3396		current->flags |= PF_NOFREEZE;
+      3397	
+      3398		__schedule(false);
+      3399		BUG();
+      3400	
+      3401		/* Avoid "noreturn function does return" - but don't continue if BUG() is a NOP: */
+      3402		for (;;)
+      3403			cpu_relax();
+      3404	}
+      3405	
+      3406	static inline void sched_submit_work(struct task_struct *tsk)
+      3407	{
+==>   3408		if (!tsk->state || tsk_is_pi_blocked(tsk))       
+      3409			return;
+      3410		/*
+      3411		 * If we are going to sleep and we have plugged IO queued,
+      3412		 * make sure to submit it to avoid deadlocks.
+      3413		 */
+      3414		if (blk_needs_flush_plug(tsk))
+      3415			blk_schedule_flush_plug(tsk);
+      3416	}
+      3417	
+      3418	asmlinkage __visible void __sched schedule(void)
+      3419	{
+      3420		struct task_struct *tsk = current;
+      3421	
+      3422		sched_submit_work(tsk);
+      3423		do {
+      3424			preempt_disable();
+      3425			__schedule(false);
+      3426			sched_preempt_enable_no_resched();
+      3427		} while (need_resched());
+      3428	}
+
+
+====================================================================================================================================================================================
+Total: 10	Addresses: c10ed57a c10ed65a
+5	0xc10ed578: rep_nop at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/processor.h:635
+5	0xc10ed658: osq_unlock at /root/2017-17712-i386/linux-4.14/kernel/locking/osq_lock.c:223
+
+5	c10ed57a __read_once_size T: trace_20241114_155425_2_2_59.txt S: 59 I1: 2 I2: 2 IP1: c10ed57a IP2: c10ed65a PMA1: 365c4a48 PMA2: 365c4a48 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 416966 IC2: 416964
+5	c10ed65a __write_once_size T: trace_20241114_155425_2_2_59.txt S: 59 I1: 2 I2: 2 IP1: c10ed57a IP2: c10ed65a PMA1: 365c4a48 PMA2: 365c4a48 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 416966 IC2: 416964
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/processor.h:635
+       615	{
+       616		unsigned int eax, ebx, ecx, edx;
+       617	
+       618		cpuid(op, &eax, &ebx, &ecx, &edx);
+       619	
+       620		return ecx;
+       621	}
+       622	
+       623	static inline unsigned int cpuid_edx(unsigned int op)
+       624	{
+       625		unsigned int eax, ebx, ecx, edx;
+       626	
+       627		cpuid(op, &eax, &ebx, &ecx, &edx);
+       628	
+       629		return edx;
+       630	}
+       631	
+       632	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       633	static __always_inline void rep_nop(void)
+       634	{
+==>    635		asm volatile("rep; nop" ::: "memory");       
+       636	}
+       637	
+       638	static __always_inline void cpu_relax(void)
+       639	{
+       640		rep_nop();
+       641	}
+       642	
+       643	/*
+       644	 * This function forces the icache and prefetched instruction stream to
+       645	 * catch up with reality in two very specific cases:
+       646	 *
+       647	 *  a) Text was modified using one virtual address and is about to be executed
+       648	 *     from the same physical page at a different virtual address.
+       649	 *
+       650	 *  b) Text was modified on a different CPU, may subsequently be
+       651	 *     executed on this CPU, and you want to make sure the new version
+       652	 *     gets executed.  This generally means you're calling this in a IPI.
+       653	 *
+       654	 * If you're calling this for a different reason, you're probably doing
+       655	 * it wrong.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/osq_lock.c:223
+       203		return false;
+       204	}
+       205	
+       206	void osq_unlock(struct optimistic_spin_queue *lock)
+       207	{
+       208		struct optimistic_spin_node *node, *next;
+       209		int curr = encode_cpu(smp_processor_id());
+       210	
+       211		/*
+       212		 * Fast path for the uncontended case.
+       213		 */
+       214		if (likely(atomic_cmpxchg_release(&lock->tail, curr,
+       215						  OSQ_UNLOCKED_VAL) == curr))
+       216			return;
+       217	
+       218		/*
+       219		 * Second most likely case.
+       220		 */
+       221		node = this_cpu_ptr(&osq_node);
+       222		next = xchg(&node->next, NULL);
+==>    223		if (next) {       
+       224			WRITE_ONCE(next->locked, 1);
+       225			return;
+       226		}
+       227	
+       228		next = osq_wait_next(lock, node, NULL);
+       229		if (next)
+       230			WRITE_ONCE(next->locked, 1);
+       231	}
+
+
+====================================================================================================================================================================================
+Total: 58	Addresses: c10d0ef7 c10d3aa2
+29	0xc10d0ef5: finish_lock_switch at /root/2017-17712-i386/linux-4.14/kernel/sched/sched.h:1336
+29	0xc10d3aa0: rep_nop at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/processor.h:635
+
+29	c10d0ef7 __write_once_size T: trace_20241114_155421_2_2_59.txt S: 59 I1: 2 I2: 2 IP1: c10d0ef7 IP2: c10d3aa2 PMA1: 3583ca54 PMA2: 3583ca54 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 169400 IC2: 168337
+29	c10d3aa2 __read_once_size T: trace_20241114_155421_2_2_59.txt S: 59 I1: 2 I2: 2 IP1: c10d0ef7 IP2: c10d3aa2 PMA1: 3583ca54 PMA2: 3583ca54 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 169400 IC2: 168337
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/sched/sched.h:1336
+      1316		 * finished.
+      1317		 *
+      1318		 * In particular, the load of prev->state in finish_task_switch() must
+      1319		 * happen before this.
+      1320		 *
+      1321		 * Pairs with the smp_cond_load_acquire() in try_to_wake_up().
+      1322		 */
+      1323		smp_store_release(&prev->on_cpu, 0);
+      1324	#endif
+      1325	#ifdef CONFIG_DEBUG_SPINLOCK
+      1326		/* this is a valid case when another task releases the spinlock */
+      1327		rq->lock.owner = current;
+      1328	#endif
+      1329		/*
+      1330		 * If we are tracking spinlock dependencies then we have to
+      1331		 * fix up the runqueue lock - which gets 'carried over' from
+      1332		 * prev into current:
+      1333		 */
+      1334		spin_acquire(&rq->lock.dep_map, 0, 0, _THIS_IP_);
+      1335	
+==>   1336		raw_spin_unlock_irq(&rq->lock);       
+      1337	}
+      1338	
+      1339	/*
+      1340	 * wake flags
+      1341	 */
+      1342	#define WF_SYNC		0x01		/* waker goes to sleep after wakeup */
+      1343	#define WF_FORK		0x02		/* child wakeup after fork */
+      1344	#define WF_MIGRATED	0x4		/* internal use, task got migrated */
+      1345	
+      1346	/*
+      1347	 * To aid in avoiding the subversion of "niceness" due to uneven distribution
+      1348	 * of tasks with abnormal "nice" values across CPUs the contribution that
+      1349	 * each task makes to its run queue's load is weighted according to its
+      1350	 * scheduling class and "nice" value. For SCHED_NORMAL tasks this is just a
+      1351	 * scaled version of the new time slice allocation that they receive on time
+      1352	 * slice expiry etc.
+      1353	 */
+      1354	
+      1355	#define WEIGHT_IDLEPRIO                3
+      1356	#define WMULT_IDLEPRIO         1431655765
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/processor.h:635
+       615	{
+       616		unsigned int eax, ebx, ecx, edx;
+       617	
+       618		cpuid(op, &eax, &ebx, &ecx, &edx);
+       619	
+       620		return ecx;
+       621	}
+       622	
+       623	static inline unsigned int cpuid_edx(unsigned int op)
+       624	{
+       625		unsigned int eax, ebx, ecx, edx;
+       626	
+       627		cpuid(op, &eax, &ebx, &ecx, &edx);
+       628	
+       629		return edx;
+       630	}
+       631	
+       632	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       633	static __always_inline void rep_nop(void)
+       634	{
+==>    635		asm volatile("rep; nop" ::: "memory");       
+       636	}
+       637	
+       638	static __always_inline void cpu_relax(void)
+       639	{
+       640		rep_nop();
+       641	}
+       642	
+       643	/*
+       644	 * This function forces the icache and prefetched instruction stream to
+       645	 * catch up with reality in two very specific cases:
+       646	 *
+       647	 *  a) Text was modified using one virtual address and is about to be executed
+       648	 *     from the same physical page at a different virtual address.
+       649	 *
+       650	 *  b) Text was modified on a different CPU, may subsequently be
+       651	 *     executed on this CPU, and you want to make sure the new version
+       652	 *     gets executed.  This generally means you're calling this in a IPI.
+       653	 *
+       654	 * If you're calling this for a different reason, you're probably doing
+       655	 * it wrong.
+
+
+====================================================================================================================================================================================
+Total: 100	Addresses: c11c0d71 c11c0d57 c1122ed4
+25	0xc11c0d54: compound_head at /root/2017-17712-i386/linux-4.14/./include/linux/page-flags.h:150
+25	0xc1122ed1: compound_head at /root/2017-17712-i386/linux-4.14/./include/linux/page-flags.h:150
+50	0xc11c0d54: compound_head at /root/2017-17712-i386/linux-4.14/./include/linux/page-flags.h:150
+
+25	c11c0d71 atomic_try_cmpxchg T: trace_20241114_155410_3_2_55.txt S: 55 I1: 3 I2: 2 IP1: c11c0d71 IP2: c11c0d57 PMA1: 36880f60 PMA2: 36880f60 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 120863 IC2: 118023
+25	c1122ed4 atomic_dec_and_test T: trace_20241114_155410_3_2_55.txt S: 55 I1: 3 I2: 2 IP1: c1122ed4 IP2: c11c0d57 PMA1: 36880f60 PMA2: 36880f60 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 121006 IC2: 118023
+50	c11c0d57 __read_once_size T: trace_20241114_155410_3_2_55.txt S: 55 I1: 3 I2: 2 IP1: c1122ed4 IP2: c11c0d57 PMA1: 36880f60 PMA2: 36880f60 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 121006 IC2: 118023
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./include/linux/page-flags.h:150
+       130	
+       131		/* SLOB */
+       132		PG_slob_free = PG_private,
+       133	
+       134		/* Compound pages. Stored in first tail page's flags */
+       135		PG_double_map = PG_private_2,
+       136	
+       137		/* non-lru isolated movable page */
+       138		PG_isolated = PG_reclaim,
+       139	};
+       140	
+       141	#ifndef __GENERATING_BOUNDS_H
+       142	
+       143	struct page;	/* forward declaration */
+       144	
+       145	static inline struct page *compound_head(struct page *page)
+       146	{
+       147		unsigned long head = READ_ONCE(page->compound_head);
+       148	
+       149		if (unlikely(head & 1))
+==>    150			return (struct page *) (head - 1);       
+       151		return page;
+       152	}
+       153	
+       154	static __always_inline int PageTail(struct page *page)
+       155	{
+       156		return READ_ONCE(page->compound_head) & 1;
+       157	}
+       158	
+       159	static __always_inline int PageCompound(struct page *page)
+       160	{
+       161		return test_bit(PG_head, &page->flags) || PageTail(page);
+       162	}
+       163	
+       164	/*
+       165	 * Page flags policies wrt compound pages
+       166	 *
+       167	 * PF_ANY:
+       168	 *     the page flag is relevant for small, head and tail pages.
+       169	 *
+       170	 * PF_HEAD:
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./include/linux/page-flags.h:150
+       130	
+       131		/* SLOB */
+       132		PG_slob_free = PG_private,
+       133	
+       134		/* Compound pages. Stored in first tail page's flags */
+       135		PG_double_map = PG_private_2,
+       136	
+       137		/* non-lru isolated movable page */
+       138		PG_isolated = PG_reclaim,
+       139	};
+       140	
+       141	#ifndef __GENERATING_BOUNDS_H
+       142	
+       143	struct page;	/* forward declaration */
+       144	
+       145	static inline struct page *compound_head(struct page *page)
+       146	{
+       147		unsigned long head = READ_ONCE(page->compound_head);
+       148	
+       149		if (unlikely(head & 1))
+==>    150			return (struct page *) (head - 1);       
+       151		return page;
+       152	}
+       153	
+       154	static __always_inline int PageTail(struct page *page)
+       155	{
+       156		return READ_ONCE(page->compound_head) & 1;
+       157	}
+       158	
+       159	static __always_inline int PageCompound(struct page *page)
+       160	{
+       161		return test_bit(PG_head, &page->flags) || PageTail(page);
+       162	}
+       163	
+       164	/*
+       165	 * Page flags policies wrt compound pages
+       166	 *
+       167	 * PF_ANY:
+       168	 *     the page flag is relevant for small, head and tail pages.
+       169	 *
+       170	 * PF_HEAD:
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./include/linux/page-flags.h:150
+       130	
+       131		/* SLOB */
+       132		PG_slob_free = PG_private,
+       133	
+       134		/* Compound pages. Stored in first tail page's flags */
+       135		PG_double_map = PG_private_2,
+       136	
+       137		/* non-lru isolated movable page */
+       138		PG_isolated = PG_reclaim,
+       139	};
+       140	
+       141	#ifndef __GENERATING_BOUNDS_H
+       142	
+       143	struct page;	/* forward declaration */
+       144	
+       145	static inline struct page *compound_head(struct page *page)
+       146	{
+       147		unsigned long head = READ_ONCE(page->compound_head);
+       148	
+       149		if (unlikely(head & 1))
+==>    150			return (struct page *) (head - 1);       
+       151		return page;
+       152	}
+       153	
+       154	static __always_inline int PageTail(struct page *page)
+       155	{
+       156		return READ_ONCE(page->compound_head) & 1;
+       157	}
+       158	
+       159	static __always_inline int PageCompound(struct page *page)
+       160	{
+       161		return test_bit(PG_head, &page->flags) || PageTail(page);
+       162	}
+       163	
+       164	/*
+       165	 * Page flags policies wrt compound pages
+       166	 *
+       167	 * PF_ANY:
+       168	 *     the page flag is relevant for small, head and tail pages.
+       169	 *
+       170	 * PF_HEAD:
+
+
+====================================================================================================================================================================================
+Total: 118	Addresses: c26c688d c10ed6e8 c26c659d c26c654f
+1	0xc26c654f: pv_queued_spin_unlock at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/paravirt.h:674
+10	0xc26c659d: pv_queued_spin_unlock at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/paravirt.h:674
+48	0xc26c688d: pv_queued_spin_unlock at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/paravirt.h:674
+59	0xc10ed6db: _static_cpu_has at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/cpufeature.h:147
+
+1	c26c654f pv_queued_spin_unlock T: trace_20241114_155420_2_2_41.txt S: 41 I1: 2 I2: 2 IP1: c26c654f IP2: c10ed6e8 PMA1: 32eb86f4 PMA2: 32eb86f4 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 175376 IC2: 175261
+10	c26c659d pv_queued_spin_unlock T: trace_20241114_155420_2_2_44.txt S: 44 I1: 2 I2: 2 IP1: c26c659d IP2: c10ed6e8 PMA1: 365ad3c0 PMA2: 365ad3c0 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 171542 IC2: 169591
+48	c26c688d pv_queued_spin_unlock T: trace_20241114_155421_2_2_59.txt S: 59 I1: 2 I2: 2 IP1: c26c688d IP2: c10ed6e8 PMA1: 365ad3c0 PMA2: 365ad3c0 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 168279 IC2: 167258
+59	c10ed6e8 __read_once_size T: trace_20241114_155421_2_2_59.txt S: 59 I1: 2 I2: 2 IP1: c26c688d IP2: c10ed6e8 PMA1: 365ad3c0 PMA2: 365ad3c0 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 168279 IC2: 167258
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/paravirt.h:674
+       654	{
+       655		PVOP_VCALL0(pv_mmu_ops.lazy_mode.flush);
+       656	}
+       657	
+       658	static inline void __set_fixmap(unsigned /* enum fixed_addresses */ idx,
+       659					phys_addr_t phys, pgprot_t flags)
+       660	{
+       661		pv_mmu_ops.set_fixmap(idx, phys, flags);
+       662	}
+       663	
+       664	#if defined(CONFIG_SMP) && defined(CONFIG_PARAVIRT_SPINLOCKS)
+       665	
+       666	static __always_inline void pv_queued_spin_lock_slowpath(struct qspinlock *lock,
+       667								u32 val)
+       668	{
+       669		PVOP_VCALL2(pv_lock_ops.queued_spin_lock_slowpath, lock, val);
+       670	}
+       671	
+       672	static __always_inline void pv_queued_spin_unlock(struct qspinlock *lock)
+       673	{
+==>    674		PVOP_VCALLEE1(pv_lock_ops.queued_spin_unlock, lock);       
+       675	}
+       676	
+       677	static __always_inline void pv_wait(u8 *ptr, u8 val)
+       678	{
+       679		PVOP_VCALL2(pv_lock_ops.wait, ptr, val);
+       680	}
+       681	
+       682	static __always_inline void pv_kick(int cpu)
+       683	{
+       684		PVOP_VCALL1(pv_lock_ops.kick, cpu);
+       685	}
+       686	
+       687	static __always_inline bool pv_vcpu_is_preempted(long cpu)
+       688	{
+       689		return PVOP_CALLEE1(bool, pv_lock_ops.vcpu_is_preempted, cpu);
+       690	}
+       691	
+       692	#endif /* SMP && PARAVIRT_SPINLOCKS */
+       693	
+       694	#ifdef CONFIG_X86_32
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/paravirt.h:674
+       654	{
+       655		PVOP_VCALL0(pv_mmu_ops.lazy_mode.flush);
+       656	}
+       657	
+       658	static inline void __set_fixmap(unsigned /* enum fixed_addresses */ idx,
+       659					phys_addr_t phys, pgprot_t flags)
+       660	{
+       661		pv_mmu_ops.set_fixmap(idx, phys, flags);
+       662	}
+       663	
+       664	#if defined(CONFIG_SMP) && defined(CONFIG_PARAVIRT_SPINLOCKS)
+       665	
+       666	static __always_inline void pv_queued_spin_lock_slowpath(struct qspinlock *lock,
+       667								u32 val)
+       668	{
+       669		PVOP_VCALL2(pv_lock_ops.queued_spin_lock_slowpath, lock, val);
+       670	}
+       671	
+       672	static __always_inline void pv_queued_spin_unlock(struct qspinlock *lock)
+       673	{
+==>    674		PVOP_VCALLEE1(pv_lock_ops.queued_spin_unlock, lock);       
+       675	}
+       676	
+       677	static __always_inline void pv_wait(u8 *ptr, u8 val)
+       678	{
+       679		PVOP_VCALL2(pv_lock_ops.wait, ptr, val);
+       680	}
+       681	
+       682	static __always_inline void pv_kick(int cpu)
+       683	{
+       684		PVOP_VCALL1(pv_lock_ops.kick, cpu);
+       685	}
+       686	
+       687	static __always_inline bool pv_vcpu_is_preempted(long cpu)
+       688	{
+       689		return PVOP_CALLEE1(bool, pv_lock_ops.vcpu_is_preempted, cpu);
+       690	}
+       691	
+       692	#endif /* SMP && PARAVIRT_SPINLOCKS */
+       693	
+       694	#ifdef CONFIG_X86_32
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/paravirt.h:674
+       654	{
+       655		PVOP_VCALL0(pv_mmu_ops.lazy_mode.flush);
+       656	}
+       657	
+       658	static inline void __set_fixmap(unsigned /* enum fixed_addresses */ idx,
+       659					phys_addr_t phys, pgprot_t flags)
+       660	{
+       661		pv_mmu_ops.set_fixmap(idx, phys, flags);
+       662	}
+       663	
+       664	#if defined(CONFIG_SMP) && defined(CONFIG_PARAVIRT_SPINLOCKS)
+       665	
+       666	static __always_inline void pv_queued_spin_lock_slowpath(struct qspinlock *lock,
+       667								u32 val)
+       668	{
+       669		PVOP_VCALL2(pv_lock_ops.queued_spin_lock_slowpath, lock, val);
+       670	}
+       671	
+       672	static __always_inline void pv_queued_spin_unlock(struct qspinlock *lock)
+       673	{
+==>    674		PVOP_VCALLEE1(pv_lock_ops.queued_spin_unlock, lock);       
+       675	}
+       676	
+       677	static __always_inline void pv_wait(u8 *ptr, u8 val)
+       678	{
+       679		PVOP_VCALL2(pv_lock_ops.wait, ptr, val);
+       680	}
+       681	
+       682	static __always_inline void pv_kick(int cpu)
+       683	{
+       684		PVOP_VCALL1(pv_lock_ops.kick, cpu);
+       685	}
+       686	
+       687	static __always_inline bool pv_vcpu_is_preempted(long cpu)
+       688	{
+       689		return PVOP_CALLEE1(bool, pv_lock_ops.vcpu_is_preempted, cpu);
+       690	}
+       691	
+       692	#endif /* SMP && PARAVIRT_SPINLOCKS */
+       693	
+       694	#ifdef CONFIG_X86_32
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/cpufeature.h:147
+       127	
+       128	#define set_cpu_cap(c, bit)	set_bit(bit, (unsigned long *)((c)->x86_capability))
+       129	#define clear_cpu_cap(c, bit)	clear_bit(bit, (unsigned long *)((c)->x86_capability))
+       130	#define setup_clear_cpu_cap(bit) do { \
+       131		clear_cpu_cap(&boot_cpu_data, bit);	\
+       132		set_bit(bit, (unsigned long *)cpu_caps_cleared); \
+       133	} while (0)
+       134	#define setup_force_cpu_cap(bit) do { \
+       135		set_cpu_cap(&boot_cpu_data, bit);	\
+       136		set_bit(bit, (unsigned long *)cpu_caps_set);	\
+       137	} while (0)
+       138	
+       139	#if defined(CC_HAVE_ASM_GOTO) && defined(CONFIG_X86_FAST_FEATURE_TESTS)
+       140	/*
+       141	 * Static testing of CPU features.  Used the same as boot_cpu_has().
+       142	 * These will statically patch the target code for additional
+       143	 * performance.
+       144	 */
+       145	static __always_inline __pure bool _static_cpu_has(u16 bit)
+       146	{
+==>    147			asm_volatile_goto("1: jmp 6f\n"       
+       148				 "2:\n"
+       149				 ".skip -(((5f-4f) - (2b-1b)) > 0) * "
+       150				         "((5f-4f) - (2b-1b)),0x90\n"
+       151				 "3:\n"
+       152				 ".section .altinstructions,\"a\"\n"
+       153				 " .long 1b - .\n"		/* src offset */
+       154				 " .long 4f - .\n"		/* repl offset */
+       155				 " .word %P1\n"			/* always replace */
+       156				 " .byte 3b - 1b\n"		/* src len */
+       157				 " .byte 5f - 4f\n"		/* repl len */
+       158				 " .byte 3b - 2b\n"		/* pad len */
+       159				 ".previous\n"
+       160				 ".section .altinstr_replacement,\"ax\"\n"
+       161				 "4: jmp %l[t_no]\n"
+       162				 "5:\n"
+       163				 ".previous\n"
+       164				 ".section .altinstructions,\"a\"\n"
+       165				 " .long 1b - .\n"		/* src offset */
+       166				 " .long 0\n"			/* no replacement */
+       167				 " .word %P0\n"			/* feature bit */
+
+
+====================================================================================================================================================================================
+Total: 3646	Addresses: c26c33ed c26c366e c26c3192 c26c3fd1 c10ecf7a c26c3540 c26c346f c26c3456 c26c3349 c26c3226 c26c3406 c26c3f07 c26c34b9 c26c31c2 c26c33b9 c26c3388 c26c3ef5 c10ecfcd c26c330d c26c32a0 c26c3499
+2	0xc26c3404: __mutex_trylock_or_owner at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:110
+2	0xc26c3eee: __mutex_unlock_slowpath at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:1015
+6	0xc26c33eb: rep_nop at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/processor.h:635
+6	0xc26c33b7: __mutex_trylock_or_owner at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:110
+9	0xc26c330a: __mutex_lock_common at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:845
+12	0xc26c3497: __mutex_trylock_or_owner at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:110
+13	0xc26c34b7: __mutex_trylock_or_owner at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:110
+14	0xc26c3f04: __owner_flags at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:74
+15	0xc26c329d: signal_pending_state at /root/2017-17712-i386/linux-4.14/./include/linux/sched/signal.h:335
+17	0xc26c3221: spin_lock at /root/2017-17712-i386/linux-4.14/./include/linux/spinlock.h:317
+21	0xc26c3386: __mutex_lock_common at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:862
+22	0xc26c353d: __mutex_lock_common at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:840
+99	0xc26c3347: __mutex_trylock_or_owner at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:110
+104	0xc26c31bd: rcu_read_lock at /root/2017-17712-i386/linux-4.14/./include/linux/rcupdate.h:629
+126	0xc10ecf75: rcu_read_lock at /root/2017-17712-i386/linux-4.14/./include/linux/rcupdate.h:629
+152	0xc26c318b: __preempt_count_add at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/preempt.h:76
+168	0xc10ecfcb: rep_nop at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/processor.h:635
+209	0xc26c346d: __mutex_trylock_or_owner at /root/2017-17712-i386/linux-4.14/kernel/locking/mutex.c:110
+224	0xc26c3454: rep_nop at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/processor.h:635
+1138	0xc26c3667: get_current at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/current.h:15
+1287	0xc26c3fc8: get_current at /root/2017-17712-i386/linux-4.14/./arch/x86/include/asm/current.h:15
+
+2	c26c3406 atomic_cmpxchg T: trace_20241114_155423_2_2_19.txt S: 19 I1: 2 I2: 2 IP1: c26c3406 IP2: c26c3f07 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 506816 IC2: 506773
+2	c26c3ef5 __read_once_size T: trace_20241114_155425_2_2_58.txt S: 58 I1: 2 I2: 2 IP1: c26c3ef5 IP2: c26c3499 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 280679 IC2: 280663
+6	c26c33ed __read_once_size T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c33ed IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 297273 IC2: 291587
+6	c26c33b9 atomic_cmpxchg T: trace_20241114_155424_2_2_37.txt S: 37 I1: 2 I2: 2 IP1: c26c33b9 IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 404307 IC2: 399353
+9	c26c330d __read_once_size T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c330d IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 297265 IC2: 291587
+12	c26c3499 atomic_cmpxchg T: trace_20241114_155425_2_2_60.txt S: 60 I1: 2 I2: 2 IP1: c26c3499 IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 344366 IC2: 344295
+13	c26c34b9 atomic_cmpxchg T: trace_20241114_155425_2_2_58.txt S: 58 I1: 2 I2: 2 IP1: c26c34b9 IP2: c26c366e PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 320855 IC2: 320837
+14	c26c3f07 atomic_cmpxchg T: trace_20241114_155425_2_2_58.txt S: 58 I1: 2 I2: 2 IP1: c26c3f07 IP2: c26c3499 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 280687 IC2: 280663
+15	c26c32a0 __read_once_size T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c32a0 IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 507743 IC2: 507728
+17	c26c3226 __read_once_size T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c3226 IP2: c26c366e PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 507055 IC2: 502143
+21	c26c3388 atomic_and T: trace_20241114_155425_2_2_60.txt S: 60 I1: 2 I2: 2 IP1: c26c3388 IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 344378 IC2: 344295
+22	c26c3540 atomic_or T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c3fd1 IP2: c26c3540 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 507728 IC2: 507726
+99	c26c3349 atomic_cmpxchg T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c3349 IP2: c26c366e PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 502152 IC2: 502143
+104	c26c31c2 __read_once_size T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c31c2 IP2: c26c366e PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 217372 IC2: 190342
+126	c10ecf7a __read_once_size T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c10ecf7a IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 291634 IC2: 291587
+152	c26c3192 __read_once_size T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c3192 IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 471111 IC2: 471094
+168	c10ecfcd __read_once_size T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c10ecfcd IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 218099 IC2: 218098
+209	c26c346f atomic_cmpxchg T: trace_20241114_155425_2_2_61.txt S: 61 I1: 2 I2: 2 IP1: c26c366e IP2: c26c346f PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 436233 IC2: 408221
+224	c26c3456 __read_once_size T: trace_20241114_155425_2_2_63.txt S: 63 I1: 2 I2: 2 IP1: c26c3456 IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 357224 IC2: 357190
+1138	c26c366e atomic_cmpxchg T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c3226 IP2: c26c366e PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 507055 IC2: 502143
+1287	c26c3fd1 atomic_cmpxchg T: trace_20241114_155425_2_2_62.txt S: 62 I1: 2 I2: 2 IP1: c26c32a0 IP2: c26c3fd1 PMA1: 32eb86e0 PMA2: 32eb86e0 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 507743 IC2: 507728
+
+++++++++++++++++++++++++
+STATS: Distinct IPs: 34 Distinct pairs: 67 Distinct clusters: 6
+++++++++++++++++++++++++
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:1015
+       995		might_sleep();
+       996		ret = __ww_mutex_lock(&lock->base, TASK_INTERRUPTIBLE,
+       997				      0, ctx ? &ctx->dep_map : NULL, _RET_IP_,
+       998				      ctx);
+       999	
+      1000		if (!ret && ctx && ctx->acquired > 1)
+      1001			return ww_mutex_deadlock_injection(lock, ctx);
+      1002	
+      1003		return ret;
+      1004	}
+      1005	EXPORT_SYMBOL_GPL(ww_mutex_lock_interruptible);
+      1006	
+      1007	#endif
+      1008	
+      1009	/*
+      1010	 * Release the lock, slowpath:
+      1011	 */
+      1012	static noinline void __sched __mutex_unlock_slowpath(struct mutex *lock, unsigned long ip)
+      1013	{
+      1014		struct task_struct *next = NULL;
+==>   1015		DEFINE_WAKE_Q(wake_q);       
+      1016		unsigned long owner;
+      1017	
+      1018		mutex_release(&lock->dep_map, 1, ip);
+      1019	
+      1020		/*
+      1021		 * Release the lock before (potentially) taking the spinlock such that
+      1022		 * other contenders can get on with things ASAP.
+      1023		 *
+      1024		 * Except when HANDOFF, in that case we must not clear the owner field,
+      1025		 * but instead set it to the top waiter.
+      1026		 */
+      1027		owner = atomic_long_read(&lock->owner);
+      1028		for (;;) {
+      1029			unsigned long old;
+      1030	
+      1031	#ifdef CONFIG_DEBUG_MUTEXES
+      1032			DEBUG_LOCKS_WARN_ON(__owner_task(owner) != current);
+      1033			DEBUG_LOCKS_WARN_ON(owner & MUTEX_FLAG_PICKUP);
+      1034	#endif
+      1035	
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/processor.h:635
+       615	{
+       616		unsigned int eax, ebx, ecx, edx;
+       617	
+       618		cpuid(op, &eax, &ebx, &ecx, &edx);
+       619	
+       620		return ecx;
+       621	}
+       622	
+       623	static inline unsigned int cpuid_edx(unsigned int op)
+       624	{
+       625		unsigned int eax, ebx, ecx, edx;
+       626	
+       627		cpuid(op, &eax, &ebx, &ecx, &edx);
+       628	
+       629		return edx;
+       630	}
+       631	
+       632	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       633	static __always_inline void rep_nop(void)
+       634	{
+==>    635		asm volatile("rep; nop" ::: "memory");       
+       636	}
+       637	
+       638	static __always_inline void cpu_relax(void)
+       639	{
+       640		rep_nop();
+       641	}
+       642	
+       643	/*
+       644	 * This function forces the icache and prefetched instruction stream to
+       645	 * catch up with reality in two very specific cases:
+       646	 *
+       647	 *  a) Text was modified using one virtual address and is about to be executed
+       648	 *     from the same physical page at a different virtual address.
+       649	 *
+       650	 *  b) Text was modified on a different CPU, may subsequently be
+       651	 *     executed on this CPU, and you want to make sure the new version
+       652	 *     gets executed.  This generally means you're calling this in a IPI.
+       653	 *
+       654	 * If you're calling this for a different reason, you're probably doing
+       655	 * it wrong.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:845
+       825	
+       826			if (use_ww_ctx && ww_ctx && ww_ctx->acquired > 0) {
+       827				ret = __ww_mutex_lock_check_stamp(lock, &waiter, ww_ctx);
+       828				if (ret)
+       829					goto err;
+       830			}
+       831	
+       832			spin_unlock(&lock->wait_lock);
+       833			schedule_preempt_disabled();
+       834	
+       835			/*
+       836			 * ww_mutex needs to always recheck its position since its waiter
+       837			 * list is not FIFO ordered.
+       838			 */
+       839			if ((use_ww_ctx && ww_ctx) || !first) {
+       840				first = __mutex_waiter_is_first(lock, &waiter);
+       841				if (first)
+       842					__mutex_set_flag(lock, MUTEX_FLAG_HANDOFF);
+       843			}
+       844	
+==>    845			set_current_state(state);       
+       846			/*
+       847			 * Here we order against unlock; we must either see it change
+       848			 * state back to RUNNING and fall through the next schedule(),
+       849			 * or we must see its unlock and acquire.
+       850			 */
+       851			if (__mutex_trylock(lock) ||
+       852			    (first && mutex_optimistic_spin(lock, ww_ctx, use_ww_ctx, &waiter)))
+       853				break;
+       854	
+       855			spin_lock(&lock->wait_lock);
+       856		}
+       857		spin_lock(&lock->wait_lock);
+       858	acquired:
+       859		__set_current_state(TASK_RUNNING);
+       860	
+       861		mutex_remove_waiter(lock, &waiter, current);
+       862		if (likely(list_empty(&lock->wait_list)))
+       863			__mutex_clear_flag(lock, MUTEX_FLAGS);
+       864	
+       865		debug_mutex_free_waiter(&waiter);
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:74
+        54	 * NULL means not owned. Since task_struct pointers are aligned at
+        55	 * at least L1_CACHE_BYTES, we have low bits to store extra state.
+        56	 *
+        57	 * Bit0 indicates a non-empty waiter list; unlock must issue a wakeup.
+        58	 * Bit1 indicates unlock needs to hand the lock to the top-waiter
+        59	 * Bit2 indicates handoff has been done and we're waiting for pickup.
+        60	 */
+        61	#define MUTEX_FLAG_WAITERS	0x01
+        62	#define MUTEX_FLAG_HANDOFF	0x02
+        63	#define MUTEX_FLAG_PICKUP	0x04
+        64	
+        65	#define MUTEX_FLAGS		0x07
+        66	
+        67	static inline struct task_struct *__owner_task(unsigned long owner)
+        68	{
+        69		return (struct task_struct *)(owner & ~MUTEX_FLAGS);
+        70	}
+        71	
+        72	static inline unsigned long __owner_flags(unsigned long owner)
+        73	{
+==>     74		return owner & MUTEX_FLAGS;       
+        75	}
+        76	
+        77	/*
+        78	 * Trylock variant that retuns the owning task on failure.
+        79	 */
+        80	static inline struct task_struct *__mutex_trylock_or_owner(struct mutex *lock)
+        81	{
+        82		unsigned long owner, curr = (unsigned long)current;
+        83	
+        84		owner = atomic_long_read(&lock->owner);
+        85		for (;;) { /* must loop, can race against a flag */
+        86			unsigned long old, flags = __owner_flags(owner);
+        87			unsigned long task = owner & ~MUTEX_FLAGS;
+        88	
+        89			if (task) {
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./include/linux/sched/signal.h:335
+       315		return unlikely(test_tsk_thread_flag(p,TIF_SIGPENDING));
+       316	}
+       317	
+       318	static inline int __fatal_signal_pending(struct task_struct *p)
+       319	{
+       320		return unlikely(sigismember(&p->pending.signal, SIGKILL));
+       321	}
+       322	
+       323	static inline int fatal_signal_pending(struct task_struct *p)
+       324	{
+       325		return signal_pending(p) && __fatal_signal_pending(p);
+       326	}
+       327	
+       328	static inline int signal_pending_state(long state, struct task_struct *p)
+       329	{
+       330		if (!(state & (TASK_INTERRUPTIBLE | TASK_WAKEKILL)))
+       331			return 0;
+       332		if (!signal_pending(p))
+       333			return 0;
+       334	
+==>    335		return (state & TASK_INTERRUPTIBLE) || __fatal_signal_pending(p);       
+       336	}
+       337	
+       338	/*
+       339	 * Reevaluate whether the task has signals pending delivery.
+       340	 * Wake the task if so.
+       341	 * This is required every time the blocked sigset_t changes.
+       342	 * callers must hold sighand->siglock.
+       343	 */
+       344	extern void recalc_sigpending_and_wake(struct task_struct *t);
+       345	extern void recalc_sigpending(void);
+       346	
+       347	extern void signal_wake_up_state(struct task_struct *t, unsigned int state);
+       348	
+       349	static inline void signal_wake_up(struct task_struct *t, bool resume)
+       350	{
+       351		signal_wake_up_state(t, resume ? TASK_WAKEKILL : 0);
+       352	}
+       353	static inline void ptrace_signal_wake_up(struct task_struct *t, bool resume)
+       354	{
+       355		signal_wake_up_state(t, resume ? __TASK_TRACED : 0);
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./include/linux/spinlock.h:317
+       297	# include <linux/spinlock_api_up.h>
+       298	#endif
+       299	
+       300	/*
+       301	 * Map the spin_lock functions to the raw variants for PREEMPT_RT=n
+       302	 */
+       303	
+       304	static __always_inline raw_spinlock_t *spinlock_check(spinlock_t *lock)
+       305	{
+       306		return &lock->rlock;
+       307	}
+       308	
+       309	#define spin_lock_init(_lock)				\
+       310	do {							\
+       311		spinlock_check(_lock);				\
+       312		raw_spin_lock_init(&(_lock)->rlock);		\
+       313	} while (0)
+       314	
+       315	static __always_inline void spin_lock(spinlock_t *lock)
+       316	{
+==>    317		raw_spin_lock(&lock->rlock);       
+       318	}
+       319	
+       320	static __always_inline void spin_lock_bh(spinlock_t *lock)
+       321	{
+       322		raw_spin_lock_bh(&lock->rlock);
+       323	}
+       324	
+       325	static __always_inline int spin_trylock(spinlock_t *lock)
+       326	{
+       327		return raw_spin_trylock(&lock->rlock);
+       328	}
+       329	
+       330	#define spin_lock_nested(lock, subclass)			\
+       331	do {								\
+       332		raw_spin_lock_nested(spinlock_check(lock), subclass);	\
+       333	} while (0)
+       334	
+       335	#define spin_lock_nest_lock(lock, nest_lock)				\
+       336	do {									\
+       337		raw_spin_lock_nest_lock(spinlock_check(lock), nest_lock);	\
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:862
+       842					__mutex_set_flag(lock, MUTEX_FLAG_HANDOFF);
+       843			}
+       844	
+       845			set_current_state(state);
+       846			/*
+       847			 * Here we order against unlock; we must either see it change
+       848			 * state back to RUNNING and fall through the next schedule(),
+       849			 * or we must see its unlock and acquire.
+       850			 */
+       851			if (__mutex_trylock(lock) ||
+       852			    (first && mutex_optimistic_spin(lock, ww_ctx, use_ww_ctx, &waiter)))
+       853				break;
+       854	
+       855			spin_lock(&lock->wait_lock);
+       856		}
+       857		spin_lock(&lock->wait_lock);
+       858	acquired:
+       859		__set_current_state(TASK_RUNNING);
+       860	
+       861		mutex_remove_waiter(lock, &waiter, current);
+==>    862		if (likely(list_empty(&lock->wait_list)))       
+       863			__mutex_clear_flag(lock, MUTEX_FLAGS);
+       864	
+       865		debug_mutex_free_waiter(&waiter);
+       866	
+       867	skip_wait:
+       868		/* got the lock - cleanup and rejoice! */
+       869		lock_acquired(&lock->dep_map, ip);
+       870	
+       871		if (use_ww_ctx && ww_ctx)
+       872			ww_mutex_set_context_slowpath(ww, ww_ctx);
+       873	
+       874		spin_unlock(&lock->wait_lock);
+       875		preempt_enable();
+       876		return 0;
+       877	
+       878	err:
+       879		__set_current_state(TASK_RUNNING);
+       880		mutex_remove_waiter(lock, &waiter, current);
+       881	err_early_backoff:
+       882		spin_unlock(&lock->wait_lock);
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:840
+       820			 */
+       821			if (unlikely(signal_pending_state(state, current))) {
+       822				ret = -EINTR;
+       823				goto err;
+       824			}
+       825	
+       826			if (use_ww_ctx && ww_ctx && ww_ctx->acquired > 0) {
+       827				ret = __ww_mutex_lock_check_stamp(lock, &waiter, ww_ctx);
+       828				if (ret)
+       829					goto err;
+       830			}
+       831	
+       832			spin_unlock(&lock->wait_lock);
+       833			schedule_preempt_disabled();
+       834	
+       835			/*
+       836			 * ww_mutex needs to always recheck its position since its waiter
+       837			 * list is not FIFO ordered.
+       838			 */
+       839			if ((use_ww_ctx && ww_ctx) || !first) {
+==>    840				first = __mutex_waiter_is_first(lock, &waiter);       
+       841				if (first)
+       842					__mutex_set_flag(lock, MUTEX_FLAG_HANDOFF);
+       843			}
+       844	
+       845			set_current_state(state);
+       846			/*
+       847			 * Here we order against unlock; we must either see it change
+       848			 * state back to RUNNING and fall through the next schedule(),
+       849			 * or we must see its unlock and acquire.
+       850			 */
+       851			if (__mutex_trylock(lock) ||
+       852			    (first && mutex_optimistic_spin(lock, ww_ctx, use_ww_ctx, &waiter)))
+       853				break;
+       854	
+       855			spin_lock(&lock->wait_lock);
+       856		}
+       857		spin_lock(&lock->wait_lock);
+       858	acquired:
+       859		__set_current_state(TASK_RUNNING);
+       860	
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./include/linux/rcupdate.h:629
+       609	 * RCU read-side critical sections may be nested.  Any deferred actions
+       610	 * will be deferred until the outermost RCU read-side critical section
+       611	 * completes.
+       612	 *
+       613	 * You can avoid reading and understanding the next paragraph by
+       614	 * following this rule: don't put anything in an rcu_read_lock() RCU
+       615	 * read-side critical section that would block in a !PREEMPT kernel.
+       616	 * But if you want the full story, read on!
+       617	 *
+       618	 * In non-preemptible RCU implementations (TREE_RCU and TINY_RCU),
+       619	 * it is illegal to block while in an RCU read-side critical section.
+       620	 * In preemptible RCU implementations (PREEMPT_RCU) in CONFIG_PREEMPT
+       621	 * kernel builds, RCU read-side critical sections may be preempted,
+       622	 * but explicit blocking is illegal.  Finally, in preemptible RCU
+       623	 * implementations in real-time (with -rt patchset) kernel builds, RCU
+       624	 * read-side critical sections may be preempted and they may also block, but
+       625	 * only when acquiring spinlocks that are subject to priority inheritance.
+       626	 */
+       627	static inline void rcu_read_lock(void)
+       628	{
+==>    629		__rcu_read_lock();       
+       630		__acquire(RCU);
+       631		rcu_lock_acquire(&rcu_lock_map);
+       632		RCU_LOCKDEP_WARN(!rcu_is_watching(),
+       633				 "rcu_read_lock() used illegally while idle");
+       634	}
+       635	
+       636	/*
+       637	 * So where is rcu_write_lock()?  It does not exist, as there is no
+       638	 * way for writers to lock out RCU readers.  This is a feature, not
+       639	 * a bug -- this property is what provides RCU's performance benefits.
+       640	 * Of course, writers must coordinate with each other.  The normal
+       641	 * spinlock primitives work well for this, but any other technique may be
+       642	 * used as well.  RCU does not care how the writers keep out of each
+       643	 * others' way, as long as they do so.
+       644	 */
+       645	
+       646	/**
+       647	 * rcu_read_unlock() - marks the end of an RCU read-side critical section.
+       648	 *
+       649	 * In most situations, rcu_read_unlock() is immune from deadlock.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./include/linux/rcupdate.h:629
+       609	 * RCU read-side critical sections may be nested.  Any deferred actions
+       610	 * will be deferred until the outermost RCU read-side critical section
+       611	 * completes.
+       612	 *
+       613	 * You can avoid reading and understanding the next paragraph by
+       614	 * following this rule: don't put anything in an rcu_read_lock() RCU
+       615	 * read-side critical section that would block in a !PREEMPT kernel.
+       616	 * But if you want the full story, read on!
+       617	 *
+       618	 * In non-preemptible RCU implementations (TREE_RCU and TINY_RCU),
+       619	 * it is illegal to block while in an RCU read-side critical section.
+       620	 * In preemptible RCU implementations (PREEMPT_RCU) in CONFIG_PREEMPT
+       621	 * kernel builds, RCU read-side critical sections may be preempted,
+       622	 * but explicit blocking is illegal.  Finally, in preemptible RCU
+       623	 * implementations in real-time (with -rt patchset) kernel builds, RCU
+       624	 * read-side critical sections may be preempted and they may also block, but
+       625	 * only when acquiring spinlocks that are subject to priority inheritance.
+       626	 */
+       627	static inline void rcu_read_lock(void)
+       628	{
+==>    629		__rcu_read_lock();       
+       630		__acquire(RCU);
+       631		rcu_lock_acquire(&rcu_lock_map);
+       632		RCU_LOCKDEP_WARN(!rcu_is_watching(),
+       633				 "rcu_read_lock() used illegally while idle");
+       634	}
+       635	
+       636	/*
+       637	 * So where is rcu_write_lock()?  It does not exist, as there is no
+       638	 * way for writers to lock out RCU readers.  This is a feature, not
+       639	 * a bug -- this property is what provides RCU's performance benefits.
+       640	 * Of course, writers must coordinate with each other.  The normal
+       641	 * spinlock primitives work well for this, but any other technique may be
+       642	 * used as well.  RCU does not care how the writers keep out of each
+       643	 * others' way, as long as they do so.
+       644	 */
+       645	
+       646	/**
+       647	 * rcu_read_unlock() - marks the end of an RCU read-side critical section.
+       648	 *
+       649	 * In most situations, rcu_read_unlock() is immune from deadlock.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/preempt.h:76
+        56	{
+        57		raw_cpu_and_4(__preempt_count, ~PREEMPT_NEED_RESCHED);
+        58	}
+        59	
+        60	static __always_inline void clear_preempt_need_resched(void)
+        61	{
+        62		raw_cpu_or_4(__preempt_count, PREEMPT_NEED_RESCHED);
+        63	}
+        64	
+        65	static __always_inline bool test_preempt_need_resched(void)
+        66	{
+        67		return !(raw_cpu_read_4(__preempt_count) & PREEMPT_NEED_RESCHED);
+        68	}
+        69	
+        70	/*
+        71	 * The various preempt_count add/sub methods
+        72	 */
+        73	
+        74	static __always_inline void __preempt_count_add(int val)
+        75	{
+==>     76		raw_cpu_add_4(__preempt_count, val);       
+        77	}
+        78	
+        79	static __always_inline void __preempt_count_sub(int val)
+        80	{
+        81		raw_cpu_add_4(__preempt_count, -val);
+        82	}
+        83	
+        84	/*
+        85	 * Because we keep PREEMPT_NEED_RESCHED set when we do _not_ need to reschedule
+        86	 * a decrement which hits zero means we have no preempt_count and should
+        87	 * reschedule.
+        88	 */
+        89	static __always_inline bool __preempt_count_dec_and_test(void)
+        90	{
+        91		GEN_UNARY_RMWcc("decl", __preempt_count, __percpu_arg(0), e);
+        92	}
+        93	
+        94	/*
+        95	 * Returns true when we need to resched and can (barring IRQ state).
+        96	 */
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/processor.h:635
+       615	{
+       616		unsigned int eax, ebx, ecx, edx;
+       617	
+       618		cpuid(op, &eax, &ebx, &ecx, &edx);
+       619	
+       620		return ecx;
+       621	}
+       622	
+       623	static inline unsigned int cpuid_edx(unsigned int op)
+       624	{
+       625		unsigned int eax, ebx, ecx, edx;
+       626	
+       627		cpuid(op, &eax, &ebx, &ecx, &edx);
+       628	
+       629		return edx;
+       630	}
+       631	
+       632	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       633	static __always_inline void rep_nop(void)
+       634	{
+==>    635		asm volatile("rep; nop" ::: "memory");       
+       636	}
+       637	
+       638	static __always_inline void cpu_relax(void)
+       639	{
+       640		rep_nop();
+       641	}
+       642	
+       643	/*
+       644	 * This function forces the icache and prefetched instruction stream to
+       645	 * catch up with reality in two very specific cases:
+       646	 *
+       647	 *  a) Text was modified using one virtual address and is about to be executed
+       648	 *     from the same physical page at a different virtual address.
+       649	 *
+       650	 *  b) Text was modified on a different CPU, may subsequently be
+       651	 *     executed on this CPU, and you want to make sure the new version
+       652	 *     gets executed.  This generally means you're calling this in a IPI.
+       653	 *
+       654	 * If you're calling this for a different reason, you're probably doing
+       655	 * it wrong.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/processor.h:635
+       615	{
+       616		unsigned int eax, ebx, ecx, edx;
+       617	
+       618		cpuid(op, &eax, &ebx, &ecx, &edx);
+       619	
+       620		return ecx;
+       621	}
+       622	
+       623	static inline unsigned int cpuid_edx(unsigned int op)
+       624	{
+       625		unsigned int eax, ebx, ecx, edx;
+       626	
+       627		cpuid(op, &eax, &ebx, &ecx, &edx);
+       628	
+       629		return edx;
+       630	}
+       631	
+       632	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       633	static __always_inline void rep_nop(void)
+       634	{
+==>    635		asm volatile("rep; nop" ::: "memory");       
+       636	}
+       637	
+       638	static __always_inline void cpu_relax(void)
+       639	{
+       640		rep_nop();
+       641	}
+       642	
+       643	/*
+       644	 * This function forces the icache and prefetched instruction stream to
+       645	 * catch up with reality in two very specific cases:
+       646	 *
+       647	 *  a) Text was modified using one virtual address and is about to be executed
+       648	 *     from the same physical page at a different virtual address.
+       649	 *
+       650	 *  b) Text was modified on a different CPU, may subsequently be
+       651	 *     executed on this CPU, and you want to make sure the new version
+       652	 *     gets executed.  This generally means you're calling this in a IPI.
+       653	 *
+       654	 * If you're calling this for a different reason, you're probably doing
+       655	 * it wrong.
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/current.h:15
+         1	/* SPDX-License-Identifier: GPL-2.0 */
+         2	#ifndef _ASM_X86_CURRENT_H
+         3	#define _ASM_X86_CURRENT_H
+         4	
+         5	#include <linux/compiler.h>
+         6	#include <asm/percpu.h>
+         7	
+         8	#ifndef __ASSEMBLY__
+         9	struct task_struct;
+        10	
+        11	DECLARE_PER_CPU(struct task_struct *, current_task);
+        12	
+        13	static __always_inline struct task_struct *get_current(void)
+        14	{
+==>     15		return this_cpu_read_stable(current_task);       
+        16	}
+        17	
+        18	#define current get_current()
+        19	
+        20	#endif /* __ASSEMBLY__ */
+        21	
+        22	#endif /* _ASM_X86_CURRENT_H */
+
+/root/snowboard-2017-17712/testsuite/kernel/2017-17712/source//./arch/x86/include/asm/current.h:15
+         1	/* SPDX-License-Identifier: GPL-2.0 */
+         2	#ifndef _ASM_X86_CURRENT_H
+         3	#define _ASM_X86_CURRENT_H
+         4	
+         5	#include <linux/compiler.h>
+         6	#include <asm/percpu.h>
+         7	
+         8	#ifndef __ASSEMBLY__
+         9	struct task_struct;
+        10	
+        11	DECLARE_PER_CPU(struct task_struct *, current_task);
+        12	
+        13	static __always_inline struct task_struct *get_current(void)
+        14	{
+==>     15		return this_cpu_read_stable(current_task);       
+        16	}
+        17	
+        18	#define current get_current()
+        19	
+        20	#endif /* __ASSEMBLY__ */
+        21	
+        22	#endif /* _ASM_X86_CURRENT_H */
+
+

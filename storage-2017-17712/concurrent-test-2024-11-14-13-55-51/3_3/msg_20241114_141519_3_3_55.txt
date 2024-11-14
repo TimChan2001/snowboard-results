@@ -1,0 +1,1 @@
+[MSG] [CPU 0] [SKI] A new process reaches the barrier, called=3 needed=4

@@ -1,0 +1,1 @@
+[MSG] [CPU 3] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 

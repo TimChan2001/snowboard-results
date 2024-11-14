@@ -1,0 +1,13 @@
+### Switching to thread 81, CPU 0 [81, 0] from thread -1, CPU -1 [-1, -1]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c10df0c3) - changing priority of thread 81 from 81 to 122 compare_t 4
+### Switching to thread 88, CPU 1 [88, 0] from thread 81, CPU 0 [122, 0]
+### Switching to thread 93, CPU 1 [93, 0] from thread 88, CPU 1 [88, 0]
+### Switching to thread 88, CPU 1 [88, 0] from thread 93, CPU 1 [93, 0]
+### Switching to thread 95, CPU 2 [95, 0] from thread 88, CPU 1 [88, 0]
+### Switching to thread 39, CPU 3 [39, 0] from thread 95, CPU 2 [95, 0]
+### Switching to thread 95, CPU 2 [95, 0] from thread 39, CPU 3 [39, 0]
+### Switching to thread 38, CPU 3 [38, 0] from thread 95, CPU 2 [95, 0]
+### Switching to thread 97, CPU 3 [97, 0] from thread 38, CPU 3 [38, 0]
+### Switching to thread 103, CPU 2 [103, 0] from thread 97, CPU 3 [97, 0]
+### Switching to thread 105, CPU 3 [105, 0] from thread 103, CPU 2 [103, 0]
+### Switching to thread 107, CPU 3 [107, 0] from thread 105, CPU 3 [105, 0]

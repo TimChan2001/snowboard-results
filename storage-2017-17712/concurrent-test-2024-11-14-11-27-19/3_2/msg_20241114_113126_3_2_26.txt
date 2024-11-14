@@ -1,0 +1,15 @@
+[MSG] [CPU 2] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[MSG] [CPU 3] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[MSG] [CPU 0] Call sendmsg$BATADV_CMD_GET_HARDIF Call_NUM: 370 NUM_Args: 3 
+[MSG] [CPU 1] Call setsockopt$inet_sctp6_SCTP_DELAYED_SACK Call_NUM: 366 NUM_Args: 5 
+[MSG] [CPU 1] Args0=0xffffffffffffffff
+[MSG] [CPU 0] Args0=0xffffffffffffffff
+[MSG] [CPU 1] Args1=0x0
+[MSG] [CPU 1] Args2=0x3
+[MSG] [CPU 0] Args1=0x20000680
+[MSG] [CPU 1] Args3=0x200000c0
+[MSG] [CPU 1] Args4=0x4
+[MSG] [CPU 1] setsockopt$inet_sctp6_SCTP_DELAYED_SACK=0xffffffffffffffff errno=9
+[MSG] [CPU 0] Args2=0x40804
+[MSG] [CPU 0] sendmsg$BATADV_CMD_GET_HARDIF=0xffffffffffffffff errno=9
+[MSG] [CPU 0] END INFO
