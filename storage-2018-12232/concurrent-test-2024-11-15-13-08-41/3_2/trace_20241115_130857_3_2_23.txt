@@ -1,0 +1,58 @@
+### Switching to thread 52, CPU 0 [52, 0] from thread -1, CPU -1 [-1, -1]
+### Switching to thread 39, CPU 3 [39, 0] from thread 52, CPU 0 [52, 0]
+### Switching to thread 52, CPU 0 [52, 0] from thread 39, CPU 3 [39, 0]
+### Priority adjustment (cpu_no: 0, int_no: -1, tc->id: 52, old adjustment: 0 new adjustment: 20)
+### Adjusted priorities
+### Switching to thread 68, CPU 1 [68, 0] from thread 52, CPU 0 [52, 20]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c10e65b4) - changing priority of thread 68 from 68 to 144 compare_t 4
+### Switching to thread 52, CPU 0 [52, 20] from thread 68, CPU 1 [144, 0]
+### Switching to thread 39, CPU 3 [39, 0] from thread 52, CPU 0 [52, 20]
+### Switching to thread 52, CPU 0 [52, 20] from thread 39, CPU 3 [39, 0]
+### Switching to thread 39, CPU 3 [39, 0] from thread 52, CPU 0 [52, 20]
+### Switching to thread 52, CPU 0 [52, 20] from thread 39, CPU 3 [39, 0]
+### Switching to thread 140, CPU 2 [140, 0] from thread 52, CPU 0 [52, 20]
+### CPU 2 reached exit hypercall
+### Switching to thread 68, CPU 1 [144, 0] from thread 140, CPU 2 [140, 0]
+### Switching to thread 39, CPU 3 [39, 0] from thread 68, CPU 1 [144, 0]
+### Switching to thread 52, CPU 0 [52, 20] from thread 39, CPU 3 [39, 0]
+### Switching to thread 143, CPU 3 [143, 0] from thread 52, CPU 0 [52, 20]
+### CPU 3 reached exit hypercall
+### Switching to thread 68, CPU 1 [144, 0] from thread 143, CPU 3 [143, 0]
+### Switching to thread 52, CPU 0 [52, 20] from thread 68, CPU 1 [144, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c10e65f4) - changing priority of thread 52 from 52 to 145 compare_t 4
+### Switching to thread 68, CPU 1 [144, 0] from thread 52, CPU 0 [145, 20]
+### Switching to thread 19, CPU 1 [19, 0] from thread 68, CPU 1 [144, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c10e65b4) - changing priority of thread 19 from 19 to 146 compare_t 5
+### Switching to thread 69, CPU 1 [69, 0] from thread 19, CPU 1 [146, 0]
+### Switching to thread 68, CPU 1 [144, 0] from thread 69, CPU 1 [69, 0]
+### Switching to thread 39, CPU 3 [39, 0] from thread 68, CPU 1 [144, 0]
+### Switching to thread 68, CPU 1 [144, 0] from thread 39, CPU 3 [39, 0]
+### Priority adjustment (cpu_no: 1, int_no: -1, tc->id: 68, old adjustment: 0 new adjustment: 20)
+### Adjusted priorities
+### Switching to thread 39, CPU 3 [39, 0] from thread 68, CPU 1 [144, 20]
+### Switching to thread 68, CPU 1 [144, 20] from thread 39, CPU 3 [39, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c10e65b4) - changing priority of thread 68 from 144 to 146 compare_t 4
+### Switching to thread 52, CPU 0 [145, 20] from thread 68, CPU 1 [146, 20]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c10e65f4) - changing priority of thread 52 from 145 to 147 compare_t 4
+### Switching to thread 68, CPU 1 [146, 20] from thread 52, CPU 0 [147, 20]
+### Switching to thread 69, CPU 1 [69, 0] from thread 68, CPU 1 [146, 20]
+### Switching to thread 68, CPU 1 [146, 20] from thread 69, CPU 1 [69, 0]
+### Switching to thread 39, CPU 3 [39, 0] from thread 68, CPU 1 [146, 20]
+### Switching to thread 68, CPU 1 [146, 20] from thread 39, CPU 3 [39, 0]
+### Priority adjustment (cpu_no: 1, int_no: -1, tc->id: 68, old adjustment: 20 new adjustment: 40)
+### Adjusted priorities
+### Switching to thread 52, CPU 0 [147, 20] from thread 68, CPU 1 [146, 40]
+### Switching to thread 69, CPU 1 [69, 0] from thread 52, CPU 0 [147, 20]
+### Switching to thread 52, CPU 0 [147, 20] from thread 69, CPU 1 [69, 0]
+### CPU 0 reached exit hypercall
+### Switching to thread 90, CPU 0 [90, 0] from thread 52, CPU 0 [147, 20]
+### Switching to thread 98, CPU 0 [98, 0] from thread 90, CPU 0 [90, 0]
+### Switching to thread 156, CPU 0 [156, 0] from thread 98, CPU 0 [98, 0]
+### Switching to thread 164, CPU 0 [164, 0] from thread 156, CPU 0 [156, 0]
+### Switching to thread 172, CPU 0 [172, 0] from thread 164, CPU 0 [164, 0]
+### Switching to thread 180, CPU 0 [180, 0] from thread 172, CPU 0 [172, 0]
+### Switching to thread 68, CPU 1 [146, 40] from thread 180, CPU 0 [180, 0]
+### Switching to thread 9, CPU 0 [9, 0] from thread 68, CPU 1 [146, 40]
+### Switching to thread 68, CPU 1 [146, 40] from thread 9, CPU 0 [9, 0]
+### CPU 1 reached exit hypercall
+### Test finished

@@ -1,0 +1,1 @@
+[  488.022487] hrtimer: interrupt took 50001234 ns

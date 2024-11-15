@@ -1,0 +1,2598 @@
+vmlinux map is loaded
+Waiting for data race records
+
+('Analyed ', 500, 2621, ' data races in total')
+('Analyed ', 1000, 2621, ' data races in total')
+('Analyed ', 1500, 2621, ' data races in total')
+('Analyed ', 2000, 2621, ' data races in total')
+('Analyed ', 2500, 2621, ' data races in total')
+
+====================================================================================================================================================================================
+Total: 2	Addresses: c122ba32 c122c3a4
+1	0xc122ba32: pipe_lock_nested at /root/2018-12232-i386/linux-4.17.1/fs/pipe.c:61
+1	0xc122c3a4: put_pipe_info at /root/2018-12232-i386/linux-4.17.1/fs/pipe.c:549
+
+1	c122ba32 pipe_lock_nested T: trace_20241115_131447_3_2_35.txt S: 35 I1: 3 I2: 2 IP1: c122ba32 IP2: c122c3a4 PMA1: 319d3214 PMA2: 319d3214 CPU1: 3 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 2816979 IC2: 2812714
+1	c122c3a4 put_pipe_info T: trace_20241115_131447_3_2_35.txt S: 35 I1: 3 I2: 2 IP1: c122ba32 IP2: c122c3a4 PMA1: 319d3214 PMA2: 319d3214 CPU1: 3 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 2816979 IC2: 2812714
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//fs/pipe.c:61
+        41	unsigned long pipe_user_pages_hard;
+        42	unsigned long pipe_user_pages_soft = PIPE_DEF_BUFFERS * INR_OPEN_CUR;
+        43	
+        44	/*
+        45	 * We use a start+len construction, which provides full use of the 
+        46	 * allocated memory.
+        47	 * -- Florian Coosmann (FGC)
+        48	 * 
+        49	 * Reads with count = 0 should always return 0.
+        50	 * -- Julian Bradfield 1999-06-07.
+        51	 *
+        52	 * FIFOs and Pipes now generate SIGIO for both readers and writers.
+        53	 * -- Jeremy Elson <jelson@circlemud.org> 2001-08-16
+        54	 *
+        55	 * pipe_read & write cleanup
+        56	 * -- Manfred Spraul <manfred@colorfullife.com> 2002-05-09
+        57	 */
+        58	
+        59	static void pipe_lock_nested(struct pipe_inode_info *pipe, int subclass)
+        60	{
+==>     61		if (pipe->files)       
+        62			mutex_lock_nested(&pipe->mutex, subclass);
+        63	}
+        64	
+        65	void pipe_lock(struct pipe_inode_info *pipe)
+        66	{
+        67		/*
+        68		 * pipe_lock() nests non-pipe inode locks (for writing to a file)
+        69		 */
+        70		pipe_lock_nested(pipe, I_MUTEX_PARENT);
+        71	}
+        72	EXPORT_SYMBOL(pipe_lock);
+        73	
+        74	void pipe_unlock(struct pipe_inode_info *pipe)
+        75	{
+        76		if (pipe->files)
+        77			mutex_unlock(&pipe->mutex);
+        78	}
+        79	EXPORT_SYMBOL(pipe_unlock);
+        80	
+        81	static inline void __pipe_lock(struct pipe_inode_info *pipe)
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//fs/pipe.c:549
+       529		}
+       530	
+       531		if (filp->f_mode & FMODE_WRITE) {
+       532			mask |= (nrbufs < pipe->buffers) ? EPOLLOUT | EPOLLWRNORM : 0;
+       533			/*
+       534			 * Most Unices do not set EPOLLERR for FIFOs but on Linux they
+       535			 * behave exactly like pipes for poll().
+       536			 */
+       537			if (!pipe->readers)
+       538				mask |= EPOLLERR;
+       539		}
+       540	
+       541		return mask;
+       542	}
+       543	
+       544	static void put_pipe_info(struct inode *inode, struct pipe_inode_info *pipe)
+       545	{
+       546		int kill = 0;
+       547	
+       548		spin_lock(&inode->i_lock);
+==>    549		if (!--pipe->files) {       
+       550			inode->i_pipe = NULL;
+       551			kill = 1;
+       552		}
+       553		spin_unlock(&inode->i_lock);
+       554	
+       555		if (kill)
+       556			free_pipe_info(pipe);
+       557	}
+       558	
+       559	static int
+       560	pipe_release(struct inode *inode, struct file *file)
+       561	{
+       562		struct pipe_inode_info *pipe = file->private_data;
+       563	
+       564		__pipe_lock(pipe);
+       565		if (file->f_mode & FMODE_READ)
+       566			pipe->readers--;
+       567		if (file->f_mode & FMODE_WRITE)
+       568			pipe->writers--;
+       569	
+
+
+====================================================================================================================================================================================
+Total: 4	Addresses: c1846ee0
+4	0xc1846ee0: refcount_dec_and_test at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/refcount.h:75
+
+4	c1846ee0 refcount_dec_and_test T: trace_20241115_134816_3_2_13.txt S: 13 I1: 3 I2: 2 IP1: c1846ee0 IP2: c1846ee0 PMA1: 35e86b8c PMA2: 35e86b8c CPU1: 3 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 1562251 IC2: 1554753
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/refcount.h:75
+        55			: : "cc", "cx");
+        56	}
+        57	
+        58	static __always_inline void refcount_dec(refcount_t *r)
+        59	{
+        60		asm volatile(LOCK_PREFIX "decl %0\n\t"
+        61			REFCOUNT_CHECK_LE_ZERO
+        62			: [counter] "+m" (r->refs.counter)
+        63			: : "cc", "cx");
+        64	}
+        65	
+        66	static __always_inline __must_check
+        67	bool refcount_sub_and_test(unsigned int i, refcount_t *r)
+        68	{
+        69		GEN_BINARY_SUFFIXED_RMWcc(LOCK_PREFIX "subl", REFCOUNT_CHECK_LT_ZERO,
+        70					  r->refs.counter, "er", i, "%0", e, "cx");
+        71	}
+        72	
+        73	static __always_inline __must_check bool refcount_dec_and_test(refcount_t *r)
+        74	{
+==>     75		GEN_UNARY_SUFFIXED_RMWcc(LOCK_PREFIX "decl", REFCOUNT_CHECK_LT_ZERO,       
+        76					 r->refs.counter, "%0", e, "cx");
+        77	}
+        78	
+        79	static __always_inline __must_check
+        80	bool refcount_add_not_zero(unsigned int i, refcount_t *r)
+        81	{
+        82		int c, result;
+        83	
+        84		c = atomic_read(&(r->refs));
+        85		do {
+        86			if (unlikely(c == 0))
+        87				return false;
+        88	
+        89			result = c + i;
+        90	
+        91			/* Did we try to increment from/to an undesirable state? */
+        92			if (unlikely(c < 0 || c == INT_MAX || result < c)) {
+        93				asm volatile(REFCOUNT_ERROR
+        94					     : : [counter] "m" (r->refs.counter)
+        95					     : "cc", "cx");
+
+
+====================================================================================================================================================================================
+Total: 8	Addresses: c10e5953 c10f0056 c10ea0ef
+2	0xc10f0053: cpu_util at /root/2018-12232-i386/linux-4.17.1/kernel/sched/fair.c:6457
+2	0xc10ea0ec: cpu_util at /root/2018-12232-i386/linux-4.17.1/kernel/sched/fair.c:6457
+4	0xc10e5953: attach_entity_load_avg at /root/2018-12232-i386/linux-4.17.1/kernel/sched/fair.c:3748
+
+2	c10f0056 __read_once_size T: trace_20241115_131223_2_2_0.txt S: 0 I1: 2 I2: 2 IP1: c10f0056 IP2: c10e5953 PMA1: 361b8fa8 PMA2: 361b8fa8 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 1098297 IC2: 31167
+2	c10ea0ef __read_once_size T: trace_20241115_131223_2_2_0.txt S: 0 I1: 2 I2: 2 IP1: c10ea0ef IP2: c10e5953 PMA1: 361b8fa8 PMA2: 361b8fa8 CPU1: 3 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 1094702 IC2: 31167
+4	c10e5953 attach_entity_load_avg T: trace_20241115_131223_2_2_0.txt S: 0 I1: 2 I2: 2 IP1: c10f0056 IP2: c10e5953 PMA1: 361b8fa8 PMA2: 361b8fa8 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 1098297 IC2: 31167
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/sched/fair.c:6457
+      6437	 * describing the potential for other tasks waking up on the same CPU.
+      6438	 *
+      6439	 * Nevertheless, cfs_rq.avg.util_avg can be higher than capacity_curr or even
+      6440	 * higher than capacity_orig because of unfortunate rounding in
+      6441	 * cfs.avg.util_avg or just after migrating tasks and new task wakeups until
+      6442	 * the average stabilizes with the new running time. We need to check that the
+      6443	 * utilization stays within the range of [0..capacity_orig] and cap it if
+      6444	 * necessary. Without utilization capping, a group could be seen as overloaded
+      6445	 * (CPU0 utilization at 121% + CPU1 utilization at 80%) whereas CPU1 has 20% of
+      6446	 * available capacity. We allow utilization to overshoot capacity_curr (but not
+      6447	 * capacity_orig) as it useful for predicting the capacity required after task
+      6448	 * migrations (scheduler-driven DVFS).
+      6449	 *
+      6450	 * Return: the (estimated) utilization for the specified CPU
+      6451	 */
+      6452	static inline unsigned long cpu_util(int cpu)
+      6453	{
+      6454		struct cfs_rq *cfs_rq;
+      6455		unsigned int util;
+      6456	
+==>   6457		cfs_rq = &cpu_rq(cpu)->cfs;       
+      6458		util = READ_ONCE(cfs_rq->avg.util_avg);
+      6459	
+      6460		if (sched_feat(UTIL_EST))
+      6461			util = max(util, READ_ONCE(cfs_rq->avg.util_est.enqueued));
+      6462	
+      6463		return min_t(unsigned long, util, capacity_orig_of(cpu));
+      6464	}
+      6465	
+      6466	/*
+      6467	 * cpu_util_wake: Compute CPU utilization with any contributions from
+      6468	 * the waking task p removed.
+      6469	 */
+      6470	static unsigned long cpu_util_wake(int cpu, struct task_struct *p)
+      6471	{
+      6472		struct cfs_rq *cfs_rq;
+      6473		unsigned int util;
+      6474	
+      6475		/* Task has no contribution or is new */
+      6476		if (cpu != task_cpu(p) || !READ_ONCE(p->se.avg.last_update_time))
+      6477			return cpu_util(cpu);
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/sched/fair.c:6457
+      6437	 * describing the potential for other tasks waking up on the same CPU.
+      6438	 *
+      6439	 * Nevertheless, cfs_rq.avg.util_avg can be higher than capacity_curr or even
+      6440	 * higher than capacity_orig because of unfortunate rounding in
+      6441	 * cfs.avg.util_avg or just after migrating tasks and new task wakeups until
+      6442	 * the average stabilizes with the new running time. We need to check that the
+      6443	 * utilization stays within the range of [0..capacity_orig] and cap it if
+      6444	 * necessary. Without utilization capping, a group could be seen as overloaded
+      6445	 * (CPU0 utilization at 121% + CPU1 utilization at 80%) whereas CPU1 has 20% of
+      6446	 * available capacity. We allow utilization to overshoot capacity_curr (but not
+      6447	 * capacity_orig) as it useful for predicting the capacity required after task
+      6448	 * migrations (scheduler-driven DVFS).
+      6449	 *
+      6450	 * Return: the (estimated) utilization for the specified CPU
+      6451	 */
+      6452	static inline unsigned long cpu_util(int cpu)
+      6453	{
+      6454		struct cfs_rq *cfs_rq;
+      6455		unsigned int util;
+      6456	
+==>   6457		cfs_rq = &cpu_rq(cpu)->cfs;       
+      6458		util = READ_ONCE(cfs_rq->avg.util_avg);
+      6459	
+      6460		if (sched_feat(UTIL_EST))
+      6461			util = max(util, READ_ONCE(cfs_rq->avg.util_est.enqueued));
+      6462	
+      6463		return min_t(unsigned long, util, capacity_orig_of(cpu));
+      6464	}
+      6465	
+      6466	/*
+      6467	 * cpu_util_wake: Compute CPU utilization with any contributions from
+      6468	 * the waking task p removed.
+      6469	 */
+      6470	static unsigned long cpu_util_wake(int cpu, struct task_struct *p)
+      6471	{
+      6472		struct cfs_rq *cfs_rq;
+      6473		unsigned int util;
+      6474	
+      6475		/* Task has no contribution or is new */
+      6476		if (cpu != task_cpu(p) || !READ_ONCE(p->se.avg.last_update_time))
+      6477			return cpu_util(cpu);
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/sched/fair.c:3748
+      3728		se->avg.last_update_time = cfs_rq->avg.last_update_time;
+      3729		se->avg.period_contrib = cfs_rq->avg.period_contrib;
+      3730	
+      3731		/*
+      3732		 * Hell(o) Nasty stuff.. we need to recompute _sum based on the new
+      3733		 * period_contrib. This isn't strictly correct, but since we're
+      3734		 * entirely outside of the PELT hierarchy, nobody cares if we truncate
+      3735		 * _sum a little.
+      3736		 */
+      3737		se->avg.util_sum = se->avg.util_avg * divider;
+      3738	
+      3739		se->avg.load_sum = divider;
+      3740		if (se_weight(se)) {
+      3741			se->avg.load_sum =
+      3742				div_u64(se->avg.load_avg * se->avg.load_sum, se_weight(se));
+      3743		}
+      3744	
+      3745		se->avg.runnable_load_sum = se->avg.load_sum;
+      3746	
+      3747		enqueue_load_avg(cfs_rq, se);
+==>   3748		cfs_rq->avg.util_avg += se->avg.util_avg;       
+      3749		cfs_rq->avg.util_sum += se->avg.util_sum;
+      3750	
+      3751		add_tg_cfs_propagate(cfs_rq, se->avg.load_sum);
+      3752	
+      3753		cfs_rq_util_change(cfs_rq, flags);
+      3754	}
+      3755	
+      3756	/**
+      3757	 * detach_entity_load_avg - detach this entity from its cfs_rq load avg
+      3758	 * @cfs_rq: cfs_rq to detach from
+      3759	 * @se: sched_entity to detach
+      3760	 *
+      3761	 * Must call update_cfs_rq_load_avg() before this, since we rely on
+      3762	 * cfs_rq->avg.last_update_time being current.
+      3763	 */
+      3764	static void detach_entity_load_avg(struct cfs_rq *cfs_rq, struct sched_entity *se)
+      3765	{
+      3766		dequeue_load_avg(cfs_rq, se);
+      3767		sub_positive(&cfs_rq->avg.util_avg, se->avg.util_avg);
+      3768		sub_positive(&cfs_rq->avg.util_sum, se->avg.util_sum);
+
+
+====================================================================================================================================================================================
+Total: 10	Addresses: c10fd0fa c10fd1da
+5	0xc10fd0f8: rep_nop at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/processor.h:667
+5	0xc10fd1d8: osq_unlock at /root/2018-12232-i386/linux-4.17.1/kernel/locking/osq_lock.c:223
+
+5	c10fd0fa __read_once_size T: trace_20241115_132759_4_4_52.txt S: 52 I1: 4 I2: 4 IP1: c10fd0fa IP2: c10fd1da PMA1: 3619c608 PMA2: 3619c608 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 1529517 IC2: 1529515
+5	c10fd1da __write_once_size T: trace_20241115_132759_4_4_52.txt S: 52 I1: 4 I2: 4 IP1: c10fd0fa IP2: c10fd1da PMA1: 3619c608 PMA2: 3619c608 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 1529517 IC2: 1529515
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/processor.h:667
+       647	{
+       648		unsigned int eax, ebx, ecx, edx;
+       649	
+       650		cpuid(op, &eax, &ebx, &ecx, &edx);
+       651	
+       652		return ecx;
+       653	}
+       654	
+       655	static inline unsigned int cpuid_edx(unsigned int op)
+       656	{
+       657		unsigned int eax, ebx, ecx, edx;
+       658	
+       659		cpuid(op, &eax, &ebx, &ecx, &edx);
+       660	
+       661		return edx;
+       662	}
+       663	
+       664	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       665	static __always_inline void rep_nop(void)
+       666	{
+==>    667		asm volatile("rep; nop" ::: "memory");       
+       668	}
+       669	
+       670	static __always_inline void cpu_relax(void)
+       671	{
+       672		rep_nop();
+       673	}
+       674	
+       675	/*
+       676	 * This function forces the icache and prefetched instruction stream to
+       677	 * catch up with reality in two very specific cases:
+       678	 *
+       679	 *  a) Text was modified using one virtual address and is about to be executed
+       680	 *     from the same physical page at a different virtual address.
+       681	 *
+       682	 *  b) Text was modified on a different CPU, may subsequently be
+       683	 *     executed on this CPU, and you want to make sure the new version
+       684	 *     gets executed.  This generally means you're calling this in a IPI.
+       685	 *
+       686	 * If you're calling this for a different reason, you're probably doing
+       687	 * it wrong.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/osq_lock.c:223
+       203		return false;
+       204	}
+       205	
+       206	void osq_unlock(struct optimistic_spin_queue *lock)
+       207	{
+       208		struct optimistic_spin_node *node, *next;
+       209		int curr = encode_cpu(smp_processor_id());
+       210	
+       211		/*
+       212		 * Fast path for the uncontended case.
+       213		 */
+       214		if (likely(atomic_cmpxchg_release(&lock->tail, curr,
+       215						  OSQ_UNLOCKED_VAL) == curr))
+       216			return;
+       217	
+       218		/*
+       219		 * Second most likely case.
+       220		 */
+       221		node = this_cpu_ptr(&osq_node);
+       222		next = xchg(&node->next, NULL);
+==>    223		if (next) {       
+       224			WRITE_ONCE(next->locked, 1);
+       225			return;
+       226		}
+       227	
+       228		next = osq_wait_next(lock, node, NULL);
+       229		if (next)
+       230			WRITE_ONCE(next->locked, 1);
+       231	}
+
+
+====================================================================================================================================================================================
+Total: 14	Addresses: c11378fb c1137b5a
+7	0xc11378f9: csd_unlock at /root/2018-12232-i386/linux-4.17.1/kernel/smp.c:126
+7	0xc1137b58: rep_nop at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/processor.h:667
+
+7	c11378fb __write_once_size T: trace_20241115_132759_4_4_42.txt S: 42 I1: 4 I2: 4 IP1: c11378fb IP2: c1137b5a PMA1: 2fce5c7c PMA2: 2fce5c7c CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 1556549 IC2: 1555777
+7	c1137b5a __read_once_size T: trace_20241115_132759_4_4_42.txt S: 42 I1: 4 I2: 4 IP1: c11378fb IP2: c1137b5a PMA1: 2fce5c7c PMA2: 2fce5c7c CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 1556549 IC2: 1555777
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/smp.c:126
+       106	static __always_inline void csd_lock_wait(call_single_data_t *csd)
+       107	{
+       108		smp_cond_load_acquire(&csd->flags, !(VAL & CSD_FLAG_LOCK));
+       109	}
+       110	
+       111	static __always_inline void csd_lock(call_single_data_t *csd)
+       112	{
+       113		csd_lock_wait(csd);
+       114		csd->flags |= CSD_FLAG_LOCK;
+       115	
+       116		/*
+       117		 * prevent CPU from reordering the above assignment
+       118		 * to ->flags with any subsequent assignments to other
+       119		 * fields of the specified call_single_data_t structure:
+       120		 */
+       121		smp_wmb();
+       122	}
+       123	
+       124	static __always_inline void csd_unlock(call_single_data_t *csd)
+       125	{
+==>    126		WARN_ON(!(csd->flags & CSD_FLAG_LOCK));       
+       127	
+       128		/*
+       129		 * ensure we're all done before releasing data:
+       130		 */
+       131		smp_store_release(&csd->flags, 0);
+       132	}
+       133	
+       134	static DEFINE_PER_CPU_SHARED_ALIGNED(call_single_data_t, csd_data);
+       135	
+       136	/*
+       137	 * Insert a previously allocated call_single_data_t element
+       138	 * for execution on the given CPU. data must already have
+       139	 * ->func, ->info, and ->flags set.
+       140	 */
+       141	static int generic_exec_single(int cpu, call_single_data_t *csd,
+       142				       smp_call_func_t func, void *info)
+       143	{
+       144		if (cpu == smp_processor_id()) {
+       145			unsigned long flags;
+       146	
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/processor.h:667
+       647	{
+       648		unsigned int eax, ebx, ecx, edx;
+       649	
+       650		cpuid(op, &eax, &ebx, &ecx, &edx);
+       651	
+       652		return ecx;
+       653	}
+       654	
+       655	static inline unsigned int cpuid_edx(unsigned int op)
+       656	{
+       657		unsigned int eax, ebx, ecx, edx;
+       658	
+       659		cpuid(op, &eax, &ebx, &ecx, &edx);
+       660	
+       661		return edx;
+       662	}
+       663	
+       664	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       665	static __always_inline void rep_nop(void)
+       666	{
+==>    667		asm volatile("rep; nop" ::: "memory");       
+       668	}
+       669	
+       670	static __always_inline void cpu_relax(void)
+       671	{
+       672		rep_nop();
+       673	}
+       674	
+       675	/*
+       676	 * This function forces the icache and prefetched instruction stream to
+       677	 * catch up with reality in two very specific cases:
+       678	 *
+       679	 *  a) Text was modified using one virtual address and is about to be executed
+       680	 *     from the same physical page at a different virtual address.
+       681	 *
+       682	 *  b) Text was modified on a different CPU, may subsequently be
+       683	 *     executed on this CPU, and you want to make sure the new version
+       684	 *     gets executed.  This generally means you're calling this in a IPI.
+       685	 *
+       686	 * If you're calling this for a different reason, you're probably doing
+       687	 * it wrong.
+
+
+====================================================================================================================================================================================
+Total: 26	Addresses: c11db56b c1134cea
+13	0xc11db56b: set_bit at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/bitops.h:76
+13	0xc1134cea: constant_test_bit at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/bitops.h:328
+
+13	c11db56b set_bit T: trace_20241115_131200_3_4_49.txt S: 49 I1: 3 I2: 4 IP1: c11db56b IP2: c1134cea PMA1: 3633026c PMA2: 3633026c CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 132118 IC2: 109341
+13	c1134cea constant_test_bit T: trace_20241115_131200_3_4_49.txt S: 49 I1: 3 I2: 4 IP1: c11db56b IP2: c1134cea PMA1: 3633026c PMA2: 3633026c CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 132118 IC2: 109341
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/bitops.h:76
+        56	
+        57	/**
+        58	 * set_bit - Atomically set a bit in memory
+        59	 * @nr: the bit to set
+        60	 * @addr: the address to start counting from
+        61	 *
+        62	 * This function is atomic and may not be reordered.  See __set_bit()
+        63	 * if you do not require the atomic guarantees.
+        64	 *
+        65	 * Note: there are no guarantees that this function will not be reordered
+        66	 * on non x86 architectures, so if you are writing portable code,
+        67	 * make sure not to rely on its reordering guarantees.
+        68	 *
+        69	 * Note that @nr may be almost arbitrarily large; this function is not
+        70	 * restricted to acting on a single-word quantity.
+        71	 */
+        72	static __always_inline void
+        73	set_bit(long nr, volatile unsigned long *addr)
+        74	{
+        75		if (IS_IMMEDIATE(nr)) {
+==>     76			asm volatile(LOCK_PREFIX "orb %1,%0"       
+        77				: CONST_MASK_ADDR(nr, addr)
+        78				: "iq" ((u8)CONST_MASK(nr))
+        79				: "memory");
+        80		} else {
+        81			asm volatile(LOCK_PREFIX __ASM_SIZE(bts) " %1,%0"
+        82				: BITOP_ADDR(addr) : "Ir" (nr) : "memory");
+        83		}
+        84	}
+        85	
+        86	/**
+        87	 * __set_bit - Set a bit in memory
+        88	 * @nr: the bit to set
+        89	 * @addr: the address to start counting from
+        90	 *
+        91	 * Unlike set_bit(), this function is non-atomic and may be reordered.
+        92	 * If it's called on the same region of memory simultaneously, the effect
+        93	 * may be that only one operation succeeds.
+        94	 */
+        95	static __always_inline void __set_bit(long nr, volatile unsigned long *addr)
+        96	{
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/bitops.h:328
+       308		return oldbit;
+       309	}
+       310	
+       311	/**
+       312	 * test_and_change_bit - Change a bit and return its old value
+       313	 * @nr: Bit to change
+       314	 * @addr: Address to count from
+       315	 *
+       316	 * This operation is atomic and cannot be reordered.
+       317	 * It also implies a memory barrier.
+       318	 */
+       319	static __always_inline bool test_and_change_bit(long nr, volatile unsigned long *addr)
+       320	{
+       321		GEN_BINARY_RMWcc(LOCK_PREFIX __ASM_SIZE(btc),
+       322		                 *addr, "Ir", nr, "%0", c);
+       323	}
+       324	
+       325	static __always_inline bool constant_test_bit(long nr, const volatile unsigned long *addr)
+       326	{
+       327		return ((1UL << (nr & (BITS_PER_LONG-1))) &
+==>    328			(addr[nr >> _BITOPS_LONG_SHIFT])) != 0;       
+       329	}
+       330	
+       331	static __always_inline bool variable_test_bit(long nr, volatile const unsigned long *addr)
+       332	{
+       333		bool oldbit;
+       334	
+       335		asm volatile(__ASM_SIZE(bt) " %2,%1"
+       336			     CC_SET(c)
+       337			     : CC_OUT(c) (oldbit)
+       338			     : "m" (*(unsigned long *)addr), "Ir" (nr));
+       339	
+       340		return oldbit;
+       341	}
+       342	
+       343	#if 0 /* Fool kernel-doc since it doesn't do macros yet */
+       344	/**
+       345	 * test_bit - Determine whether a bit is set
+       346	 * @nr: bit number to test
+       347	 * @addr: Address to start counting from
+       348	 */
+
+
+====================================================================================================================================================================================
+Total: 28	Addresses: c113791d c1137b22
+14	0xc113791b: csd_unlock at /root/2018-12232-i386/linux-4.17.1/kernel/smp.c:126
+14	0xc1137b20: rep_nop at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/processor.h:667
+
+14	c113791d __write_once_size T: trace_20241115_132407_4_4_45.txt S: 45 I1: 4 I2: 4 IP1: c113791d IP2: c1137b22 PMA1: 361b990c PMA2: 361b990c CPU1: 2 CPU2: 1 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 5069933 IC2: 5069618
+14	c1137b22 __read_once_size T: trace_20241115_132407_4_4_45.txt S: 45 I1: 4 I2: 4 IP1: c113791d IP2: c1137b22 PMA1: 361b990c PMA2: 361b990c CPU1: 2 CPU2: 1 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 5069933 IC2: 5069618
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/smp.c:126
+       106	static __always_inline void csd_lock_wait(call_single_data_t *csd)
+       107	{
+       108		smp_cond_load_acquire(&csd->flags, !(VAL & CSD_FLAG_LOCK));
+       109	}
+       110	
+       111	static __always_inline void csd_lock(call_single_data_t *csd)
+       112	{
+       113		csd_lock_wait(csd);
+       114		csd->flags |= CSD_FLAG_LOCK;
+       115	
+       116		/*
+       117		 * prevent CPU from reordering the above assignment
+       118		 * to ->flags with any subsequent assignments to other
+       119		 * fields of the specified call_single_data_t structure:
+       120		 */
+       121		smp_wmb();
+       122	}
+       123	
+       124	static __always_inline void csd_unlock(call_single_data_t *csd)
+       125	{
+==>    126		WARN_ON(!(csd->flags & CSD_FLAG_LOCK));       
+       127	
+       128		/*
+       129		 * ensure we're all done before releasing data:
+       130		 */
+       131		smp_store_release(&csd->flags, 0);
+       132	}
+       133	
+       134	static DEFINE_PER_CPU_SHARED_ALIGNED(call_single_data_t, csd_data);
+       135	
+       136	/*
+       137	 * Insert a previously allocated call_single_data_t element
+       138	 * for execution on the given CPU. data must already have
+       139	 * ->func, ->info, and ->flags set.
+       140	 */
+       141	static int generic_exec_single(int cpu, call_single_data_t *csd,
+       142				       smp_call_func_t func, void *info)
+       143	{
+       144		if (cpu == smp_processor_id()) {
+       145			unsigned long flags;
+       146	
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/processor.h:667
+       647	{
+       648		unsigned int eax, ebx, ecx, edx;
+       649	
+       650		cpuid(op, &eax, &ebx, &ecx, &edx);
+       651	
+       652		return ecx;
+       653	}
+       654	
+       655	static inline unsigned int cpuid_edx(unsigned int op)
+       656	{
+       657		unsigned int eax, ebx, ecx, edx;
+       658	
+       659		cpuid(op, &eax, &ebx, &ecx, &edx);
+       660	
+       661		return edx;
+       662	}
+       663	
+       664	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       665	static __always_inline void rep_nop(void)
+       666	{
+==>    667		asm volatile("rep; nop" ::: "memory");       
+       668	}
+       669	
+       670	static __always_inline void cpu_relax(void)
+       671	{
+       672		rep_nop();
+       673	}
+       674	
+       675	/*
+       676	 * This function forces the icache and prefetched instruction stream to
+       677	 * catch up with reality in two very specific cases:
+       678	 *
+       679	 *  a) Text was modified using one virtual address and is about to be executed
+       680	 *     from the same physical page at a different virtual address.
+       681	 *
+       682	 *  b) Text was modified on a different CPU, may subsequently be
+       683	 *     executed on this CPU, and you want to make sure the new version
+       684	 *     gets executed.  This generally means you're calling this in a IPI.
+       685	 *
+       686	 * If you're calling this for a different reason, you're probably doing
+       687	 * it wrong.
+
+
+====================================================================================================================================================================================
+Total: 38	Addresses: c10f979e c18e7147 c10f91a0 c10f93fd c18e6ff4
+4	0xc18e7147: copy_page_to_iter at /root/2018-12232-i386/linux-4.17.1/lib/iov_iter.c:713
+4	0xc10f93fd: __wake_up_sync_key at /root/2018-12232-i386/linux-4.17.1/kernel/sched/wait.c:197
+4	0xc18e6ff4: copy_page_to_iter at /root/2018-12232-i386/linux-4.17.1/lib/iov_iter.c:701
+7	0xc10f918e: finish_wait at /root/2018-12232-i386/linux-4.17.1/kernel/sched/wait.c:368
+19	0xc10f9789: autoremove_wake_function at /root/2018-12232-i386/linux-4.17.1/kernel/sched/wait.c:379
+
+4	c18e7147 copy_page_to_iter T: trace_20241115_132416_2_2_17.txt S: 17 I1: 2 I2: 2 IP1: c18e7147 IP2: c10f979e PMA1: 31d8de98 PMA2: 31d8de98 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 3421841 IC2: 3416973
+4	c10f93fd __wake_up_sync_key T: trace_20241115_132416_2_2_17.txt S: 17 I1: 2 I2: 2 IP1: c10f93fd IP2: c10f979e PMA1: 31d8de98 PMA2: 31d8de98 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 3421941 IC2: 3416973
+4	c18e6ff4 copy_page_to_iter T: trace_20241115_132416_2_2_17.txt S: 17 I1: 2 I2: 2 IP1: c18e6ff4 IP2: c10f979e PMA1: 31d8de98 PMA2: 31d8de98 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 3421234 IC2: 3416973
+7	c10f91a0 list_empty_careful T: trace_20241115_132416_2_2_17.txt S: 17 I1: 2 I2: 2 IP1: c10f91a0 IP2: c10f979e PMA1: 31d8de98 PMA2: 31d8de98 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 3421168 IC2: 3416973
+19	c10f979e INIT_LIST_HEAD T: trace_20241115_132416_2_2_17.txt S: 17 I1: 2 I2: 2 IP1: c10f93fd IP2: c10f979e PMA1: 31d8de98 PMA2: 31d8de98 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 3421941 IC2: 3416973
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//lib/iov_iter.c:713
+       693		if (likely(n <= v && v <= (PAGE_SIZE << compound_order(head))))
+       694			return true;
+       695		WARN_ON(1);
+       696		return false;
+       697	}
+       698	
+       699	size_t copy_page_to_iter(struct page *page, size_t offset, size_t bytes,
+       700				 struct iov_iter *i)
+       701	{
+       702		if (unlikely(!page_copy_sane(page, offset, bytes)))
+       703			return 0;
+       704		if (i->type & (ITER_BVEC|ITER_KVEC)) {
+       705			void *kaddr = kmap_atomic(page);
+       706			size_t wanted = copy_to_iter(kaddr + offset, bytes, i);
+       707			kunmap_atomic(kaddr);
+       708			return wanted;
+       709		} else if (likely(!(i->type & ITER_PIPE)))
+       710			return copy_page_to_iter_iovec(page, offset, bytes, i);
+       711		else
+       712			return copy_page_to_iter_pipe(page, offset, bytes, i);
+==>    713	}       
+       714	EXPORT_SYMBOL(copy_page_to_iter);
+       715	
+       716	size_t copy_page_from_iter(struct page *page, size_t offset, size_t bytes,
+       717				 struct iov_iter *i)
+       718	{
+       719		if (unlikely(!page_copy_sane(page, offset, bytes)))
+       720			return 0;
+       721		if (unlikely(i->type & ITER_PIPE)) {
+       722			WARN_ON(1);
+       723			return 0;
+       724		}
+       725		if (i->type & (ITER_BVEC|ITER_KVEC)) {
+       726			void *kaddr = kmap_atomic(page);
+       727			size_t wanted = _copy_from_iter(kaddr + offset, bytes, i);
+       728			kunmap_atomic(kaddr);
+       729			return wanted;
+       730		} else
+       731			return copy_page_from_iter_iovec(page, offset, bytes, i);
+       732	}
+       733	EXPORT_SYMBOL(copy_page_from_iter);
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/sched/wait.c:197
+       177	 * away soon, so while the target thread will be woken up, it will not
+       178	 * be migrated to another CPU - ie. the two threads are 'synchronized'
+       179	 * with each other. This can prevent needless bouncing between CPUs.
+       180	 *
+       181	 * On UP it can prevent extra preemption.
+       182	 *
+       183	 * It may be assumed that this function implies a write memory barrier before
+       184	 * changing the task state if and only if any tasks are woken up.
+       185	 */
+       186	void __wake_up_sync_key(struct wait_queue_head *wq_head, unsigned int mode,
+       187				int nr_exclusive, void *key)
+       188	{
+       189		int wake_flags = 1; /* XXX WF_SYNC */
+       190	
+       191		if (unlikely(!wq_head))
+       192			return;
+       193	
+       194		if (unlikely(nr_exclusive != 1))
+       195			wake_flags = 0;
+       196	
+==>    197		__wake_up_common_lock(wq_head, mode, nr_exclusive, wake_flags, key);       
+       198	}
+       199	EXPORT_SYMBOL_GPL(__wake_up_sync_key);
+       200	
+       201	/*
+       202	 * __wake_up_sync - see __wake_up_sync_key()
+       203	 */
+       204	void __wake_up_sync(struct wait_queue_head *wq_head, unsigned int mode, int nr_exclusive)
+       205	{
+       206		__wake_up_sync_key(wq_head, mode, nr_exclusive, NULL);
+       207	}
+       208	EXPORT_SYMBOL_GPL(__wake_up_sync);	/* For internal use only */
+       209	
+       210	/*
+       211	 * Note: we use "set_current_state()" _after_ the wait-queue add,
+       212	 * because we need a memory barrier there on SMP, so that any
+       213	 * wake-function that tests for the wait-queue being active
+       214	 * will be guaranteed to see waitqueue addition _or_ subsequent
+       215	 * tests in this thread will see the wakeup having taken place.
+       216	 *
+       217	 * The spin_unlock() itself is semi-permeable and only protects
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//lib/iov_iter.c:701
+       681		)
+       682	
+       683		iov_iter_advance(i, bytes);
+       684		return true;
+       685	}
+       686	EXPORT_SYMBOL(_copy_from_iter_full_nocache);
+       687	
+       688	static inline bool page_copy_sane(struct page *page, size_t offset, size_t n)
+       689	{
+       690		struct page *head = compound_head(page);
+       691		size_t v = n + offset + page_address(page) - page_address(head);
+       692	
+       693		if (likely(n <= v && v <= (PAGE_SIZE << compound_order(head))))
+       694			return true;
+       695		WARN_ON(1);
+       696		return false;
+       697	}
+       698	
+       699	size_t copy_page_to_iter(struct page *page, size_t offset, size_t bytes,
+       700				 struct iov_iter *i)
+==>    701	{       
+       702		if (unlikely(!page_copy_sane(page, offset, bytes)))
+       703			return 0;
+       704		if (i->type & (ITER_BVEC|ITER_KVEC)) {
+       705			void *kaddr = kmap_atomic(page);
+       706			size_t wanted = copy_to_iter(kaddr + offset, bytes, i);
+       707			kunmap_atomic(kaddr);
+       708			return wanted;
+       709		} else if (likely(!(i->type & ITER_PIPE)))
+       710			return copy_page_to_iter_iovec(page, offset, bytes, i);
+       711		else
+       712			return copy_page_to_iter_pipe(page, offset, bytes, i);
+       713	}
+       714	EXPORT_SYMBOL(copy_page_to_iter);
+       715	
+       716	size_t copy_page_from_iter(struct page *page, size_t offset, size_t bytes,
+       717				 struct iov_iter *i)
+       718	{
+       719		if (unlikely(!page_copy_sane(page, offset, bytes)))
+       720			return 0;
+       721		if (unlikely(i->type & ITER_PIPE)) {
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/sched/wait.c:368
+       348	
+       349		__set_current_state(TASK_RUNNING);
+       350		/*
+       351		 * We can check for list emptiness outside the lock
+       352		 * IFF:
+       353		 *  - we use the "careful" check that verifies both
+       354		 *    the next and prev pointers, so that there cannot
+       355		 *    be any half-pending updates in progress on other
+       356		 *    CPU's that we haven't seen yet (and that might
+       357		 *    still change the stack area.
+       358		 * and
+       359		 *  - all other users take the lock (ie we can only
+       360		 *    have _one_ other CPU that looks at or modifies
+       361		 *    the list).
+       362		 */
+       363		if (!list_empty_careful(&wq_entry->entry)) {
+       364			spin_lock_irqsave(&wq_head->lock, flags);
+       365			list_del_init(&wq_entry->entry);
+       366			spin_unlock_irqrestore(&wq_head->lock, flags);
+       367		}
+==>    368	}       
+       369	EXPORT_SYMBOL(finish_wait);
+       370	
+       371	int autoremove_wake_function(struct wait_queue_entry *wq_entry, unsigned mode, int sync, void *key)
+       372	{
+       373		int ret = default_wake_function(wq_entry, mode, sync, key);
+       374	
+       375		if (ret)
+       376			list_del_init(&wq_entry->entry);
+       377	
+       378		return ret;
+       379	}
+       380	EXPORT_SYMBOL(autoremove_wake_function);
+       381	
+       382	static inline bool is_kthread_should_stop(void)
+       383	{
+       384		return (current->flags & PF_KTHREAD) && kthread_should_stop();
+       385	}
+       386	
+       387	/*
+       388	 * DEFINE_WAIT_FUNC(wait, woken_wake_func);
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/sched/wait.c:379
+       359		 *  - all other users take the lock (ie we can only
+       360		 *    have _one_ other CPU that looks at or modifies
+       361		 *    the list).
+       362		 */
+       363		if (!list_empty_careful(&wq_entry->entry)) {
+       364			spin_lock_irqsave(&wq_head->lock, flags);
+       365			list_del_init(&wq_entry->entry);
+       366			spin_unlock_irqrestore(&wq_head->lock, flags);
+       367		}
+       368	}
+       369	EXPORT_SYMBOL(finish_wait);
+       370	
+       371	int autoremove_wake_function(struct wait_queue_entry *wq_entry, unsigned mode, int sync, void *key)
+       372	{
+       373		int ret = default_wake_function(wq_entry, mode, sync, key);
+       374	
+       375		if (ret)
+       376			list_del_init(&wq_entry->entry);
+       377	
+       378		return ret;
+==>    379	}       
+       380	EXPORT_SYMBOL(autoremove_wake_function);
+       381	
+       382	static inline bool is_kthread_should_stop(void)
+       383	{
+       384		return (current->flags & PF_KTHREAD) && kthread_should_stop();
+       385	}
+       386	
+       387	/*
+       388	 * DEFINE_WAIT_FUNC(wait, woken_wake_func);
+       389	 *
+       390	 * add_wait_queue(&wq_head, &wait);
+       391	 * for (;;) {
+       392	 *     if (condition)
+       393	 *         break;
+       394	 *
+       395	 *     p->state = mode;				condition = true;
+       396	 *     smp_mb(); // A				smp_wmb(); // C
+       397	 *     if (!wq_entry->flags & WQ_FLAG_WOKEN)	wq_entry->flags |= WQ_FLAG_WOKEN;
+       398	 *         schedule()				try_to_wake_up();
+       399	 *     p->state = TASK_RUNNING;		    ~~~~~~~~~~~~~~~~~~
+
+
+====================================================================================================================================================================================
+Total: 44	Addresses: c276df31 c1134cc9 c1134cb6
+11	0xc276df1f: cpumask_local_spread at ??:?
+11	0xc1134cb4: get_futex_key at /root/2018-12232-i386/linux-4.17.1/kernel/futex.c:661 (discriminator 1)
+22	0xc1134cb4: get_futex_key at /root/2018-12232-i386/linux-4.17.1/kernel/futex.c:661 (discriminator 1)
+
+11	c276df31 arch_atomic_try_cmpxchg T: trace_20241115_131027_3_4_45.txt S: 45 I1: 3 I2: 4 IP1: c276df31 IP2: c1134cb6 PMA1: 31abae28 PMA2: 31abae28 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 132332 IC2: 109280
+11	c1134cc9 arch_atomic_try_cmpxchg T: trace_20241115_131027_3_4_45.txt S: 45 I1: 3 I2: 4 IP1: c1134cc9 IP2: c1134cb6 PMA1: 31abae28 PMA2: 31abae28 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 132190 IC2: 109280
+22	c1134cb6 __read_once_size T: trace_20241115_131027_3_4_45.txt S: 45 I1: 3 I2: 4 IP1: c276df31 IP2: c1134cb6 PMA1: 31abae28 PMA2: 31abae28 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 132332 IC2: 109280
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/futex.c:661
+       641			 * The associated futex object in this case is the inode and
+       642			 * the page->mapping must be traversed. Ordinarily this should
+       643			 * be stabilised under page lock but it's not strictly
+       644			 * necessary in this case as we just want to pin the inode, not
+       645			 * update the radix tree or anything like that.
+       646			 *
+       647			 * The RCU read lock is taken as the inode is finally freed
+       648			 * under RCU. If the mapping still matches expectations then the
+       649			 * mapping->host can be safely accessed as being a valid inode.
+       650			 */
+       651			rcu_read_lock();
+       652	
+       653			if (READ_ONCE(page->mapping) != mapping) {
+       654				rcu_read_unlock();
+       655				put_page(page);
+       656	
+       657				goto again;
+       658			}
+       659	
+       660			inode = READ_ONCE(mapping->host);
+==>    661			if (!inode) {       
+       662				rcu_read_unlock();
+       663				put_page(page);
+       664	
+       665				goto again;
+       666			}
+       667	
+       668			/*
+       669			 * Take a reference unless it is about to be freed. Previously
+       670			 * this reference was taken by ihold under the page lock
+       671			 * pinning the inode in place so i_lock was unnecessary. The
+       672			 * only way for this check to fail is if the inode was
+       673			 * truncated in parallel which is almost certainly an
+       674			 * application bug. In such a case, just retry.
+       675			 *
+       676			 * We are not calling into get_futex_key_refs() in file-backed
+       677			 * cases, therefore a successful atomic_inc return below will
+       678			 * guarantee that get_futex_key() will still imply smp_mb(); (B).
+       679			 */
+       680			if (!atomic_inc_not_zero(&inode->i_count)) {
+       681				rcu_read_unlock();
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/futex.c:661
+       641			 * The associated futex object in this case is the inode and
+       642			 * the page->mapping must be traversed. Ordinarily this should
+       643			 * be stabilised under page lock but it's not strictly
+       644			 * necessary in this case as we just want to pin the inode, not
+       645			 * update the radix tree or anything like that.
+       646			 *
+       647			 * The RCU read lock is taken as the inode is finally freed
+       648			 * under RCU. If the mapping still matches expectations then the
+       649			 * mapping->host can be safely accessed as being a valid inode.
+       650			 */
+       651			rcu_read_lock();
+       652	
+       653			if (READ_ONCE(page->mapping) != mapping) {
+       654				rcu_read_unlock();
+       655				put_page(page);
+       656	
+       657				goto again;
+       658			}
+       659	
+       660			inode = READ_ONCE(mapping->host);
+==>    661			if (!inode) {       
+       662				rcu_read_unlock();
+       663				put_page(page);
+       664	
+       665				goto again;
+       666			}
+       667	
+       668			/*
+       669			 * Take a reference unless it is about to be freed. Previously
+       670			 * this reference was taken by ihold under the page lock
+       671			 * pinning the inode in place so i_lock was unnecessary. The
+       672			 * only way for this check to fail is if the inode was
+       673			 * truncated in parallel which is almost certainly an
+       674			 * application bug. In such a case, just retry.
+       675			 *
+       676			 * We are not calling into get_futex_key_refs() in file-backed
+       677			 * cases, therefore a successful atomic_inc return below will
+       678			 * guarantee that get_futex_key() will still imply smp_mb(); (B).
+       679			 */
+       680			if (!atomic_inc_not_zero(&inode->i_count)) {
+       681				rcu_read_unlock();
+
+
+====================================================================================================================================================================================
+Total: 46	Addresses: c10f979b c10f915a
+23	0xc10f9789: autoremove_wake_function at /root/2018-12232-i386/linux-4.17.1/kernel/sched/wait.c:379
+23	0xc10f9153: finish_wait at /root/2018-12232-i386/linux-4.17.1/kernel/sched/wait.c:349
+
+23	c10f979b __write_once_size T: trace_20241115_132514_4_2_37.txt S: 37 I1: 4 I2: 2 IP1: c10f915a IP2: c10f979b PMA1: 31d8de94 PMA2: 31d8de94 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 2472850 IC2: 2124618
+23	c10f915a list_empty_careful T: trace_20241115_132514_4_2_37.txt S: 37 I1: 4 I2: 2 IP1: c10f915a IP2: c10f979b PMA1: 31d8de94 PMA2: 31d8de94 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 2472850 IC2: 2124618
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/sched/wait.c:379
+       359		 *  - all other users take the lock (ie we can only
+       360		 *    have _one_ other CPU that looks at or modifies
+       361		 *    the list).
+       362		 */
+       363		if (!list_empty_careful(&wq_entry->entry)) {
+       364			spin_lock_irqsave(&wq_head->lock, flags);
+       365			list_del_init(&wq_entry->entry);
+       366			spin_unlock_irqrestore(&wq_head->lock, flags);
+       367		}
+       368	}
+       369	EXPORT_SYMBOL(finish_wait);
+       370	
+       371	int autoremove_wake_function(struct wait_queue_entry *wq_entry, unsigned mode, int sync, void *key)
+       372	{
+       373		int ret = default_wake_function(wq_entry, mode, sync, key);
+       374	
+       375		if (ret)
+       376			list_del_init(&wq_entry->entry);
+       377	
+       378		return ret;
+==>    379	}       
+       380	EXPORT_SYMBOL(autoremove_wake_function);
+       381	
+       382	static inline bool is_kthread_should_stop(void)
+       383	{
+       384		return (current->flags & PF_KTHREAD) && kthread_should_stop();
+       385	}
+       386	
+       387	/*
+       388	 * DEFINE_WAIT_FUNC(wait, woken_wake_func);
+       389	 *
+       390	 * add_wait_queue(&wq_head, &wait);
+       391	 * for (;;) {
+       392	 *     if (condition)
+       393	 *         break;
+       394	 *
+       395	 *     p->state = mode;				condition = true;
+       396	 *     smp_mb(); // A				smp_wmb(); // C
+       397	 *     if (!wq_entry->flags & WQ_FLAG_WOKEN)	wq_entry->flags |= WQ_FLAG_WOKEN;
+       398	 *         schedule()				try_to_wake_up();
+       399	 *     p->state = TASK_RUNNING;		    ~~~~~~~~~~~~~~~~~~
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/sched/wait.c:349
+       329		schedule();
+       330		spin_lock_irq(&wq->lock);
+       331	
+       332		return 0;
+       333	}
+       334	EXPORT_SYMBOL(do_wait_intr_irq);
+       335	
+       336	/**
+       337	 * finish_wait - clean up after waiting in a queue
+       338	 * @wq_head: waitqueue waited on
+       339	 * @wq_entry: wait descriptor
+       340	 *
+       341	 * Sets current thread back to running state and removes
+       342	 * the wait descriptor from the given waitqueue if still
+       343	 * queued.
+       344	 */
+       345	void finish_wait(struct wait_queue_head *wq_head, struct wait_queue_entry *wq_entry)
+       346	{
+       347		unsigned long flags;
+       348	
+==>    349		__set_current_state(TASK_RUNNING);       
+       350		/*
+       351		 * We can check for list emptiness outside the lock
+       352		 * IFF:
+       353		 *  - we use the "careful" check that verifies both
+       354		 *    the next and prev pointers, so that there cannot
+       355		 *    be any half-pending updates in progress on other
+       356		 *    CPU's that we haven't seen yet (and that might
+       357		 *    still change the stack area.
+       358		 * and
+       359		 *  - all other users take the lock (ie we can only
+       360		 *    have _one_ other CPU that looks at or modifies
+       361		 *    the list).
+       362		 */
+       363		if (!list_empty_careful(&wq_entry->entry)) {
+       364			spin_lock_irqsave(&wq_head->lock, flags);
+       365			list_del_init(&wq_entry->entry);
+       366			spin_unlock_irqrestore(&wq_head->lock, flags);
+       367		}
+       368	}
+       369	EXPORT_SYMBOL(finish_wait);
+
+
+====================================================================================================================================================================================
+Total: 124	Addresses: c10b32d9 c10b32d5
+28	0xc10b32d9: set_bit at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/bitops.h:81
+96	0xc10b32d5: clear_bit at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/bitops.h:118
+
+28	c10b32d9 set_bit T: trace_20241115_131539_2_3_39.txt S: 39 I1: 2 I2: 3 IP1: c10b32d9 IP2: c10b32d5 PMA1: 305d794 PMA2: 305d794 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 2275331 IC2: 2275330
+96	c10b32d5 clear_bit T: trace_20241115_131539_2_3_39.txt S: 39 I1: 2 I2: 3 IP1: c10b32d5 IP2: c10b32d5 PMA1: 305d794 PMA2: 305d794 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 2417473 IC2: 2275330
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/bitops.h:81
+        61	 *
+        62	 * This function is atomic and may not be reordered.  See __set_bit()
+        63	 * if you do not require the atomic guarantees.
+        64	 *
+        65	 * Note: there are no guarantees that this function will not be reordered
+        66	 * on non x86 architectures, so if you are writing portable code,
+        67	 * make sure not to rely on its reordering guarantees.
+        68	 *
+        69	 * Note that @nr may be almost arbitrarily large; this function is not
+        70	 * restricted to acting on a single-word quantity.
+        71	 */
+        72	static __always_inline void
+        73	set_bit(long nr, volatile unsigned long *addr)
+        74	{
+        75		if (IS_IMMEDIATE(nr)) {
+        76			asm volatile(LOCK_PREFIX "orb %1,%0"
+        77				: CONST_MASK_ADDR(nr, addr)
+        78				: "iq" ((u8)CONST_MASK(nr))
+        79				: "memory");
+        80		} else {
+==>     81			asm volatile(LOCK_PREFIX __ASM_SIZE(bts) " %1,%0"       
+        82				: BITOP_ADDR(addr) : "Ir" (nr) : "memory");
+        83		}
+        84	}
+        85	
+        86	/**
+        87	 * __set_bit - Set a bit in memory
+        88	 * @nr: the bit to set
+        89	 * @addr: the address to start counting from
+        90	 *
+        91	 * Unlike set_bit(), this function is non-atomic and may be reordered.
+        92	 * If it's called on the same region of memory simultaneously, the effect
+        93	 * may be that only one operation succeeds.
+        94	 */
+        95	static __always_inline void __set_bit(long nr, volatile unsigned long *addr)
+        96	{
+        97		asm volatile(__ASM_SIZE(bts) " %1,%0" : ADDR : "Ir" (nr) : "memory");
+        98	}
+        99	
+       100	/**
+       101	 * clear_bit - Clears a bit in memory
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/bitops.h:118
+        98	}
+        99	
+       100	/**
+       101	 * clear_bit - Clears a bit in memory
+       102	 * @nr: Bit to clear
+       103	 * @addr: Address to start counting from
+       104	 *
+       105	 * clear_bit() is atomic and may not be reordered.  However, it does
+       106	 * not contain a memory barrier, so if it is used for locking purposes,
+       107	 * you should call smp_mb__before_atomic() and/or smp_mb__after_atomic()
+       108	 * in order to ensure changes are visible on other processors.
+       109	 */
+       110	static __always_inline void
+       111	clear_bit(long nr, volatile unsigned long *addr)
+       112	{
+       113		if (IS_IMMEDIATE(nr)) {
+       114			asm volatile(LOCK_PREFIX "andb %1,%0"
+       115				: CONST_MASK_ADDR(nr, addr)
+       116				: "iq" ((u8)~CONST_MASK(nr)));
+       117		} else {
+==>    118			asm volatile(LOCK_PREFIX __ASM_SIZE(btr) " %1,%0"       
+       119				: BITOP_ADDR(addr)
+       120				: "Ir" (nr));
+       121		}
+       122	}
+       123	
+       124	/*
+       125	 * clear_bit_unlock - Clears a bit in memory
+       126	 * @nr: Bit to clear
+       127	 * @addr: Address to start counting from
+       128	 *
+       129	 * clear_bit() is atomic and implies release semantics before the memory
+       130	 * operation. It can be used for an unlock.
+       131	 */
+       132	static __always_inline void clear_bit_unlock(long nr, volatile unsigned long *addr)
+       133	{
+       134		barrier();
+       135		clear_bit(nr, addr);
+       136	}
+       137	
+       138	static __always_inline void __clear_bit(long nr, volatile unsigned long *addr)
+
+
+====================================================================================================================================================================================
+Total: 186	Addresses: c10fecb2 c278e9d3
+93	0xc10fecb0: rep_nop at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/processor.h:667
+93	0xc278e9d1: _raw_write_unlock_irq at /root/2018-12232-i386/linux-4.17.1/kernel/locking/spinlock.c:335
+
+93	c10fecb2 __read_once_size T: trace_20241115_134814_2_2_39.txt S: 39 I1: 2 I2: 2 IP1: c278e9d3 IP2: c10fecb2 PMA1: 30170c0 PMA2: 30170c0 CPU1: 1 CPU2: 3 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 2309888 IC2: 2309855
+93	c278e9d3 __write_once_size T: trace_20241115_134814_2_2_39.txt S: 39 I1: 2 I2: 2 IP1: c278e9d3 IP2: c10fecb2 PMA1: 30170c0 PMA2: 30170c0 CPU1: 1 CPU2: 3 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 2309888 IC2: 2309855
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/processor.h:667
+       647	{
+       648		unsigned int eax, ebx, ecx, edx;
+       649	
+       650		cpuid(op, &eax, &ebx, &ecx, &edx);
+       651	
+       652		return ecx;
+       653	}
+       654	
+       655	static inline unsigned int cpuid_edx(unsigned int op)
+       656	{
+       657		unsigned int eax, ebx, ecx, edx;
+       658	
+       659		cpuid(op, &eax, &ebx, &ecx, &edx);
+       660	
+       661		return edx;
+       662	}
+       663	
+       664	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       665	static __always_inline void rep_nop(void)
+       666	{
+==>    667		asm volatile("rep; nop" ::: "memory");       
+       668	}
+       669	
+       670	static __always_inline void cpu_relax(void)
+       671	{
+       672		rep_nop();
+       673	}
+       674	
+       675	/*
+       676	 * This function forces the icache and prefetched instruction stream to
+       677	 * catch up with reality in two very specific cases:
+       678	 *
+       679	 *  a) Text was modified using one virtual address and is about to be executed
+       680	 *     from the same physical page at a different virtual address.
+       681	 *
+       682	 *  b) Text was modified on a different CPU, may subsequently be
+       683	 *     executed on this CPU, and you want to make sure the new version
+       684	 *     gets executed.  This generally means you're calling this in a IPI.
+       685	 *
+       686	 * If you're calling this for a different reason, you're probably doing
+       687	 * it wrong.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/spinlock.c:335
+       315	#endif
+       316	
+       317	#ifndef CONFIG_INLINE_WRITE_UNLOCK
+       318	void __lockfunc _raw_write_unlock(rwlock_t *lock)
+       319	{
+       320		__raw_write_unlock(lock);
+       321	}
+       322	EXPORT_SYMBOL(_raw_write_unlock);
+       323	#endif
+       324	
+       325	#ifndef CONFIG_INLINE_WRITE_UNLOCK_IRQRESTORE
+       326	void __lockfunc _raw_write_unlock_irqrestore(rwlock_t *lock, unsigned long flags)
+       327	{
+       328		__raw_write_unlock_irqrestore(lock, flags);
+       329	}
+       330	EXPORT_SYMBOL(_raw_write_unlock_irqrestore);
+       331	#endif
+       332	
+       333	#ifndef CONFIG_INLINE_WRITE_UNLOCK_IRQ
+       334	void __lockfunc _raw_write_unlock_irq(rwlock_t *lock)
+==>    335	{       
+       336		__raw_write_unlock_irq(lock);
+       337	}
+       338	EXPORT_SYMBOL(_raw_write_unlock_irq);
+       339	#endif
+       340	
+       341	#ifndef CONFIG_INLINE_WRITE_UNLOCK_BH
+       342	void __lockfunc _raw_write_unlock_bh(rwlock_t *lock)
+       343	{
+       344		__raw_write_unlock_bh(lock);
+       345	}
+       346	EXPORT_SYMBOL(_raw_write_unlock_bh);
+       347	#endif
+       348	
+       349	#ifdef CONFIG_DEBUG_LOCK_ALLOC
+       350	
+       351	void __lockfunc _raw_spin_lock_nested(raw_spinlock_t *lock, int subclass)
+       352	{
+       353		preempt_disable();
+       354		spin_acquire(&lock->dep_map, subclass, 0, _RET_IP_);
+       355		LOCK_CONTENDED(lock, do_raw_spin_trylock, do_raw_spin_lock);
+
+
+====================================================================================================================================================================================
+Total: 544	Addresses: c10e0c02 c10dda69
+272	0xc10e0c00: rep_nop at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/processor.h:667
+272	0xc10dda61: arch_static_branch at /root/2018-12232-i386/linux-4.17.1/kernel/sched/core.c:2717
+
+272	c10e0c02 __read_once_size T: trace_20241115_134825_2_4_62.txt S: 62 I1: 2 I2: 4 IP1: c10dda69 IP2: c10e0c02 PMA1: 354e0b60 PMA2: 354e0b60 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 2509570 IC2: 2502632
+272	c10dda69 __write_once_size T: trace_20241115_134825_2_4_62.txt S: 62 I1: 2 I2: 4 IP1: c10dda69 IP2: c10e0c02 PMA1: 354e0b60 PMA2: 354e0b60 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 2509570 IC2: 2502632
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/processor.h:667
+       647	{
+       648		unsigned int eax, ebx, ecx, edx;
+       649	
+       650		cpuid(op, &eax, &ebx, &ecx, &edx);
+       651	
+       652		return ecx;
+       653	}
+       654	
+       655	static inline unsigned int cpuid_edx(unsigned int op)
+       656	{
+       657		unsigned int eax, ebx, ecx, edx;
+       658	
+       659		cpuid(op, &eax, &ebx, &ecx, &edx);
+       660	
+       661		return edx;
+       662	}
+       663	
+       664	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       665	static __always_inline void rep_nop(void)
+       666	{
+==>    667		asm volatile("rep; nop" ::: "memory");       
+       668	}
+       669	
+       670	static __always_inline void cpu_relax(void)
+       671	{
+       672		rep_nop();
+       673	}
+       674	
+       675	/*
+       676	 * This function forces the icache and prefetched instruction stream to
+       677	 * catch up with reality in two very specific cases:
+       678	 *
+       679	 *  a) Text was modified using one virtual address and is about to be executed
+       680	 *     from the same physical page at a different virtual address.
+       681	 *
+       682	 *  b) Text was modified on a different CPU, may subsequently be
+       683	 *     executed on this CPU, and you want to make sure the new version
+       684	 *     gets executed.  This generally means you're calling this in a IPI.
+       685	 *
+       686	 * If you're calling this for a different reason, you're probably doing
+       687	 * it wrong.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/sched/core.c:2717
+      2697		 * Also, see FORK_PREEMPT_COUNT.
+      2698		 */
+      2699		if (WARN_ONCE(preempt_count() != 2*PREEMPT_DISABLE_OFFSET,
+      2700			      "corrupted preempt_count: %s/%d/0x%x\n",
+      2701			      current->comm, current->pid, preempt_count()))
+      2702			preempt_count_set(FORK_PREEMPT_COUNT);
+      2703	
+      2704		rq->prev_mm = NULL;
+      2705	
+      2706		/*
+      2707		 * A task struct has one reference for the use as "current".
+      2708		 * If a task dies, then it sets TASK_DEAD in tsk->state and calls
+      2709		 * schedule one last time. The schedule call will never return, and
+      2710		 * the scheduled task must drop that reference.
+      2711		 *
+      2712		 * We must observe prev->state before clearing prev->on_cpu (in
+      2713		 * finish_task), otherwise a concurrent wakeup can get prev
+      2714		 * running on another CPU and we could rave with its RUNNING -> DEAD
+      2715		 * transition, resulting in a double drop.
+      2716		 */
+==>   2717		prev_state = prev->state;       
+      2718		vtime_task_switch(prev);
+      2719		perf_event_task_sched_in(prev, current);
+      2720		finish_task(prev);
+      2721		finish_lock_switch(rq);
+      2722		finish_arch_post_lock_switch();
+      2723	
+      2724		fire_sched_in_preempt_notifiers(current);
+      2725		/*
+      2726		 * When switching through a kernel thread, the loop in
+      2727		 * membarrier_{private,global}_expedited() may have observed that
+      2728		 * kernel thread and not issued an IPI. It is therefore possible to
+      2729		 * schedule between user->kernel->user threads without passing though
+      2730		 * switch_mm(). Membarrier requires a barrier after storing to
+      2731		 * rq->curr, before returning to userspace, so provide them here:
+      2732		 *
+      2733		 * - a full memory barrier for {PRIVATE,GLOBAL}_EXPEDITED, implicitly
+      2734		 *   provided by mmdrop(),
+      2735		 * - a sync_core for SYNC_CORE.
+      2736		 */
+      2737		if (mm) {
+
+
+====================================================================================================================================================================================
+Total: 1664	Addresses: c278bc05 c278bc17 c278b280 c278b05d c278b3be c278b1bf c278af76 c10fcaba c278b099 c10fcb0d c278b156 c278bc6e c278aee2 c278bce1 c278b290 c278b13d c278b1a6 c278af12 c278b1e9 c278b109 c278aff0
+1	0xc278bbfe: __mutex_unlock_slowpath at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:1015
+1	0xc278b05a: __mutex_lock_common at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:845
+2	0xc278b1e7: __mutex_trylock_or_owner at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:110
+4	0xc278b27a: __mutex_lock_common at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:764
+4	0xc278b107: __mutex_trylock_or_owner at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:110
+4	0xc278afed: signal_pending_state at /root/2018-12232-i386/linux-4.17.1/./include/linux/sched/signal.h:363
+5	0xc278b13b: rep_nop at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/processor.h:667
+6	0xc278bc14: __owner_flags at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:74
+6	0xc278b154: __mutex_trylock_or_owner at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:110
+9	0xc278af71: spin_lock at /root/2018-12232-i386/linux-4.17.1/./include/linux/spinlock.h:310
+13	0xc278bc69: __mutex_handoff at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:196
+13	0xc278b28d: __mutex_lock_common at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:840
+36	0xc10fcab5: rcu_read_lock at /root/2018-12232-i386/linux-4.17.1/./include/linux/rcupdate.h:630
+41	0xc278b097: __mutex_trylock_or_owner at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:110
+46	0xc278af0d: rcu_read_lock at /root/2018-12232-i386/linux-4.17.1/./include/linux/rcupdate.h:630
+61	0xc278aedb: __preempt_count_add at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/preempt.h:76
+68	0xc10fcb0b: rep_nop at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/processor.h:667
+87	0xc278b1a4: rep_nop at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/processor.h:667
+112	0xc278b1bd: __mutex_trylock_or_owner at /root/2018-12232-i386/linux-4.17.1/kernel/locking/mutex.c:110
+480	0xc278b3b7: get_current at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/current.h:15
+665	0xc278bcd8: get_current at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/current.h:15
+
+1	c278bc05 __read_once_size T: trace_20241115_132404_2_4_59.txt S: 59 I1: 2 I2: 4 IP1: c278bc05 IP2: c278b290 PMA1: 31abb200 PMA2: 31abb200 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 1241201 IC2: 1240604
+1	c278b05d __read_once_size T: trace_20241115_132756_4_4_3.txt S: 3 I1: 4 I2: 4 IP1: c278b05d IP2: c278b099 PMA1: 31abb200 PMA2: 31abb200 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 744620 IC2: 744546
+2	c278b1e9 arch_atomic_cmpxchg T: trace_20241115_132404_2_4_59.txt S: 59 I1: 2 I2: 4 IP1: c278b1e9 IP2: c278bc17 PMA1: 31abb200 PMA2: 31abb200 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 1241233 IC2: 1241209
+4	c278b280 arch_atomic_or T: trace_20241115_132759_4_4_40.txt S: 40 I1: 4 I2: 4 IP1: c278b280 IP2: c278b099 PMA1: 31abb200 PMA2: 31abb200 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 1461457 IC2: 1458258
+4	c278b109 arch_atomic_cmpxchg T: trace_20241115_133033_3_4_47.txt S: 47 I1: 3 I2: 4 IP1: c278b3be IP2: c278b109 PMA1: 31abb200 PMA2: 31abb200 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 1206488 IC2: 1206487
+4	c278aff0 __read_once_size T: trace_20241115_132756_4_4_7.txt S: 7 I1: 4 I2: 4 IP1: c278aff0 IP2: c278bce1 PMA1: 31abb200 PMA2: 31abb200 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 634532 IC2: 634517
+5	c278b13d __read_once_size T: trace_20241115_133046_4_2_50.txt S: 50 I1: 4 I2: 2 IP1: c278b13d IP2: c278bc6e PMA1: 31abb200 PMA2: 31abb200 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 813206 IC2: 813170
+6	c278bc17 arch_atomic_cmpxchg T: trace_20241115_132756_4_4_3.txt S: 3 I1: 4 I2: 4 IP1: c278bc17 IP2: c278aff0 PMA1: 31abb200 PMA2: 31abb200 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 681002 IC2: 680980
+6	c278b156 arch_atomic_cmpxchg T: trace_20241115_133046_4_2_50.txt S: 50 I1: 4 I2: 2 IP1: c278b156 IP2: c278bc6e PMA1: 31abb200 PMA2: 31abb200 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 813221 IC2: 813170
+9	c278af76 __read_once_size T: trace_20241115_133033_3_4_50.txt S: 50 I1: 3 I2: 4 IP1: c278bce1 IP2: c278af76 PMA1: 31abb200 PMA2: 31abb200 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 1221865 IC2: 1203047
+13	c278bc6e arch_atomic_cmpxchg T: trace_20241115_133046_4_2_50.txt S: 50 I1: 4 I2: 2 IP1: c278b156 IP2: c278bc6e PMA1: 31abb200 PMA2: 31abb200 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 813221 IC2: 813170
+13	c278b290 arch_atomic_or T: trace_20241115_132756_4_4_7.txt S: 7 I1: 4 I2: 4 IP1: c278bce1 IP2: c278b290 PMA1: 31abb200 PMA2: 31abb200 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 634517 IC2: 634516
+36	c10fcaba __read_once_size T: trace_20241115_133033_3_4_54.txt S: 54 I1: 3 I2: 4 IP1: c278bce1 IP2: c10fcaba PMA1: 31abb200 PMA2: 31abb200 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 619145 IC2: 619143
+41	c278b099 arch_atomic_cmpxchg T: trace_20241115_133033_3_4_48.txt S: 48 I1: 3 I2: 4 IP1: c278b099 IP2: c278bce1 PMA1: 31abb200 PMA2: 31abb200 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 634102 IC2: 634076
+46	c278af12 __read_once_size T: trace_20241115_133033_3_4_46.txt S: 46 I1: 3 I2: 4 IP1: c278af12 IP2: c278b3be PMA1: 31abb200 PMA2: 31abb200 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 565783 IC2: 565746
+61	c278aee2 __read_once_size T: trace_20241115_133033_3_4_53.txt S: 53 I1: 3 I2: 4 IP1: c278aee2 IP2: c278b3be PMA1: 31abb200 PMA2: 31abb200 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 1222069 IC2: 1211099
+68	c10fcb0d __read_once_size T: trace_20241115_133046_4_2_50.txt S: 50 I1: 4 I2: 2 IP1: c10fcb0d IP2: c278bc6e PMA1: 31abb200 PMA2: 31abb200 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 813173 IC2: 813170
+87	c278b1a6 __read_once_size T: trace_20241115_133036_4_4_45.txt S: 45 I1: 4 I2: 4 IP1: c278b1a6 IP2: c278bce1 PMA1: 319d31e0 PMA2: 319d31e0 CPU1: 3 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 306731 IC2: 306695
+112	c278b1bf arch_atomic_cmpxchg T: trace_20241115_133036_4_4_45.txt S: 45 I1: 4 I2: 4 IP1: c278b1bf IP2: c278bce1 PMA1: 319d31e0 PMA2: 319d31e0 CPU1: 3 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 306740 IC2: 306695
+480	c278b3be arch_atomic_cmpxchg T: trace_20241115_133036_4_4_45.txt S: 45 I1: 4 I2: 4 IP1: c278b3be IP2: c278bce1 PMA1: 319d31e0 PMA2: 319d31e0 CPU1: 3 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 309461 IC2: 306695
+665	c278bce1 arch_atomic_cmpxchg T: trace_20241115_133036_4_4_45.txt S: 45 I1: 4 I2: 4 IP1: c278bce1 IP2: c278bce1 PMA1: 319d31e0 PMA2: 319d31e0 CPU1: 3 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 309489 IC2: 306695
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:1015
+       995		might_sleep();
+       996		ret = __ww_mutex_lock(&lock->base, TASK_INTERRUPTIBLE,
+       997				      0, ctx ? &ctx->dep_map : NULL, _RET_IP_,
+       998				      ctx);
+       999	
+      1000		if (!ret && ctx && ctx->acquired > 1)
+      1001			return ww_mutex_deadlock_injection(lock, ctx);
+      1002	
+      1003		return ret;
+      1004	}
+      1005	EXPORT_SYMBOL_GPL(ww_mutex_lock_interruptible);
+      1006	
+      1007	#endif
+      1008	
+      1009	/*
+      1010	 * Release the lock, slowpath:
+      1011	 */
+      1012	static noinline void __sched __mutex_unlock_slowpath(struct mutex *lock, unsigned long ip)
+      1013	{
+      1014		struct task_struct *next = NULL;
+==>   1015		DEFINE_WAKE_Q(wake_q);       
+      1016		unsigned long owner;
+      1017	
+      1018		mutex_release(&lock->dep_map, 1, ip);
+      1019	
+      1020		/*
+      1021		 * Release the lock before (potentially) taking the spinlock such that
+      1022		 * other contenders can get on with things ASAP.
+      1023		 *
+      1024		 * Except when HANDOFF, in that case we must not clear the owner field,
+      1025		 * but instead set it to the top waiter.
+      1026		 */
+      1027		owner = atomic_long_read(&lock->owner);
+      1028		for (;;) {
+      1029			unsigned long old;
+      1030	
+      1031	#ifdef CONFIG_DEBUG_MUTEXES
+      1032			DEBUG_LOCKS_WARN_ON(__owner_task(owner) != current);
+      1033			DEBUG_LOCKS_WARN_ON(owner & MUTEX_FLAG_PICKUP);
+      1034	#endif
+      1035	
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:845
+       825	
+       826			if (use_ww_ctx && ww_ctx && ww_ctx->acquired > 0) {
+       827				ret = __ww_mutex_lock_check_stamp(lock, &waiter, ww_ctx);
+       828				if (ret)
+       829					goto err;
+       830			}
+       831	
+       832			spin_unlock(&lock->wait_lock);
+       833			schedule_preempt_disabled();
+       834	
+       835			/*
+       836			 * ww_mutex needs to always recheck its position since its waiter
+       837			 * list is not FIFO ordered.
+       838			 */
+       839			if ((use_ww_ctx && ww_ctx) || !first) {
+       840				first = __mutex_waiter_is_first(lock, &waiter);
+       841				if (first)
+       842					__mutex_set_flag(lock, MUTEX_FLAG_HANDOFF);
+       843			}
+       844	
+==>    845			set_current_state(state);       
+       846			/*
+       847			 * Here we order against unlock; we must either see it change
+       848			 * state back to RUNNING and fall through the next schedule(),
+       849			 * or we must see its unlock and acquire.
+       850			 */
+       851			if (__mutex_trylock(lock) ||
+       852			    (first && mutex_optimistic_spin(lock, ww_ctx, use_ww_ctx, &waiter)))
+       853				break;
+       854	
+       855			spin_lock(&lock->wait_lock);
+       856		}
+       857		spin_lock(&lock->wait_lock);
+       858	acquired:
+       859		__set_current_state(TASK_RUNNING);
+       860	
+       861		mutex_remove_waiter(lock, &waiter, current);
+       862		if (likely(list_empty(&lock->wait_list)))
+       863			__mutex_clear_flag(lock, MUTEX_FLAGS);
+       864	
+       865		debug_mutex_free_waiter(&waiter);
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:764
+       744		struct ww_mutex *ww;
+       745		int ret;
+       746	
+       747		might_sleep();
+       748	
+       749		ww = container_of(lock, struct ww_mutex, base);
+       750		if (use_ww_ctx && ww_ctx) {
+       751			if (unlikely(ww_ctx == READ_ONCE(ww->ctx)))
+       752				return -EALREADY;
+       753		}
+       754	
+       755		preempt_disable();
+       756		mutex_acquire_nest(&lock->dep_map, subclass, 0, nest_lock, ip);
+       757	
+       758		if (__mutex_trylock(lock) ||
+       759		    mutex_optimistic_spin(lock, ww_ctx, use_ww_ctx, NULL)) {
+       760			/* got the lock, yay! */
+       761			lock_acquired(&lock->dep_map, ip);
+       762			if (use_ww_ctx && ww_ctx)
+       763				ww_mutex_set_context_fastpath(ww, ww_ctx);
+==>    764			preempt_enable();       
+       765			return 0;
+       766		}
+       767	
+       768		spin_lock(&lock->wait_lock);
+       769		/*
+       770		 * After waiting to acquire the wait_lock, try again.
+       771		 */
+       772		if (__mutex_trylock(lock)) {
+       773			if (use_ww_ctx && ww_ctx)
+       774				__ww_mutex_wakeup_for_backoff(lock, ww_ctx);
+       775	
+       776			goto skip_wait;
+       777		}
+       778	
+       779		debug_mutex_lock_common(lock, &waiter);
+       780		debug_mutex_add_waiter(lock, &waiter, current);
+       781	
+       782		lock_contended(&lock->dep_map, ip);
+       783	
+       784		if (!use_ww_ctx) {
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./include/linux/sched/signal.h:363
+       343		return unlikely(test_tsk_thread_flag(p,TIF_SIGPENDING));
+       344	}
+       345	
+       346	static inline int __fatal_signal_pending(struct task_struct *p)
+       347	{
+       348		return unlikely(sigismember(&p->pending.signal, SIGKILL));
+       349	}
+       350	
+       351	static inline int fatal_signal_pending(struct task_struct *p)
+       352	{
+       353		return signal_pending(p) && __fatal_signal_pending(p);
+       354	}
+       355	
+       356	static inline int signal_pending_state(long state, struct task_struct *p)
+       357	{
+       358		if (!(state & (TASK_INTERRUPTIBLE | TASK_WAKEKILL)))
+       359			return 0;
+       360		if (!signal_pending(p))
+       361			return 0;
+       362	
+==>    363		return (state & TASK_INTERRUPTIBLE) || __fatal_signal_pending(p);       
+       364	}
+       365	
+       366	/*
+       367	 * Reevaluate whether the task has signals pending delivery.
+       368	 * Wake the task if so.
+       369	 * This is required every time the blocked sigset_t changes.
+       370	 * callers must hold sighand->siglock.
+       371	 */
+       372	extern void recalc_sigpending_and_wake(struct task_struct *t);
+       373	extern void recalc_sigpending(void);
+       374	
+       375	extern void signal_wake_up_state(struct task_struct *t, unsigned int state);
+       376	
+       377	static inline void signal_wake_up(struct task_struct *t, bool resume)
+       378	{
+       379		signal_wake_up_state(t, resume ? TASK_WAKEKILL : 0);
+       380	}
+       381	static inline void ptrace_signal_wake_up(struct task_struct *t, bool resume)
+       382	{
+       383		signal_wake_up_state(t, resume ? __TASK_TRACED : 0);
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/processor.h:667
+       647	{
+       648		unsigned int eax, ebx, ecx, edx;
+       649	
+       650		cpuid(op, &eax, &ebx, &ecx, &edx);
+       651	
+       652		return ecx;
+       653	}
+       654	
+       655	static inline unsigned int cpuid_edx(unsigned int op)
+       656	{
+       657		unsigned int eax, ebx, ecx, edx;
+       658	
+       659		cpuid(op, &eax, &ebx, &ecx, &edx);
+       660	
+       661		return edx;
+       662	}
+       663	
+       664	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       665	static __always_inline void rep_nop(void)
+       666	{
+==>    667		asm volatile("rep; nop" ::: "memory");       
+       668	}
+       669	
+       670	static __always_inline void cpu_relax(void)
+       671	{
+       672		rep_nop();
+       673	}
+       674	
+       675	/*
+       676	 * This function forces the icache and prefetched instruction stream to
+       677	 * catch up with reality in two very specific cases:
+       678	 *
+       679	 *  a) Text was modified using one virtual address and is about to be executed
+       680	 *     from the same physical page at a different virtual address.
+       681	 *
+       682	 *  b) Text was modified on a different CPU, may subsequently be
+       683	 *     executed on this CPU, and you want to make sure the new version
+       684	 *     gets executed.  This generally means you're calling this in a IPI.
+       685	 *
+       686	 * If you're calling this for a different reason, you're probably doing
+       687	 * it wrong.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:74
+        54	 * NULL means not owned. Since task_struct pointers are aligned at
+        55	 * at least L1_CACHE_BYTES, we have low bits to store extra state.
+        56	 *
+        57	 * Bit0 indicates a non-empty waiter list; unlock must issue a wakeup.
+        58	 * Bit1 indicates unlock needs to hand the lock to the top-waiter
+        59	 * Bit2 indicates handoff has been done and we're waiting for pickup.
+        60	 */
+        61	#define MUTEX_FLAG_WAITERS	0x01
+        62	#define MUTEX_FLAG_HANDOFF	0x02
+        63	#define MUTEX_FLAG_PICKUP	0x04
+        64	
+        65	#define MUTEX_FLAGS		0x07
+        66	
+        67	static inline struct task_struct *__owner_task(unsigned long owner)
+        68	{
+        69		return (struct task_struct *)(owner & ~MUTEX_FLAGS);
+        70	}
+        71	
+        72	static inline unsigned long __owner_flags(unsigned long owner)
+        73	{
+==>     74		return owner & MUTEX_FLAGS;       
+        75	}
+        76	
+        77	/*
+        78	 * Trylock variant that retuns the owning task on failure.
+        79	 */
+        80	static inline struct task_struct *__mutex_trylock_or_owner(struct mutex *lock)
+        81	{
+        82		unsigned long owner, curr = (unsigned long)current;
+        83	
+        84		owner = atomic_long_read(&lock->owner);
+        85		for (;;) { /* must loop, can race against a flag */
+        86			unsigned long old, flags = __owner_flags(owner);
+        87			unsigned long task = owner & ~MUTEX_FLAGS;
+        88	
+        89			if (task) {
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./include/linux/spinlock.h:310
+       290	# include <linux/spinlock_api_up.h>
+       291	#endif
+       292	
+       293	/*
+       294	 * Map the spin_lock functions to the raw variants for PREEMPT_RT=n
+       295	 */
+       296	
+       297	static __always_inline raw_spinlock_t *spinlock_check(spinlock_t *lock)
+       298	{
+       299		return &lock->rlock;
+       300	}
+       301	
+       302	#define spin_lock_init(_lock)				\
+       303	do {							\
+       304		spinlock_check(_lock);				\
+       305		raw_spin_lock_init(&(_lock)->rlock);		\
+       306	} while (0)
+       307	
+       308	static __always_inline void spin_lock(spinlock_t *lock)
+       309	{
+==>    310		raw_spin_lock(&lock->rlock);       
+       311	}
+       312	
+       313	static __always_inline void spin_lock_bh(spinlock_t *lock)
+       314	{
+       315		raw_spin_lock_bh(&lock->rlock);
+       316	}
+       317	
+       318	static __always_inline int spin_trylock(spinlock_t *lock)
+       319	{
+       320		return raw_spin_trylock(&lock->rlock);
+       321	}
+       322	
+       323	#define spin_lock_nested(lock, subclass)			\
+       324	do {								\
+       325		raw_spin_lock_nested(spinlock_check(lock), subclass);	\
+       326	} while (0)
+       327	
+       328	#define spin_lock_nest_lock(lock, nest_lock)				\
+       329	do {									\
+       330		raw_spin_lock_nest_lock(spinlock_check(lock), nest_lock);	\
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:196
+       176	 * Give up ownership to a specific task, when @task = NULL, this is equivalent
+       177	 * to a regular unlock. Sets PICKUP on a handoff, clears HANDOF, preserves
+       178	 * WAITERS. Provides RELEASE semantics like a regular unlock, the
+       179	 * __mutex_trylock() provides a matching ACQUIRE semantics for the handoff.
+       180	 */
+       181	static void __mutex_handoff(struct mutex *lock, struct task_struct *task)
+       182	{
+       183		unsigned long owner = atomic_long_read(&lock->owner);
+       184	
+       185		for (;;) {
+       186			unsigned long old, new;
+       187	
+       188	#ifdef CONFIG_DEBUG_MUTEXES
+       189			DEBUG_LOCKS_WARN_ON(__owner_task(owner) != current);
+       190			DEBUG_LOCKS_WARN_ON(owner & MUTEX_FLAG_PICKUP);
+       191	#endif
+       192	
+       193			new = (owner & MUTEX_FLAG_WAITERS);
+       194			new |= (unsigned long)task;
+       195			if (task)
+==>    196				new |= MUTEX_FLAG_PICKUP;       
+       197	
+       198			old = atomic_long_cmpxchg_release(&lock->owner, owner, new);
+       199			if (old == owner)
+       200				break;
+       201	
+       202			owner = old;
+       203		}
+       204	}
+       205	
+       206	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       207	/*
+       208	 * We split the mutex lock/unlock logic into separate fastpath and
+       209	 * slowpath functions, to reduce the register pressure on the fastpath.
+       210	 * We also put the fastpath first in the kernel image, to make sure the
+       211	 * branch is predicted by the CPU as default-untaken.
+       212	 */
+       213	static void __sched __mutex_lock_slowpath(struct mutex *lock);
+       214	
+       215	/**
+       216	 * mutex_lock - acquire the mutex
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:840
+       820			 */
+       821			if (unlikely(signal_pending_state(state, current))) {
+       822				ret = -EINTR;
+       823				goto err;
+       824			}
+       825	
+       826			if (use_ww_ctx && ww_ctx && ww_ctx->acquired > 0) {
+       827				ret = __ww_mutex_lock_check_stamp(lock, &waiter, ww_ctx);
+       828				if (ret)
+       829					goto err;
+       830			}
+       831	
+       832			spin_unlock(&lock->wait_lock);
+       833			schedule_preempt_disabled();
+       834	
+       835			/*
+       836			 * ww_mutex needs to always recheck its position since its waiter
+       837			 * list is not FIFO ordered.
+       838			 */
+       839			if ((use_ww_ctx && ww_ctx) || !first) {
+==>    840				first = __mutex_waiter_is_first(lock, &waiter);       
+       841				if (first)
+       842					__mutex_set_flag(lock, MUTEX_FLAG_HANDOFF);
+       843			}
+       844	
+       845			set_current_state(state);
+       846			/*
+       847			 * Here we order against unlock; we must either see it change
+       848			 * state back to RUNNING and fall through the next schedule(),
+       849			 * or we must see its unlock and acquire.
+       850			 */
+       851			if (__mutex_trylock(lock) ||
+       852			    (first && mutex_optimistic_spin(lock, ww_ctx, use_ww_ctx, &waiter)))
+       853				break;
+       854	
+       855			spin_lock(&lock->wait_lock);
+       856		}
+       857		spin_lock(&lock->wait_lock);
+       858	acquired:
+       859		__set_current_state(TASK_RUNNING);
+       860	
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./include/linux/rcupdate.h:630
+       610	 * RCU read-side critical sections may be nested.  Any deferred actions
+       611	 * will be deferred until the outermost RCU read-side critical section
+       612	 * completes.
+       613	 *
+       614	 * You can avoid reading and understanding the next paragraph by
+       615	 * following this rule: don't put anything in an rcu_read_lock() RCU
+       616	 * read-side critical section that would block in a !PREEMPT kernel.
+       617	 * But if you want the full story, read on!
+       618	 *
+       619	 * In non-preemptible RCU implementations (TREE_RCU and TINY_RCU),
+       620	 * it is illegal to block while in an RCU read-side critical section.
+       621	 * In preemptible RCU implementations (PREEMPT_RCU) in CONFIG_PREEMPT
+       622	 * kernel builds, RCU read-side critical sections may be preempted,
+       623	 * but explicit blocking is illegal.  Finally, in preemptible RCU
+       624	 * implementations in real-time (with -rt patchset) kernel builds, RCU
+       625	 * read-side critical sections may be preempted and they may also block, but
+       626	 * only when acquiring spinlocks that are subject to priority inheritance.
+       627	 */
+       628	static inline void rcu_read_lock(void)
+       629	{
+==>    630		__rcu_read_lock();       
+       631		__acquire(RCU);
+       632		rcu_lock_acquire(&rcu_lock_map);
+       633		RCU_LOCKDEP_WARN(!rcu_is_watching(),
+       634				 "rcu_read_lock() used illegally while idle");
+       635	}
+       636	
+       637	/*
+       638	 * So where is rcu_write_lock()?  It does not exist, as there is no
+       639	 * way for writers to lock out RCU readers.  This is a feature, not
+       640	 * a bug -- this property is what provides RCU's performance benefits.
+       641	 * Of course, writers must coordinate with each other.  The normal
+       642	 * spinlock primitives work well for this, but any other technique may be
+       643	 * used as well.  RCU does not care how the writers keep out of each
+       644	 * others' way, as long as they do so.
+       645	 */
+       646	
+       647	/**
+       648	 * rcu_read_unlock() - marks the end of an RCU read-side critical section.
+       649	 *
+       650	 * In most situations, rcu_read_unlock() is immune from deadlock.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./include/linux/rcupdate.h:630
+       610	 * RCU read-side critical sections may be nested.  Any deferred actions
+       611	 * will be deferred until the outermost RCU read-side critical section
+       612	 * completes.
+       613	 *
+       614	 * You can avoid reading and understanding the next paragraph by
+       615	 * following this rule: don't put anything in an rcu_read_lock() RCU
+       616	 * read-side critical section that would block in a !PREEMPT kernel.
+       617	 * But if you want the full story, read on!
+       618	 *
+       619	 * In non-preemptible RCU implementations (TREE_RCU and TINY_RCU),
+       620	 * it is illegal to block while in an RCU read-side critical section.
+       621	 * In preemptible RCU implementations (PREEMPT_RCU) in CONFIG_PREEMPT
+       622	 * kernel builds, RCU read-side critical sections may be preempted,
+       623	 * but explicit blocking is illegal.  Finally, in preemptible RCU
+       624	 * implementations in real-time (with -rt patchset) kernel builds, RCU
+       625	 * read-side critical sections may be preempted and they may also block, but
+       626	 * only when acquiring spinlocks that are subject to priority inheritance.
+       627	 */
+       628	static inline void rcu_read_lock(void)
+       629	{
+==>    630		__rcu_read_lock();       
+       631		__acquire(RCU);
+       632		rcu_lock_acquire(&rcu_lock_map);
+       633		RCU_LOCKDEP_WARN(!rcu_is_watching(),
+       634				 "rcu_read_lock() used illegally while idle");
+       635	}
+       636	
+       637	/*
+       638	 * So where is rcu_write_lock()?  It does not exist, as there is no
+       639	 * way for writers to lock out RCU readers.  This is a feature, not
+       640	 * a bug -- this property is what provides RCU's performance benefits.
+       641	 * Of course, writers must coordinate with each other.  The normal
+       642	 * spinlock primitives work well for this, but any other technique may be
+       643	 * used as well.  RCU does not care how the writers keep out of each
+       644	 * others' way, as long as they do so.
+       645	 */
+       646	
+       647	/**
+       648	 * rcu_read_unlock() - marks the end of an RCU read-side critical section.
+       649	 *
+       650	 * In most situations, rcu_read_unlock() is immune from deadlock.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/preempt.h:76
+        56	{
+        57		raw_cpu_and_4(__preempt_count, ~PREEMPT_NEED_RESCHED);
+        58	}
+        59	
+        60	static __always_inline void clear_preempt_need_resched(void)
+        61	{
+        62		raw_cpu_or_4(__preempt_count, PREEMPT_NEED_RESCHED);
+        63	}
+        64	
+        65	static __always_inline bool test_preempt_need_resched(void)
+        66	{
+        67		return !(raw_cpu_read_4(__preempt_count) & PREEMPT_NEED_RESCHED);
+        68	}
+        69	
+        70	/*
+        71	 * The various preempt_count add/sub methods
+        72	 */
+        73	
+        74	static __always_inline void __preempt_count_add(int val)
+        75	{
+==>     76		raw_cpu_add_4(__preempt_count, val);       
+        77	}
+        78	
+        79	static __always_inline void __preempt_count_sub(int val)
+        80	{
+        81		raw_cpu_add_4(__preempt_count, -val);
+        82	}
+        83	
+        84	/*
+        85	 * Because we keep PREEMPT_NEED_RESCHED set when we do _not_ need to reschedule
+        86	 * a decrement which hits zero means we have no preempt_count and should
+        87	 * reschedule.
+        88	 */
+        89	static __always_inline bool __preempt_count_dec_and_test(void)
+        90	{
+        91		GEN_UNARY_RMWcc("decl", __preempt_count, __percpu_arg(0), e);
+        92	}
+        93	
+        94	/*
+        95	 * Returns true when we need to resched and can (barring IRQ state).
+        96	 */
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/processor.h:667
+       647	{
+       648		unsigned int eax, ebx, ecx, edx;
+       649	
+       650		cpuid(op, &eax, &ebx, &ecx, &edx);
+       651	
+       652		return ecx;
+       653	}
+       654	
+       655	static inline unsigned int cpuid_edx(unsigned int op)
+       656	{
+       657		unsigned int eax, ebx, ecx, edx;
+       658	
+       659		cpuid(op, &eax, &ebx, &ecx, &edx);
+       660	
+       661		return edx;
+       662	}
+       663	
+       664	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       665	static __always_inline void rep_nop(void)
+       666	{
+==>    667		asm volatile("rep; nop" ::: "memory");       
+       668	}
+       669	
+       670	static __always_inline void cpu_relax(void)
+       671	{
+       672		rep_nop();
+       673	}
+       674	
+       675	/*
+       676	 * This function forces the icache and prefetched instruction stream to
+       677	 * catch up with reality in two very specific cases:
+       678	 *
+       679	 *  a) Text was modified using one virtual address and is about to be executed
+       680	 *     from the same physical page at a different virtual address.
+       681	 *
+       682	 *  b) Text was modified on a different CPU, may subsequently be
+       683	 *     executed on this CPU, and you want to make sure the new version
+       684	 *     gets executed.  This generally means you're calling this in a IPI.
+       685	 *
+       686	 * If you're calling this for a different reason, you're probably doing
+       687	 * it wrong.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/processor.h:667
+       647	{
+       648		unsigned int eax, ebx, ecx, edx;
+       649	
+       650		cpuid(op, &eax, &ebx, &ecx, &edx);
+       651	
+       652		return ecx;
+       653	}
+       654	
+       655	static inline unsigned int cpuid_edx(unsigned int op)
+       656	{
+       657		unsigned int eax, ebx, ecx, edx;
+       658	
+       659		cpuid(op, &eax, &ebx, &ecx, &edx);
+       660	
+       661		return edx;
+       662	}
+       663	
+       664	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       665	static __always_inline void rep_nop(void)
+       666	{
+==>    667		asm volatile("rep; nop" ::: "memory");       
+       668	}
+       669	
+       670	static __always_inline void cpu_relax(void)
+       671	{
+       672		rep_nop();
+       673	}
+       674	
+       675	/*
+       676	 * This function forces the icache and prefetched instruction stream to
+       677	 * catch up with reality in two very specific cases:
+       678	 *
+       679	 *  a) Text was modified using one virtual address and is about to be executed
+       680	 *     from the same physical page at a different virtual address.
+       681	 *
+       682	 *  b) Text was modified on a different CPU, may subsequently be
+       683	 *     executed on this CPU, and you want to make sure the new version
+       684	 *     gets executed.  This generally means you're calling this in a IPI.
+       685	 *
+       686	 * If you're calling this for a different reason, you're probably doing
+       687	 * it wrong.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/current.h:15
+         1	/* SPDX-License-Identifier: GPL-2.0 */
+         2	#ifndef _ASM_X86_CURRENT_H
+         3	#define _ASM_X86_CURRENT_H
+         4	
+         5	#include <linux/compiler.h>
+         6	#include <asm/percpu.h>
+         7	
+         8	#ifndef __ASSEMBLY__
+         9	struct task_struct;
+        10	
+        11	DECLARE_PER_CPU(struct task_struct *, current_task);
+        12	
+        13	static __always_inline struct task_struct *get_current(void)
+        14	{
+==>     15		return this_cpu_read_stable(current_task);       
+        16	}
+        17	
+        18	#define current get_current()
+        19	
+        20	#endif /* __ASSEMBLY__ */
+        21	
+        22	#endif /* _ASM_X86_CURRENT_H */
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/current.h:15
+         1	/* SPDX-License-Identifier: GPL-2.0 */
+         2	#ifndef _ASM_X86_CURRENT_H
+         3	#define _ASM_X86_CURRENT_H
+         4	
+         5	#include <linux/compiler.h>
+         6	#include <asm/percpu.h>
+         7	
+         8	#ifndef __ASSEMBLY__
+         9	struct task_struct;
+        10	
+        11	DECLARE_PER_CPU(struct task_struct *, current_task);
+        12	
+        13	static __always_inline struct task_struct *get_current(void)
+        14	{
+==>     15		return this_cpu_read_stable(current_task);       
+        16	}
+        17	
+        18	#define current get_current()
+        19	
+        20	#endif /* __ASSEMBLY__ */
+        21	
+        22	#endif /* _ASM_X86_CURRENT_H */
+
+
+====================================================================================================================================================================================
+Total: 2502	Addresses: c278e3ef c10fd268 c278e72d c278e6d6 c278e339 c10fd26e c278e43d
+4	0xc10fd26c: virt_spin_lock at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/qspinlock.h:68
+14	0xc278e6c6: __preempt_count_add at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/preempt.h:76
+40	0xc278e329: __preempt_count_add at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/preempt.h:76
+330	0xc278e43d: pv_queued_spin_unlock at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/paravirt.h:679
+370	0xc278e3ef: pv_queued_spin_unlock at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/paravirt.h:679
+521	0xc278e72d: pv_queued_spin_unlock at /root/2018-12232-i386/linux-4.17.1/./arch/x86/include/asm/paravirt.h:679
+1225	0xc10fd25b: arch_static_branch at /root/2018-12232-i386/linux-4.17.1/kernel/locking/qspinlock.c:295
+
+4	c10fd26e arch_atomic_cmpxchg T: trace_20241115_134816_3_2_10.txt S: 10 I1: 3 I2: 2 IP1: c10fd26e IP2: c278e3ef PMA1: 338d188 PMA2: 338d188 CPU1: 1 CPU2: 0 R1: 0 R2: 0 L1: 4 L2: 1 IC1: 2647111 IC2: 2647089
+14	c278e6d6 arch_atomic_cmpxchg T: trace_20241115_132427_4_2_30.txt S: 30 I1: 4 I2: 2 IP1: c10fd268 IP2: c278e6d6 PMA1: 3025b448 PMA2: 3025b448 CPU1: 3 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 1564967 IC2: 1557038
+40	c278e339 arch_atomic_cmpxchg T: trace_20241115_134817_3_2_32.txt S: 32 I1: 3 I2: 2 IP1: c10fd268 IP2: c278e339 PMA1: 338d188 PMA2: 338d188 CPU1: 1 CPU2: 0 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 2647543 IC2: 2115877
+330	c278e43d pv_queued_spin_unlock T: trace_20241115_134815_2_2_52.txt S: 52 I1: 2 I2: 2 IP1: c278e43d IP2: c10fd268 PMA1: 361b8e80 PMA2: 361b8e80 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 531153 IC2: 528787
+370	c278e3ef pv_queued_spin_unlock T: trace_20241115_134822_2_4_24.txt S: 24 I1: 2 I2: 4 IP1: c278e3ef IP2: c10fd268 PMA1: 31abb214 PMA2: 31abb214 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 2693803 IC2: 2693701
+521	c278e72d pv_queued_spin_unlock T: trace_20241115_134816_3_2_24.txt S: 24 I1: 3 I2: 2 IP1: c278e72d IP2: c10fd268 PMA1: 3619be80 PMA2: 3619be80 CPU1: 0 CPU2: 3 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 3157063 IC2: 2447524
+1225	c10fd268 __read_once_size T: trace_20241115_134822_2_4_24.txt S: 24 I1: 2 I2: 4 IP1: c278e3ef IP2: c10fd268 PMA1: 31abb214 PMA2: 31abb214 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 2693803 IC2: 2693701
+
+++++++++++++++++++++++++
+STATS: Distinct IPs: 58 Distinct pairs: 72 Distinct clusters: 15
+++++++++++++++++++++++++
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/qspinlock.h:68
+        48	#endif
+        49	
+        50	#ifdef CONFIG_PARAVIRT
+        51	DECLARE_STATIC_KEY_TRUE(virt_spin_lock_key);
+        52	
+        53	void native_pv_lock_init(void) __init;
+        54	
+        55	#define virt_spin_lock virt_spin_lock
+        56	static inline bool virt_spin_lock(struct qspinlock *lock)
+        57	{
+        58		if (!static_branch_likely(&virt_spin_lock_key))
+        59			return false;
+        60	
+        61		/*
+        62		 * On hypervisors without PARAVIRT_SPINLOCKS support we fall
+        63		 * back to a Test-and-Set spinlock, because fair locks have
+        64		 * horrible lock 'holder' preemption issues.
+        65		 */
+        66	
+        67		do {
+==>     68			while (atomic_read(&lock->val) != 0)       
+        69				cpu_relax();
+        70		} while (atomic_cmpxchg(&lock->val, 0, _Q_LOCKED_VAL) != 0);
+        71	
+        72		return true;
+        73	}
+        74	#else
+        75	static inline void native_pv_lock_init(void)
+        76	{
+        77	}
+        78	#endif /* CONFIG_PARAVIRT */
+        79	
+        80	#include <asm-generic/qspinlock.h>
+        81	
+        82	#endif /* _ASM_X86_QSPINLOCK_H */
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/preempt.h:76
+        56	{
+        57		raw_cpu_and_4(__preempt_count, ~PREEMPT_NEED_RESCHED);
+        58	}
+        59	
+        60	static __always_inline void clear_preempt_need_resched(void)
+        61	{
+        62		raw_cpu_or_4(__preempt_count, PREEMPT_NEED_RESCHED);
+        63	}
+        64	
+        65	static __always_inline bool test_preempt_need_resched(void)
+        66	{
+        67		return !(raw_cpu_read_4(__preempt_count) & PREEMPT_NEED_RESCHED);
+        68	}
+        69	
+        70	/*
+        71	 * The various preempt_count add/sub methods
+        72	 */
+        73	
+        74	static __always_inline void __preempt_count_add(int val)
+        75	{
+==>     76		raw_cpu_add_4(__preempt_count, val);       
+        77	}
+        78	
+        79	static __always_inline void __preempt_count_sub(int val)
+        80	{
+        81		raw_cpu_add_4(__preempt_count, -val);
+        82	}
+        83	
+        84	/*
+        85	 * Because we keep PREEMPT_NEED_RESCHED set when we do _not_ need to reschedule
+        86	 * a decrement which hits zero means we have no preempt_count and should
+        87	 * reschedule.
+        88	 */
+        89	static __always_inline bool __preempt_count_dec_and_test(void)
+        90	{
+        91		GEN_UNARY_RMWcc("decl", __preempt_count, __percpu_arg(0), e);
+        92	}
+        93	
+        94	/*
+        95	 * Returns true when we need to resched and can (barring IRQ state).
+        96	 */
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/preempt.h:76
+        56	{
+        57		raw_cpu_and_4(__preempt_count, ~PREEMPT_NEED_RESCHED);
+        58	}
+        59	
+        60	static __always_inline void clear_preempt_need_resched(void)
+        61	{
+        62		raw_cpu_or_4(__preempt_count, PREEMPT_NEED_RESCHED);
+        63	}
+        64	
+        65	static __always_inline bool test_preempt_need_resched(void)
+        66	{
+        67		return !(raw_cpu_read_4(__preempt_count) & PREEMPT_NEED_RESCHED);
+        68	}
+        69	
+        70	/*
+        71	 * The various preempt_count add/sub methods
+        72	 */
+        73	
+        74	static __always_inline void __preempt_count_add(int val)
+        75	{
+==>     76		raw_cpu_add_4(__preempt_count, val);       
+        77	}
+        78	
+        79	static __always_inline void __preempt_count_sub(int val)
+        80	{
+        81		raw_cpu_add_4(__preempt_count, -val);
+        82	}
+        83	
+        84	/*
+        85	 * Because we keep PREEMPT_NEED_RESCHED set when we do _not_ need to reschedule
+        86	 * a decrement which hits zero means we have no preempt_count and should
+        87	 * reschedule.
+        88	 */
+        89	static __always_inline bool __preempt_count_dec_and_test(void)
+        90	{
+        91		GEN_UNARY_RMWcc("decl", __preempt_count, __percpu_arg(0), e);
+        92	}
+        93	
+        94	/*
+        95	 * Returns true when we need to resched and can (barring IRQ state).
+        96	 */
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/paravirt.h:679
+       659	{
+       660		PVOP_VCALL0(pv_mmu_ops.lazy_mode.flush);
+       661	}
+       662	
+       663	static inline void __set_fixmap(unsigned /* enum fixed_addresses */ idx,
+       664					phys_addr_t phys, pgprot_t flags)
+       665	{
+       666		pv_mmu_ops.set_fixmap(idx, phys, flags);
+       667	}
+       668	
+       669	#if defined(CONFIG_SMP) && defined(CONFIG_PARAVIRT_SPINLOCKS)
+       670	
+       671	static __always_inline void pv_queued_spin_lock_slowpath(struct qspinlock *lock,
+       672								u32 val)
+       673	{
+       674		PVOP_VCALL2(pv_lock_ops.queued_spin_lock_slowpath, lock, val);
+       675	}
+       676	
+       677	static __always_inline void pv_queued_spin_unlock(struct qspinlock *lock)
+       678	{
+==>    679		PVOP_VCALLEE1(pv_lock_ops.queued_spin_unlock, lock);       
+       680	}
+       681	
+       682	static __always_inline void pv_wait(u8 *ptr, u8 val)
+       683	{
+       684		PVOP_VCALL2(pv_lock_ops.wait, ptr, val);
+       685	}
+       686	
+       687	static __always_inline void pv_kick(int cpu)
+       688	{
+       689		PVOP_VCALL1(pv_lock_ops.kick, cpu);
+       690	}
+       691	
+       692	static __always_inline bool pv_vcpu_is_preempted(long cpu)
+       693	{
+       694		return PVOP_CALLEE1(bool, pv_lock_ops.vcpu_is_preempted, cpu);
+       695	}
+       696	
+       697	#endif /* SMP && PARAVIRT_SPINLOCKS */
+       698	
+       699	#ifdef CONFIG_X86_32
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/paravirt.h:679
+       659	{
+       660		PVOP_VCALL0(pv_mmu_ops.lazy_mode.flush);
+       661	}
+       662	
+       663	static inline void __set_fixmap(unsigned /* enum fixed_addresses */ idx,
+       664					phys_addr_t phys, pgprot_t flags)
+       665	{
+       666		pv_mmu_ops.set_fixmap(idx, phys, flags);
+       667	}
+       668	
+       669	#if defined(CONFIG_SMP) && defined(CONFIG_PARAVIRT_SPINLOCKS)
+       670	
+       671	static __always_inline void pv_queued_spin_lock_slowpath(struct qspinlock *lock,
+       672								u32 val)
+       673	{
+       674		PVOP_VCALL2(pv_lock_ops.queued_spin_lock_slowpath, lock, val);
+       675	}
+       676	
+       677	static __always_inline void pv_queued_spin_unlock(struct qspinlock *lock)
+       678	{
+==>    679		PVOP_VCALLEE1(pv_lock_ops.queued_spin_unlock, lock);       
+       680	}
+       681	
+       682	static __always_inline void pv_wait(u8 *ptr, u8 val)
+       683	{
+       684		PVOP_VCALL2(pv_lock_ops.wait, ptr, val);
+       685	}
+       686	
+       687	static __always_inline void pv_kick(int cpu)
+       688	{
+       689		PVOP_VCALL1(pv_lock_ops.kick, cpu);
+       690	}
+       691	
+       692	static __always_inline bool pv_vcpu_is_preempted(long cpu)
+       693	{
+       694		return PVOP_CALLEE1(bool, pv_lock_ops.vcpu_is_preempted, cpu);
+       695	}
+       696	
+       697	#endif /* SMP && PARAVIRT_SPINLOCKS */
+       698	
+       699	#ifdef CONFIG_X86_32
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//./arch/x86/include/asm/paravirt.h:679
+       659	{
+       660		PVOP_VCALL0(pv_mmu_ops.lazy_mode.flush);
+       661	}
+       662	
+       663	static inline void __set_fixmap(unsigned /* enum fixed_addresses */ idx,
+       664					phys_addr_t phys, pgprot_t flags)
+       665	{
+       666		pv_mmu_ops.set_fixmap(idx, phys, flags);
+       667	}
+       668	
+       669	#if defined(CONFIG_SMP) && defined(CONFIG_PARAVIRT_SPINLOCKS)
+       670	
+       671	static __always_inline void pv_queued_spin_lock_slowpath(struct qspinlock *lock,
+       672								u32 val)
+       673	{
+       674		PVOP_VCALL2(pv_lock_ops.queued_spin_lock_slowpath, lock, val);
+       675	}
+       676	
+       677	static __always_inline void pv_queued_spin_unlock(struct qspinlock *lock)
+       678	{
+==>    679		PVOP_VCALLEE1(pv_lock_ops.queued_spin_unlock, lock);       
+       680	}
+       681	
+       682	static __always_inline void pv_wait(u8 *ptr, u8 val)
+       683	{
+       684		PVOP_VCALL2(pv_lock_ops.wait, ptr, val);
+       685	}
+       686	
+       687	static __always_inline void pv_kick(int cpu)
+       688	{
+       689		PVOP_VCALL1(pv_lock_ops.kick, cpu);
+       690	}
+       691	
+       692	static __always_inline bool pv_vcpu_is_preempted(long cpu)
+       693	{
+       694		return PVOP_CALLEE1(bool, pv_lock_ops.vcpu_is_preempted, cpu);
+       695	}
+       696	
+       697	#endif /* SMP && PARAVIRT_SPINLOCKS */
+       698	
+       699	#ifdef CONFIG_X86_32
+
+/root/snowboard-2018-12232/testsuite/kernel/2018-12232/source//kernel/locking/qspinlock.c:295
+       275	 * @lock: Pointer to queued spinlock structure
+       276	 * @val: Current value of the queued spinlock 32-bit word
+       277	 *
+       278	 * (queue tail, pending bit, lock value)
+       279	 *
+       280	 *              fast     :    slow                                  :    unlock
+       281	 *                       :                                          :
+       282	 * uncontended  (0,0,0) -:--> (0,0,1) ------------------------------:--> (*,*,0)
+       283	 *                       :       | ^--------.------.             /  :
+       284	 *                       :       v           \      \            |  :
+       285	 * pending               :    (0,1,1) +--> (0,1,0)   \           |  :
+       286	 *                       :       | ^--'              |           |  :
+       287	 *                       :       v                   |           |  :
+       288	 * uncontended           :    (n,x,y) +--> (n,0,0) --'           |  :
+       289	 *   queue               :       | ^--'                          |  :
+       290	 *                       :       v                               |  :
+       291	 * contended             :    (*,x,y) +--> (*,0,0) ---> (*,0,1) -'  :
+       292	 *   queue               :         ^--'                             :
+       293	 */
+       294	void queued_spin_lock_slowpath(struct qspinlock *lock, u32 val)
+==>    295	{       
+       296		struct mcs_spinlock *prev, *next, *node;
+       297		u32 new, old, tail;
+       298		int idx;
+       299	
+       300		BUILD_BUG_ON(CONFIG_NR_CPUS >= (1U << _Q_TAIL_CPU_BITS));
+       301	
+       302		if (pv_enabled())
+       303			goto queue;
+       304	
+       305		if (virt_spin_lock(lock))
+       306			return;
+       307	
+       308		/*
+       309		 * wait for in-progress pending->locked hand-overs
+       310		 *
+       311		 * 0,1,0 -> 0,0,1
+       312		 */
+       313		if (val == _Q_PENDING_VAL) {
+       314			while ((val = atomic_read(&lock->val)) == _Q_PENDING_VAL)
+       315				cpu_relax();
+
+

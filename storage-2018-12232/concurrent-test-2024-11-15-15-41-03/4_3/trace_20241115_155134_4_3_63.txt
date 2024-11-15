@@ -1,0 +1,8 @@
+### Switching to thread 69, CPU 0 [69, 0] from thread -1, CPU -1 [-1, -1]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c278eb7c) - changing priority of thread 69 from 69 to 115 compare_t 4
+### Switching to thread 80, CPU 1 [80, 0] from thread 69, CPU 0 [115, 0]
+### ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: c1936cd4) - changing priority of thread 80 from 80 to 116 compare_t 4
+### Switching to thread 109, CPU 2 [109, 0] from thread 80, CPU 1 [116, 0]
+### CPU 2 reached exit hypercall
+### Switching to thread 114, CPU 3 [114, 0] from thread 109, CPU 2 [109, 0]
+### CPU 3 reached exit hypercall
