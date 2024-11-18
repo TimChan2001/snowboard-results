@@ -1,0 +1,892 @@
+This will be logged to the file and to the screen
+~/snowboard-2019-6974/testsuite/executor/gopath/src/github.com/google/syzkaller/executor/empty ~/snowboard-2019-6974/testsuite/executor/gopath/src/github.com/google/syzkaller
+gcc -o empty empty.c ../ski-params.c ../ski-barriers.c ../ski-hyper.c ../ski-test.c -T empty.ld -lrt  -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -g -m32 -static
+empty.c: In function 'main':
+empty.c:23:2: warning: implicit declaration of function 'ski_parse_env' [-Wimplicit-function-declaration]
+  ski_parse_env();
+  ^~~~~~~~~~~~~
+../ski-barriers.c: In function 'barrier_init':
+../ski-barriers.c:24:4: warning: implicit declaration of function 'shared_printf'; did you mean 'dprintf'? [-Wimplicit-function-declaration]
+    shared_printf("Mutex PTHREAD_PROCESS_SHARED\n");
+    ^~~~~~~~~~~~~
+    dprintf
+../ski-hyper.c: In function 'hypercall_debug':
+../ski-hyper.c:63:2: warning: implicit declaration of function 'shared_printf_init'; did you mean 'shared_printf'? [-Wimplicit-function-declaration]
+  shared_printf_init(current_cpu);
+  ^~~~~~~~~~~~~~~~~~
+  shared_printf
+../ski-hyper.c: In function 'hypercall_export_time':
+../ski-hyper.c:150:2: warning: format not a string literal and no format arguments [-Wformat-security]
+  sprintf(str, ctime(&sec));
+  ^~~~~~~
+../ski-test.c: In function 'ski_fetch_prog_data':
+../ski-test.c:120:40: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+   printf("program data is stored at %08x\n", hio_data.p.hio_fetch_data.progdata);
+                                     ~~~^     ~~~~~~~~
+                                     %08s
+../ski-test.c:126:16: warning: return from incompatible pointer type [-Wincompatible-pointer-types]
+         return &hio_data.p.hio_fetch_data.progdata;
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~/snowboard-2019-6974/testsuite/executor/gopath/src/github.com/google/syzkaller
+go list -f '{{.Stale}}' ./sys/syz-sysgen | grep -q false || go install ./sys/syz-sysgen
+make .descriptions
+bin/syz-sysgen
+touch .descriptions
+GOOS=linux GOARCH=amd64 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" -o ./bin/syz-manager github.com/google/syzkaller/syz-manager
+GOOS=linux GOARCH=amd64 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" -o ./bin/syz-runtest github.com/google/syzkaller/tools/syz-runtest
+GOOS=linux GOARCH=amd64 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" -o ./bin/syz-repro github.com/google/syzkaller/tools/syz-repro
+GOOS=linux GOARCH=amd64 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" -o ./bin/syz-mutate github.com/google/syzkaller/tools/syz-mutate
+GOOS=linux GOARCH=amd64 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" -o ./bin/syz-prog2c github.com/google/syzkaller/tools/syz-prog2c
+GOOS=linux GOARCH=amd64 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" -o ./bin/syz-db github.com/google/syzkaller/tools/syz-db
+GOOS=linux GOARCH=amd64 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" -o ./bin/syz-upgrade github.com/google/syzkaller/tools/syz-upgrade
+GOOS=linux GOARCH=386 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" "-tags=syz_target syz_os_linux syz_arch_386 " -o ./bin/linux_386/syz-fuzzer github.com/google/syzkaller/syz-fuzzer
+GOOS=linux GOARCH=386 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" "-tags=syz_target syz_os_linux syz_arch_386 " -o ./bin/linux_386/syz-execprog github.com/google/syzkaller/tools/syz-execprog
+GOOS=linux GOARCH=386 go build "-ldflags=-s -w -X github.com/google/syzkaller/prog.GitRevision=eddc84ce7bffb35eb9b3524d2c324b5708273c9c+ -X 'github.com/google/syzkaller/prog.gitRevisionDate=20220408-004654'" "-tags=syz_target syz_os_linux syz_arch_386 " -o ./bin/linux_386/syz-stress github.com/google/syzkaller/tools/syz-stress
+mkdir -p ./bin/linux_386
+x86_64-linux-gnu-gcc -o ./bin/linux_386/ski-executor executor/ski-params.c executor/ski-barriers.c executor/ski-hyper.c executor/ski-test.c executor/ski-executor.cc\
+	-O1  -Wparentheses -Wframe-larger-than=16384 -lrt -Wl,--whole-archive -lpthread -Wl,--no-whole-archive -g -m32 -static \
+	-DGOOS_linux=1 -DGOARCH_386=1 \
+	-DHOSTGOOS_linux=1 -DGIT_REVISION=\"eddc84ce7bffb35eb9b3524d2c324b5708273c9c+\"
+executor/ski-barriers.c: In function 'barrier_init':
+executor/ski-barriers.c:24:4: warning: implicit declaration of function 'shared_printf'; did you mean 'dprintf'? [-Wimplicit-function-declaration]
+    shared_printf("Mutex PTHREAD_PROCESS_SHARED\n");
+    ^~~~~~~~~~~~~
+    dprintf
+executor/ski-hyper.c: In function 'hypercall_debug':
+executor/ski-hyper.c:63:2: warning: implicit declaration of function 'shared_printf_init'; did you mean 'shared_printf'? [-Wimplicit-function-declaration]
+  shared_printf_init(current_cpu);
+  ^~~~~~~~~~~~~~~~~~
+  shared_printf
+executor/ski-hyper.c: In function 'hypercall_export_time':
+executor/ski-hyper.c:150:2: warning: format not a string literal and no format arguments [-Wformat-security]
+  sprintf(str, ctime(&sec));
+  ^~~~~~~
+executor/ski-hyper.c: In function 'hypercall_debug_quiet':
+executor/ski-hyper.c:54:1: warning: the frame size of 100032 bytes is larger than 16384 bytes [-Wframe-larger-than=]
+ }
+ ^
+executor/ski-hyper.c: In function 'hypercall_debug':
+executor/ski-hyper.c:90:1: warning: the frame size of 100032 bytes is larger than 16384 bytes [-Wframe-larger-than=]
+ }
+ ^
+executor/ski-test.c: In function 'ski_fetch_prog_data':
+executor/ski-test.c:120:40: warning: format '%x' expects argument of type 'unsigned int', but argument 2 has type 'char *' [-Wformat=]
+   printf("program data is stored at %08x\n", hio_data.p.hio_fetch_data.progdata);
+                                     ~~~^     ~~~~~~~~
+                                     %08s
+executor/ski-test.c:126:16: warning: return from incompatible pointer type [-Wincompatible-pointer-types]
+         return &hio_data.p.hio_fetch_data.progdata;
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+executor/ski-executor.cc: In function 'int main(int, char**)':
+executor/ski-executor.cc:413:94: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   hypercall_debug_quiet(STD_SKI_CPU_AFFINITY, "SKI is disabled and interfaces are not used\n");
+                                                                                              ^
+executor/ski-executor.cc:417:131: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   hypercall_debug_quiet(STD_SKI_CPU_AFFINITY, "[set_syscal_nr CPU%d] ski_start return 1, for SNAPSHOT use\n", STD_SKI_CPU_AFFINITY);
+                                                                                                                                   ^
+executor/ski-executor.cc:421:95: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+    hypercall_debug_quiet(STD_SKI_CPU_AFFINITY, "SKI is disabled and interfaces are not used\n");
+                                                                                               ^
+executor/ski-executor.cc:446:94: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   hypercall_debug_quiet(STD_SKI_CPU_AFFINITY, "SKI is disabled and interfaces are not used\n");
+                                                                                              ^
+executor/ski-executor.cc: In function 'void execute_input()':
+executor/ski-executor.cc:549:75: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 3 has type 'unsigned int' [-Wformat=]
+    fail("invalid command number %llu %llu", call_num, ARRAY_SIZE(syscalls));
+                                                                           ^
+executor/ski-executor.cc: In function 'void execute_call_new(thread_t*)':
+executor/ski-executor.cc:570:119: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   hypercall_debug(STD_SKI_CPU_AFFINITY, "Call %s Call_NUM: %d NUM_Args: %d \n", call->name, call->sys_nr, th->num_args);
+                                                                                                                       ^
+executor/ski-executor.cc:575:83: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+    hypercall_debug(STD_SKI_CPU_AFFINITY, "Args%d=0x%llx\n", i, (uint64)th->args[i]);
+                                                                                   ^
+executor/ski-executor.cc:589:106: warning: ISO C++ forbids converting a string constant to 'char*' [-Wwrite-strings]
+   hypercall_debug(STD_SKI_CPU_AFFINITY, "%s=0x%llx errno=%d\n", call->name, (uint64)th->res, th->reserrno);
+                                                                                                          ^
+x86_64-linux-gnu-gcc -o ./bin/linux_386/syz-executor executor/executor.cc \
+	-m32 -O2 -pthread -Wall -Werror -Wparentheses -Wunused-const-variable -Wframe-larger-than=16384 -static  -DGOOS_linux=1 -DGOARCH_386=1 \
+	-DHOSTGOOS_linux=1 -DGIT_REVISION=\"eddc84ce7bffb35eb9b3524d2c324b5708273c9c+\"
+[CREATE-SNAPSHOT.SH] Creating the testcase package...
+[CREATE-SNAPSHOT.SH] Deleted the existing testcase package file
+[CREATE-SNAPSHOT.SH] Packing directory syzkaller into archive syzkaller.tgz...
+Total bytes written: 6615040 (6.4MiB, 17MiB/s)
+-rwxrwxrwx 1 root root 2195861 Nov 18 09:16 syzkaller.tgz
+[CREATE-SNAPSHOT.SH]  -> Created the testcase package: /root/snowboard-2019-6974/testsuite/executor/gopath/src/github.com/google/syzkaller.tgz 
+[CREATE-SNAPSHOT.SH] Checking if there are other QEMU instances running...
+0 S root     3225369 3214714  0  80   0 -  2868 pipe_r 09:16 pts/2    00:00:00 grep qemu-system-i386
+[CREATE-SNAPSHOT.SH] Killing other instances of SKI...
+qemu-system-i386: no process found
+[CREATE-SNAPSHOT.SH] Sleeping for a few seconds...
+core file size          (blocks, -c) unlimited
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 771044
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 1048576
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) unlimited
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+[CREATE-SNAPSHOT.SH] Copying the VM image to tmp
+[CREATE-SNAPSHOT.SH] Running SKI process in the background
+[CREATE-SNAPSHOT.SH] Spawning in the background the testsuit loader...
+[CREATE-SNAPSHOT.SH] Waiting for QEMU to finish
+[LOAD-TESTSUITE.SH] Finding the QEMU fd for the msg file... (0/20)
+
+(process:3225491): GLib-WARNING **: 09:16:55.560: ../../../../glib/gmem.c:489: custom memory allocation vtable not supported
+[SKI] Dynamic Ticks disabled
+[SKI] QEMU launched.
+[SKI] Not sleeping for 10 seconds (ski_start_sleep_enabled=0)
+[SKI] Parsing range: 1-1 (env. variable SKI_INPUT1_RANGE)
+[SKI] d1 = 1
+[SKI] d2 = 1
+[SKI] Parsing range: 1-1 (env. variable SKI_INPUT2_RANGE)
+[SKI] d1 = 1
+[SKI] d2 = 1
+[SKI] Parsing range: 1-1 (env. variable SKI_INTERLEAVING_RANGE)
+[SKI] d1 = 1
+[SKI] d2 = 1
+[SKI] ski_input_init: Executing 1 tests
+[SKI] SKI_CORPUS_DIR=
+[SKI] SKI_OUTPUT_DIR=/root/storage-2019-6974/snapshot-2024-11-18-09-16-06/snapshot-2024-11-18-09-16-06
+[SKI] SKI_OUTPUT_DIR_PER_INPUT_ENABLED=1
+[SKI] SKI_WATCHDOG_SECONDS=300
+[SKI] SKI_RACE_DETECTOR_ENABLED=0
+[SKI] SKI_INSTRUCTIONS_DETECTOR_FILENAME=
+[SKI] SKI_SELECTIVE_TRACE_FILENAME=
+[SKI] SKI_HEURISTICS_STATISTICS_ENABLED=0
+[SKI] SKI_INPUT_FILENAME=
+[SKI] SKI_INPUT_PAIRS_FILENAME=
+[SKI] SKI_DEBUG_ONLY_AGGREGATE_OUTPUT_ENABLED=0
+[SKI] SKI_DEBUG_CHILD_WAIT_START_SECONDS=0
+[SKI] SKI_DEBUG_PARENT_EXECUTES_ENABLED=0
+[SKI] SKI_DEBUG_EXIT_AFTER_HYPERCALL_ENABLED=0
+[SKI] SKI_IPFILTER_FILENAME=
+[SKI] SKI_PRIORITIES_FILENAME=/root/snowboard-2019-6974/vmm/install//../testcase.priorities
+[SKI] SKI_FORKALL_ENABLED=0
+[SKI] SKI_FORKALL_CONCURRENCY=1
+[SKI] SKI_RESCHEDULE_POINTS=1
+[SKI] SKI_RESCHEDULE_K=1
+[SKI] SKI_QUIT_HYPERCALL_THRESHOLD=1
+[SKI] SKI_DEBUG_ASSERT_TRAP_ENABLED=0
+[SKI] SKI_TRACE_INSTRUCTIONS_ENABLED=1
+[SKI] SKI_TRACE_MEMORY_ACCESSES_ENABLED=1
+[SKI] SKI_TRACE_WRITE_SET_ENABLED=0
+[SKI] SKI_TRACE_READ_SET_ENABLED=0
+[SKI] SKI_TRACE_EXEC_SET_ENABLED=0
+[SKI] SKI_TRACE_SET_CPU=0
+[SKI] SKI_TEST_CPU_1_MODE=3
+[SKI] SKI_TEST_CPU_2_MODE=3
+[SKI] SKI_PREEMPTION_BY_EIP=0
+[SKI] SKI_SHORT_PROFILE=0
+[SKI] SKI_PREEMPTION_BY_ACCESS=0
+[SKI] ski_init_options_input_number:
+[SKI] [MEMFS] Initialized the wrappers
+[SKI] [MEMFS]  Option ski_memfs_test_mode_enabled = 0
+[SKI] [MEMFS]  Option ski_memfs_enabled = 0
+[SKI] [MEMFS]  Option ski_memfs_log_level = 1
+[SKI] [MEMFS] WARNING: fopen file /root/snowboard/vmm/install/etc/qemu/qemu.conf returned 0
+[SKI] [MEMFS] WARNING: fopen file /root/snowboard/vmm/install/etc/qemu/target-i386.conf returned 0
+[SKI] Hashing disk_filename: /dev/shm/ski//tmp.3214714.img
+[SKI] Finished hashing (hash: 4e3145f79526a841b8a97e1c734010789449e92c)
+[SKI] Raw ski options: 0,input_number=210:210,preemptions=119:97
+[SKI] QEMU parameters parsed
+[SKI] Hashing kernel_filename: /root/2019-6974-i386/linux-4.19/arch/x86/boot/bzImage
+[SKI] Finished hashing (hash : f3dadaceb6242f5dad87075562e99f7d1a9ccbae)
+image: /dev/shm/ski//tmp.3214714.img
+file format: qcow2
+virtual size: 15G (16106127360 bytes)
+disk size: 4.6G
+cluster_size: 65536
+[SKI] Next child will explore inputs 1 and 1 and interleaving: 1
+[SKI] WARNING: number of interleaving (1) should be higher than the number of parallel executions (1)
+[SKI] SKI_OUTPUT_DIR=/root/storage-2019-6974/snapshot-2024-11-18-09-16-06/snapshot-2024-11-18-09-16-06
+[SKI] [STATS] ski_stats_init: setting up 1 slots
+[SKI] [STATS] Trying to allocate with size: 241883336
+[SKI] [STATS] Shared memory attached at address 0x7f4a4fb2f000
+[SKI] [STATS] Segment size: 241883336
+[SKI] [STATS] Trying to set auto delete flag
+[SKI] Using stats slot 0
+[SKI] Using seed: 1
+[SKI] Finished waiting for the initial kick-off
+[SKI] VM running...
+[LOAD-TESTSUITE.SH] Finding the QEMU fd for the msg file... (1/20)
+[LOAD-TESTSUITE.SH] Found QEMU's msg filename (/proc/3225491//fd/34) and console filename (/proc/3225491//fd/24)
+[LOAD-TESTSUITE.SH] Waiting for VM to boot...Might take several minutes
+[LOAD-TESTSUITE.SH] ...to get booting information run: tail -f /root/storage-2019-6974/snapshot-2024-11-18-09-16-06/snapshot-2024-11-18-09-16-06/console.txt
+[LOAD-TESTSUITE.SH] ...or use VNC: vncviewer :1
+[SKI] [MSG] Guest finished booting
+[LOAD-TESTSUITE.SH] Sleep a while in case the vm is still in booting
+[LOAD-TESTSUITE.SH] Transfering testcase to VM:
+[LOAD-TESTSUITE.SH] scp -P 20001 -i /root/snowboard-2019-6974/scripts/prerequisite/id_dsa_vm -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null /root/snowboard-2019-6974/testsuite/executor/gopath/src/github.com/google/syzkaller//../syzkaller.tgz root@localhost:/root/
+Executing: program /usr/bin/ssh host localhost, user root, command scp -v -t /root/
+OpenSSH_7.6p1 Ubuntu-4ubuntu0.7, OpenSSL 1.0.2n  7 Dec 2017
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 19: Applying options for *
+debug1: Connecting to localhost [127.0.0.1] port 20001.
+debug1: Connection established.
+debug1: permanently_set_uid: 0/0
+debug1: key_load_public: No such file or directory
+debug1: identity file /root/snowboard-2019-6974/scripts/prerequisite/id_dsa_vm type -1
+debug1: key_load_public: No such file or directory
+debug1: identity file /root/snowboard-2019-6974/scripts/prerequisite/id_dsa_vm-cert type -1
+debug1: Local version string SSH-2.0-OpenSSH_7.6p1 Ubuntu-4ubuntu0.7
+debug1: Remote protocol version 2.0, remote software version OpenSSH_7.9p1 Debian-10+deb10u1
+debug1: match: OpenSSH_7.9p1 Debian-10+deb10u1 pat OpenSSH* compat 0x04000000
+debug1: Authenticating to localhost:20001 as 'root'
+debug1: SSH2_MSG_KEXINIT sent
+debug1: SSH2_MSG_KEXINIT received
+debug1: kex: algorithm: curve25519-sha256
+debug1: kex: host key algorithm: ecdsa-sha2-nistp256
+debug1: kex: server->client cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none
+debug1: kex: client->server cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none
+debug1: expecting SSH2_MSG_KEX_ECDH_REPLY
+debug1: Server host key: ecdsa-sha2-nistp256 SHA256:sRjmEveB6qSk89IwEOdcRP2xrMvM7zjOeY6bl4MSUcw
+debug1: checking without port identifier
+Warning: Permanently added '[localhost]:20001' (ECDSA) to the list of known hosts.
+debug1: rekey after 134217728 blocks
+debug1: SSH2_MSG_NEWKEYS sent
+debug1: expecting SSH2_MSG_NEWKEYS
+debug1: SSH2_MSG_NEWKEYS received
+debug1: rekey after 134217728 blocks
+debug1: SSH2_MSG_EXT_INFO received
+debug1: kex_input_ext_info: server-sig-algs=<ssh-ed25519,ssh-rsa,rsa-sha2-256,rsa-sha2-512,ssh-dss,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521>
+debug1: SSH2_MSG_SERVICE_ACCEPT received
+debug1: Authentications that can continue: publickey,password
+debug1: Next authentication method: publickey
+debug1: Trying private key: /root/snowboard-2019-6974/scripts/prerequisite/id_dsa_vm
+debug1: Authentication succeeded (publickey).
+Authenticated to localhost ([127.0.0.1]:20001).
+debug1: channel 0: new [client-session]
+debug1: Requesting no-more-sessions@openssh.com
+debug1: Entering interactive session.
+debug1: pledge: network
+debug1: client_input_global_request: rtype hostkeys-00@openssh.com want_reply 0
+debug1: Remote: /root/.ssh/authorized_keys:1: key options: agent-forwarding port-forwarding pty user-rc x11-forwarding
+debug1: Sending environment.
+debug1: Sending env LANG = en_US.UTF-8
+debug1: Sending command: scp -v -t /root/
+Sending file modes: C0777 2195861 syzkaller.tgz
+Sink: C0777 2195861 syzkaller.tgz
+debug1: client_input_channel_req: channel 0 rtype exit-status reply 0
+debug1: channel 0: free: client-session, nchannels 1
+debug1: fd 0 clearing O_NONBLOCK
+debug1: fd 1 clearing O_NONBLOCK
+debug1: fd 2 clearing O_NONBLOCK
+Transferred: sent 2200868, received 2844 bytes, in 37.2 seconds
+Bytes per second: sent 59111.1, received 76.4
+debug1: Exit status 0
+[LOAD-TESTSUITE.SH] Finished transfering testcase (Exit code: 0)
+[LOAD-TESTSUITE.SH] Establishing an SSH connection to unpack and run the script
+[LOAD-TESTSUITE.SH] ssh -p 20001 -i /root/snowboard-2019-6974/scripts/prerequisite/id_dsa_vm -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@localhost "cd /root/ && tar -xzvf syzkaller.tgz && cd ./syzkaller && ./ski-testcase-run.sh > syzkaller.log &"
+Warning: Permanently added '[localhost]:20001' (ECDSA) to the list of known hosts.
+[LOAD-TESTSUITE.SH] Finished the SSH connection (Exit code: 0)
+[SKI] [MSG] [SKI-TESTCASE-RUN.SH] Running setup
+[SKI] [MSG] PID F S UID PID PPID C PRI NI ADDR SZ WCHAN STIME TTY TIME CMD
+[SKI] [MSG] taskset: invalid PID argument: 'PID'
+[SKI] [MSG] pid 1's current affinity mask: f 1 4 S root 1 0 29 80 0 - 8962 do_epo 04:17 ? 00:02:07 /sbin/init no_hash_pointers nopcid -v...
+[SKI] [MSG] pid 2's current affinity mask: f 2 1 S root 2 0 0 80 0 - 0 kthrea 04:17 ? 00:00:00 [kthreadd]
+[SKI] [MSG] Found [ in 1 S root         2     0  0  80   0 -     0 kthrea 04:17 ?        00:00:00 [kthreadd]
+[SKI] [MSG] Updated: pid 2's current affinity mask: 4 2 1 S root 2 0 0 80 0 - 0 kthrea 04:17 ? 00:00:00 [kthreadd]
+[SKI] [MSG] pid 3's current affinity mask: 1 3 1 I root 3 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [rcu_gp]
+[SKI] [MSG] Found [ in 1 I root         3     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [rcu_gp]
+[SKI] [MSG] fail to set CPU affinity for PID 3
+[SKI] [MSG] pid 4's current affinity mask: f 4 1 I root 4 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [rcu_par_gp]
+[SKI] [MSG] Found [ in 1 I root         4     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [rcu_par_gp]
+[SKI] [MSG] fail to set CPU affinity for PID 4
+[SKI] [MSG] pid 5's current affinity mask: 1 5 1 I root 5 2 1 80 0 - 0 worker 04:17 ? 00:00:07 [kworker/0:0-cgroup_destroy]
+[SKI] [MSG] Found [ in 1 I root         5     2  1  80   0 -     0 worker 04:17 ?        00:00:07 [kworker/0:0-cgroup_destroy]
+[SKI] [MSG] fail to set CPU affinity for PID 5
+[SKI] [MSG] pid 6's current affinity mask: 1 6 1 I root 6 2 0 60 -20 - 0 worker 04:17 ? 00:00:00 [kworker/0:0H]
+[SKI] [MSG] Found [ in 1 I root         6     2  0  60 -20 -     0 worker 04:17 ?        00:00:00 [kworker/0:0H]
+[SKI] [MSG] fail to set CPU affinity for PID 6
+[SKI] [MSG] pid 7's current affinity mask: f 7 1 I root 7 2 0 80 0 - 0 worker 04:17 ? 00:00:02 [kworker/u8:0-flush-8:0]
+[SKI] [MSG] Found [ in 1 I root         7     2  0  80   0 -     0 worker 04:17 ?        00:00:02 [kworker/u8:0-flush-8:0]
+[SKI] [MSG] fail to set CPU affinity for PID 7
+[SKI] [MSG] pid 8's current affinity mask: f 8 1 I root 8 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [mm_percpu_wq]
+[SKI] [MSG] Found [ in 1 I root         8     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [mm_percpu_wq]
+[SKI] [MSG] fail to set CPU affinity for PID 8
+[SKI] [MSG] pid 9's current affinity mask: 1 9 1 S root 9 2 2 80 0 - 0 smpboo 04:17 ? 00:00:10 [ksoftirqd/0]
+[SKI] [MSG] Found [ in 1 S root         9     2  2  80   0 -     0 smpboo 04:17 ?        00:00:10 [ksoftirqd/0]
+[SKI] [MSG] fail to set CPU affinity for PID 9
+[SKI] [MSG] pid 10's current affinity mask: f 10 1 I root 10 2 2 80 0 - 0 rcu_gp 04:17 ? 00:00:09 [rcu_preempt]
+[SKI] [MSG] Found [ in 1 I root        10     2  2  80   0 -     0 rcu_gp 04:17 ?        00:00:09 [rcu_preempt]
+[SKI] [MSG] Updated: pid 10's current affinity mask: 4 10 1 I root 10 2 2 80 0 - 0 rcu_gp 04:17 ? 00:00:09 [rcu_preempt]
+[SKI] [MSG] pid 11's current affinity mask: f 11 1 I root 11 2 0 80 0 - 0 rcu_gp 04:17 ? 00:00:00 [rcu_sched]
+[SKI] [MSG] Found [ in 1 I root        11     2  0  80   0 -     0 rcu_gp 04:17 ?        00:00:00 [rcu_sched]
+[SKI] [MSG] Updated: pid 11's current affinity mask: 4 11 1 I root 11 2 0 80 0 - 0 rcu_gp 04:17 ? 00:00:00 [rcu_sched]
+[SKI] [MSG] pid 12's current affinity mask: f 12 1 I root 12 2 0 80 0 - 0 rcu_gp 04:17 ? 00:00:00 [rcu_bh]
+[SKI] [MSG] Found [ in 1 I root        12     2  0  80   0 -     0 rcu_gp 04:17 ?        00:00:00 [rcu_bh]
+[SKI] [MSG] Updated: pid 12's current affinity mask: 4 12 1 I root 12 2 0 80 0 - 0 rcu_gp 04:17 ? 00:00:00 [rcu_bh]
+[SKI] [MSG] pid 13's current affinity mask: 1 13 1 S root 13 2 0 -40 - - 0 smpboo 04:17 ? 00:00:00 [migration/0]
+[SKI] [MSG] Found [ in 1 S root        13     2  0 -40   - -     0 smpboo 04:17 ?        00:00:00 [migration/0]
+[SKI] [MSG] fail to set CPU affinity for PID 13
+[SKI] [MSG] pid 14's current affinity mask: 1 14 1 S root 14 2 0 80 0 - 0 smpboo 04:17 ? 00:00:00 [cpuhp/0]
+[SKI] [MSG] Found [ in 1 S root        14     2  0  80   0 -     0 smpboo 04:17 ?        00:00:00 [cpuhp/0]
+[SKI] [MSG] fail to set CPU affinity for PID 14
+[SKI] [MSG] pid 15's current affinity mask: 2 15 1 S root 15 2 0 80 0 - 0 smpboo 04:17 ? 00:00:00 [cpuhp/1]
+[SKI] [MSG] Found [ in 1 S root        15     2  0  80   0 -     0 smpboo 04:17 ?        00:00:00 [cpuhp/1]
+[SKI] [MSG] fail to set CPU affinity for PID 15
+[SKI] [MSG] pid 16's current affinity mask: 2 16 1 S root 16 2 0 -40 - - 0 smpboo 04:17 ? 00:00:00 [migration/1]
+[SKI] [MSG] Found [ in 1 S root        16     2  0 -40   - -     0 smpboo 04:17 ?        00:00:00 [migration/1]
+[SKI] [MSG] fail to set CPU affinity for PID 16
+[SKI] [MSG] pid 17's current affinity mask: 2 17 1 S root 17 2 2 80 0 - 0 smpboo 04:17 ? 00:00:12 [ksoftirqd/1]
+[SKI] [MSG] Found [ in 1 S root        17     2  2  80   0 -     0 smpboo 04:17 ?        00:00:12 [ksoftirqd/1]
+[SKI] [MSG] fail to set CPU affinity for PID 17
+[SKI] [MSG] pid 18's current affinity mask: 2 18 1 I root 18 2 0 80 0 - 0 worker 04:17 ? 00:00:01 [kworker/1:0-cgroup_destroy]
+[SKI] [MSG] Found [ in 1 I root        18     2  0  80   0 -     0 worker 04:17 ?        00:00:01 [kworker/1:0-cgroup_destroy]
+[SKI] [MSG] fail to set CPU affinity for PID 18
+[SKI] [MSG] pid 19's current affinity mask: 2 19 1 I root 19 2 0 60 -20 - 0 worker 04:17 ? 00:00:00 [kworker/1:0H-kblockd]
+[SKI] [MSG] Found [ in 1 I root        19     2  0  60 -20 -     0 worker 04:17 ?        00:00:00 [kworker/1:0H-kblockd]
+[SKI] [MSG] fail to set CPU affinity for PID 19
+[SKI] [MSG] pid 20's current affinity mask: 4 20 1 S root 20 2 0 80 0 - 0 smpboo 04:17 ? 00:00:00 [cpuhp/2]
+[SKI] [MSG] Found [ in 1 S root        20     2  0  80   0 -     0 smpboo 04:17 ?        00:00:00 [cpuhp/2]
+[SKI] [MSG] fail to set CPU affinity for PID 20
+[SKI] [MSG] pid 21's current affinity mask: 4 21 1 S root 21 2 0 -40 - - 0 smpboo 04:17 ? 00:00:00 [migration/2]
+[SKI] [MSG] Found [ in 1 S root        21     2  0 -40   - -     0 smpboo 04:17 ?        00:00:00 [migration/2]
+[SKI] [MSG] fail to set CPU affinity for PID 21
+[SKI] [MSG] pid 22's current affinity mask: 4 22 1 S root 22 2 1 80 0 - 0 smpboo 04:17 ? 00:00:08 [ksoftirqd/2]
+[SKI] [MSG] Found [ in 1 S root        22     2  1  80   0 -     0 smpboo 04:17 ?        00:00:08 [ksoftirqd/2]
+[SKI] [MSG] fail to set CPU affinity for PID 22
+[SKI] [MSG] pid 23's current affinity mask: 4 23 1 I root 23 2 1 80 0 - 0 worker 04:17 ? 00:00:04 [kworker/2:0-mm_percpu_wq]
+[SKI] [MSG] Found [ in 1 I root        23     2  1  80   0 -     0 worker 04:17 ?        00:00:04 [kworker/2:0-mm_percpu_wq]
+[SKI] [MSG] fail to set CPU affinity for PID 23
+[SKI] [MSG] pid 24's current affinity mask: 4 24 1 I root 24 2 0 60 -20 - 0 worker 04:17 ? 00:00:00 [kworker/2:0H-kblockd]
+[SKI] [MSG] Found [ in 1 I root        24     2  0  60 -20 -     0 worker 04:17 ?        00:00:00 [kworker/2:0H-kblockd]
+[SKI] [MSG] fail to set CPU affinity for PID 24
+[SKI] [MSG] pid 25's current affinity mask: 8 25 1 S root 25 2 0 80 0 - 0 smpboo 04:17 ? 00:00:00 [cpuhp/3]
+[SKI] [MSG] Found [ in 1 S root        25     2  0  80   0 -     0 smpboo 04:17 ?        00:00:00 [cpuhp/3]
+[SKI] [MSG] fail to set CPU affinity for PID 25
+[SKI] [MSG] pid 26's current affinity mask: 8 26 1 S root 26 2 0 -40 - - 0 smpboo 04:17 ? 00:00:00 [migration/3]
+[SKI] [MSG] Found [ in 1 S root        26     2  0 -40   - -     0 smpboo 04:17 ?        00:00:00 [migration/3]
+[SKI] [MSG] fail to set CPU affinity for PID 26
+[SKI] [MSG] pid 27's current affinity mask: 8 27 1 S root 27 2 3 80 0 - 0 smpboo 04:17 ? 00:00:13 [ksoftirqd/3]
+[SKI] [MSG] Found [ in 1 S root        27     2  3  80   0 -     0 smpboo 04:17 ?        00:00:13 [ksoftirqd/3]
+[SKI] [MSG] fail to set CPU affinity for PID 27
+[SKI] [MSG] pid 28's current affinity mask: 8 28 1 I root 28 2 0 80 0 - 0 worker 04:17 ? 00:00:01 [kworker/3:0-events]
+[SKI] [MSG] Found [ in 1 I root        28     2  0  80   0 -     0 worker 04:17 ?        00:00:01 [kworker/3:0-events]
+[SKI] [MSG] fail to set CPU affinity for PID 28
+[SKI] [MSG] pid 29's current affinity mask: 8 29 1 I root 29 2 0 60 -20 - 0 worker 04:17 ? 00:00:00 [kworker/3:0H-kblockd]
+[SKI] [MSG] Found [ in 1 I root        29     2  0  60 -20 -     0 worker 04:17 ?        00:00:00 [kworker/3:0H-kblockd]
+[SKI] [MSG] fail to set CPU affinity for PID 29
+[SKI] [MSG] pid 31's current affinity mask: f 31 5 S root 31 2 0 80 0 - 0 devtmp 04:17 ? 00:00:00 [kdevtmpfs]
+[SKI] [MSG] Found [ in 5 S root        31     2  0  80   0 -     0 devtmp 04:17 ?        00:00:00 [kdevtmpfs]
+[SKI] [MSG] Updated: pid 31's current affinity mask: 4 31 5 S root 31 2 0 80 0 - 0 devtmp 04:17 ? 00:00:00 [kdevtmpfs]
+[SKI] [MSG] pid 32's current affinity mask: f 32 1 I root 32 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [netns]
+[SKI] [MSG] Found [ in 1 I root        32     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [netns]
+[SKI] [MSG] fail to set CPU affinity for PID 32
+[SKI] [MSG] pid 34's current affinity mask: f 34 1 S root 34 2 0 80 0 - 0 rcu_ta 04:17 ? 00:00:00 [rcu_tasks_kthre]
+[SKI] [MSG] Found [ in 1 S root        34     2  0  80   0 -     0 rcu_ta 04:17 ?        00:00:00 [rcu_tasks_kthre]
+[SKI] [MSG] Updated: pid 34's current affinity mask: 4 34 1 S root 34 2 0 80 0 - 0 rcu_ta 04:17 ? 00:00:00 [rcu_tasks_kthre]
+[SKI] [MSG] pid 44's current affinity mask: f 44 1 S root 44 2 2 80 0 - 0 kaudit 04:17 ? 00:00:08 [kauditd]
+[SKI] [MSG] Found [ in 1 S root        44     2  2  80   0 -     0 kaudit 04:17 ?        00:00:08 [kauditd]
+[SKI] [MSG] Updated: pid 44's current affinity mask: 4 44 1 S root 44 2 2 80 0 - 0 kaudit 04:17 ? 00:00:08 [kauditd]
+[SKI] [MSG] pid 61's current affinity mask: 8 61 1 I root 61 2 0 80 0 - 0 worker 04:17 ? 00:00:01 [kworker/3:1-rcu_gp]
+[SKI] [MSG] Found [ in 1 I root        61     2  0  80   0 -     0 worker 04:17 ?        00:00:01 [kworker/3:1-rcu_gp]
+[SKI] [MSG] fail to set CPU affinity for PID 61
+[SKI] [MSG] pid 431's current affinity mask: 4 431 1 I root 431 2 1 80 0 - 0 worker 04:17 ? 00:00:05 [kworker/2:1-events_power_efficient...
+[SKI] [MSG] Found [ in 1 I root       431     2  1  80   0 -     0 worker 04:17 ?        00:00:05 [kworker/2:1-events_power_efficient]
+[SKI] [MSG] fail to set CPU affinity for PID 431
+[SKI] [MSG] pid 507's current affinity mask: f 507 1 I root 507 2 1 80 0 - 0 worker 04:17 ? 00:00:05 [kworker/u8:4-phy1]
+[SKI] [MSG] Found [ in 1 I root       507     2  1  80   0 -     0 worker 04:17 ?        00:00:05 [kworker/u8:4-phy1]
+[SKI] [MSG] fail to set CPU affinity for PID 507
+[SKI] [MSG] pid 989's current affinity mask: f 989 1 I root 989 2 0 80 0 - 0 worker 04:17 ? 00:00:01 [kworker/u8:8-phy1]
+[SKI] [MSG] Found [ in 1 I root       989     2  0  80   0 -     0 worker 04:17 ?        00:00:01 [kworker/u8:8-phy1]
+[SKI] [MSG] fail to set CPU affinity for PID 989
+[SKI] [MSG] pid 1243's current affinity mask: f 1243 1 S root 1243 2 0 80 0 - 0 oom_re 04:17 ? 00:00:00 [oom_reaper]
+[SKI] [MSG] Found [ in 1 S root      1243     2  0  80   0 -     0 oom_re 04:17 ?        00:00:00 [oom_reaper]
+[SKI] [MSG] Updated: pid 1243's current affinity mask: 4 1243 1 S root 1243 2 0 80 0 - 0 oom_re 04:17 ? 00:00:00 [oom_reaper]
+[SKI] [MSG] pid 1325's current affinity mask: f 1325 1 I root 1325 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [writeback]
+[SKI] [MSG] Found [ in 1 I root      1325     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [writeback]
+[SKI] [MSG] fail to set CPU affinity for PID 1325
+[SKI] [MSG] pid 1327's current affinity mask: f 1327 1 S root 1327 2 0 80 0 - 0 kcompa 04:17 ? 00:00:00 [kcompactd0]
+[SKI] [MSG] Found [ in 1 S root      1327     2  0  80   0 -     0 kcompa 04:17 ?        00:00:00 [kcompactd0]
+[SKI] [MSG] Updated: pid 1327's current affinity mask: 4 1327 1 S root 1327 2 0 80 0 - 0 kcompa 04:17 ? 00:00:00 [kcompactd0]
+[SKI] [MSG] pid 1328's current affinity mask: f 1328 1 S root 1328 2 0 85 5 - 0 ksm_sc 04:17 ? 00:00:00 [ksmd]
+[SKI] [MSG] Found [ in 1 S root      1328     2  0  85   5 -     0 ksm_sc 04:17 ?        00:00:00 [ksmd]
+[SKI] [MSG] Updated: pid 1328's current affinity mask: 4 1328 1 S root 1328 2 0 85 5 - 0 ksm_sc 04:17 ? 00:00:00 [ksmd]
+[SKI] [MSG] pid 1329's current affinity mask: f 1329 1 S root 1329 2 0 99 19 - 0 khugep 04:17 ? 00:00:00 [khugepaged]
+[SKI] [MSG] Found [ in 1 S root      1329     2  0  99  19 -     0 khugep 04:17 ?        00:00:00 [khugepaged]
+[SKI] [MSG] Updated: pid 1329's current affinity mask: 4 1329 1 S root 1329 2 0 99 19 - 0 khugep 04:17 ? 00:00:00 [khugepaged]
+[SKI] [MSG] pid 1330's current affinity mask: f 1330 1 I root 1330 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [crypto]
+[SKI] [MSG] Found [ in 1 I root      1330     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [crypto]
+[SKI] [MSG] fail to set CPU affinity for PID 1330
+[SKI] [MSG] pid 1331's current affinity mask: f 1331 1 I root 1331 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [kintegrityd]
+[SKI] [MSG] Found [ in 1 I root      1331     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [kintegrityd]
+[SKI] [MSG] fail to set CPU affinity for PID 1331
+[SKI] [MSG] pid 1332's current affinity mask: 1 1332 1 I root 1332 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [kblockd]
+[SKI] [MSG] Found [ in 1 I root      1332     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [kblockd]
+[SKI] [MSG] fail to set CPU affinity for PID 1332
+[SKI] [MSG] pid 1438's current affinity mask: 2 1438 1 I root 1438 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [ata_sff]
+[SKI] [MSG] Found [ in 1 I root      1438     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [ata_sff]
+[SKI] [MSG] fail to set CPU affinity for PID 1438
+[SKI] [MSG] pid 1472's current affinity mask: f 1472 1 I root 1472 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [md]
+[SKI] [MSG] Found [ in 1 I root      1472     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [md]
+[SKI] [MSG] fail to set CPU affinity for PID 1472
+[SKI] [MSG] pid 1475's current affinity mask: f 1475 1 I root 1475 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [edac-poller]
+[SKI] [MSG] Found [ in 1 I root      1475     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [edac-poller]
+[SKI] [MSG] fail to set CPU affinity for PID 1475
+[SKI] [MSG] pid 1480's current affinity mask: f 1480 1 I root 1480 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [ib-comp-wq]
+[SKI] [MSG] Found [ in 1 I root      1480     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [ib-comp-wq]
+[SKI] [MSG] fail to set CPU affinity for PID 1480
+[SKI] [MSG] pid 1483's current affinity mask: f 1483 1 I root 1483 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [ib_mcast]
+[SKI] [MSG] Found [ in 1 I root      1483     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [ib_mcast]
+[SKI] [MSG] fail to set CPU affinity for PID 1483
+[SKI] [MSG] pid 1484's current affinity mask: f 1484 1 I root 1484 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [ib_nl_sa_wq]
+[SKI] [MSG] Found [ in 1 I root      1484     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [ib_nl_sa_wq]
+[SKI] [MSG] fail to set CPU affinity for PID 1484
+[SKI] [MSG] pid 1597's current affinity mask: f 1597 1 I root 1597 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [rpciod]
+[SKI] [MSG] Found [ in 1 I root      1597     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [rpciod]
+[SKI] [MSG] fail to set CPU affinity for PID 1597
+[SKI] [MSG] pid 1598's current affinity mask: f 1598 1 I root 1598 2 0 60 -20 - 0 worker 04:17 ? 00:00:00 [kworker/u9:0]
+[SKI] [MSG] Found [ in 1 I root      1598     2  0  60 -20 -     0 worker 04:17 ?        00:00:00 [kworker/u9:0]
+[SKI] [MSG] fail to set CPU affinity for PID 1598
+[SKI] [MSG] pid 1599's current affinity mask: f 1599 1 I root 1599 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [xprtiod]
+[SKI] [MSG] Found [ in 1 I root      1599     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [xprtiod]
+[SKI] [MSG] fail to set CPU affinity for PID 1599
+[SKI] [MSG] pid 1602's current affinity mask: f 1602 1 I root 1602 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [cfg80211]
+[SKI] [MSG] Found [ in 1 I root      1602     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [cfg80211]
+[SKI] [MSG] fail to set CPU affinity for PID 1602
+[SKI] [MSG] pid 1634's current affinity mask: f 1634 1 S root 1634 2 0 80 0 - 0 kswapd 04:17 ? 00:00:00 [kswapd0]
+[SKI] [MSG] Found [ in 1 S root      1634     2  0  80   0 -     0 kswapd 04:17 ?        00:00:00 [kswapd0]
+[SKI] [MSG] Updated: pid 1634's current affinity mask: 4 1634 1 S root 1634 2 0 80 0 - 0 kswapd 04:17 ? 00:00:00 [kswapd0]
+[SKI] [MSG] pid 1638's current affinity mask: f 1638 1 S root 1638 2 0 80 0 - 0 ecrypt 04:17 ? 00:00:00 [ecryptfs-kthrea]
+[SKI] [MSG] Found [ in 1 S root      1638     2  0  80   0 -     0 ecrypt 04:17 ?        00:00:00 [ecryptfs-kthrea]
+[SKI] [MSG] Updated: pid 1638's current affinity mask: 4 1638 1 S root 1638 2 0 80 0 - 0 ecrypt 04:17 ? 00:00:00 [ecryptfs-kthrea]
+[SKI] [MSG] pid 1640's current affinity mask: f 1640 1 I root 1640 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [nfsiod]
+[SKI] [MSG] Found [ in 1 I root      1640     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [nfsiod]
+[SKI] [MSG] fail to set CPU affinity for PID 1640
+[SKI] [MSG] pid 1641's current affinity mask: f 1641 1 I root 1641 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [cifsiod]
+[SKI] [MSG] Found [ in 1 I root      1641     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [cifsiod]
+[SKI] [MSG] fail to set CPU affinity for PID 1641
+[SKI] [MSG] pid 1642's current affinity mask: f 1642 1 I root 1642 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [cifsoplockd]
+[SKI] [MSG] Found [ in 1 I root      1642     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [cifsoplockd]
+[SKI] [MSG] fail to set CPU affinity for PID 1642
+[SKI] [MSG] pid 1647's current affinity mask: f 1647 1 S root 1647 2 0 80 0 - 0 jfsIOW 04:17 ? 00:00:00 [jfsIO]
+[SKI] [MSG] Found [ in 1 S root      1647     2  0  80   0 -     0 jfsIOW 04:17 ?        00:00:00 [jfsIO]
+[SKI] [MSG] Updated: pid 1647's current affinity mask: 4 1647 1 S root 1647 2 0 80 0 - 0 jfsIOW 04:17 ? 00:00:00 [jfsIO]
+[SKI] [MSG] pid 1648's current affinity mask: f 1648 1 S root 1648 2 0 80 0 - 0 jfs_la 04:17 ? 00:00:00 [jfsCommit]
+[SKI] [MSG] Found [ in 1 S root      1648     2  0  80   0 -     0 jfs_la 04:17 ?        00:00:00 [jfsCommit]
+[SKI] [MSG] Updated: pid 1648's current affinity mask: 4 1648 1 S root 1648 2 0 80 0 - 0 jfs_la 04:17 ? 00:00:00 [jfsCommit]
+[SKI] [MSG] pid 1649's current affinity mask: f 1649 1 S root 1649 2 0 80 0 - 0 jfs_la 04:17 ? 00:00:00 [jfsCommit]
+[SKI] [MSG] Found [ in 1 S root      1649     2  0  80   0 -     0 jfs_la 04:17 ?        00:00:00 [jfsCommit]
+[SKI] [MSG] Updated: pid 1649's current affinity mask: 4 1649 1 S root 1649 2 0 80 0 - 0 jfs_la 04:17 ? 00:00:00 [jfsCommit]
+[SKI] [MSG] pid 1650's current affinity mask: f 1650 1 S root 1650 2 0 80 0 - 0 jfs_la 04:17 ? 00:00:00 [jfsCommit]
+[SKI] [MSG] Found [ in 1 S root      1650     2  0  80   0 -     0 jfs_la 04:17 ?        00:00:00 [jfsCommit]
+[SKI] [MSG] Updated: pid 1650's current affinity mask: 4 1650 1 S root 1650 2 0 80 0 - 0 jfs_la 04:17 ? 00:00:00 [jfsCommit]
+[SKI] [MSG] pid 1651's current affinity mask: f 1651 1 S root 1651 2 0 80 0 - 0 jfs_la 04:17 ? 00:00:00 [jfsCommit]
+[SKI] [MSG] Found [ in 1 S root      1651     2  0  80   0 -     0 jfs_la 04:17 ?        00:00:00 [jfsCommit]
+[SKI] [MSG] Updated: pid 1651's current affinity mask: 4 1651 1 S root 1651 2 0 80 0 - 0 jfs_la 04:17 ? 00:00:00 [jfsCommit]
+[SKI] [MSG] pid 1652's current affinity mask: f 1652 1 S root 1652 2 0 80 0 - 0 jfs_sy 04:17 ? 00:00:00 [jfsSync]
+[SKI] [MSG] Found [ in 1 S root      1652     2  0  80   0 -     0 jfs_sy 04:17 ?        00:00:00 [jfsSync]
+[SKI] [MSG] Updated: pid 1652's current affinity mask: 4 1652 1 S root 1652 2 0 80 0 - 0 jfs_sy 04:17 ? 00:00:00 [jfsSync]
+[SKI] [MSG] pid 1653's current affinity mask: f 1653 1 I root 1653 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [xfsalloc]
+[SKI] [MSG] Found [ in 1 I root      1653     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [xfsalloc]
+[SKI] [MSG] fail to set CPU affinity for PID 1653
+[SKI] [MSG] pid 1654's current affinity mask: f 1654 1 I root 1654 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [xfs_mru_cache]
+[SKI] [MSG] Found [ in 1 I root      1654     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [xfs_mru_cache]
+[SKI] [MSG] fail to set CPU affinity for PID 1654
+[SKI] [MSG] pid 1656's current affinity mask: f 1656 1 I root 1656 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [user_dlm]
+[SKI] [MSG] Found [ in 1 I root      1656     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [user_dlm]
+[SKI] [MSG] fail to set CPU affinity for PID 1656
+[SKI] [MSG] pid 1658's current affinity mask: f 1658 1 I root 1658 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [glock_workqueue]
+[SKI] [MSG] Found [ in 1 I root      1658     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [glock_workqueue]
+[SKI] [MSG] fail to set CPU affinity for PID 1658
+[SKI] [MSG] pid 1659's current affinity mask: f 1659 1 I root 1659 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [delete_workqueu]
+[SKI] [MSG] Found [ in 1 I root      1659     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [delete_workqueu]
+[SKI] [MSG] fail to set CPU affinity for PID 1659
+[SKI] [MSG] pid 1660's current affinity mask: f 1660 1 I root 1660 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [gfs_recovery]
+[SKI] [MSG] Found [ in 1 I root      1660     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [gfs_recovery]
+[SKI] [MSG] fail to set CPU affinity for PID 1660
+[SKI] [MSG] pid 1678's current affinity mask: f 1678 1 I root 1678 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [pencrypt]
+[SKI] [MSG] Found [ in 1 I root      1678     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [pencrypt]
+[SKI] [MSG] fail to set CPU affinity for PID 1678
+[SKI] [MSG] pid 1680's current affinity mask: f 1680 1 I root 1680 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [pdecrypt]
+[SKI] [MSG] Found [ in 1 I root      1680     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [pdecrypt]
+[SKI] [MSG] fail to set CPU affinity for PID 1680
+[SKI] [MSG] pid 1745's current affinity mask: f 1745 1 I root 1745 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [kthrotld]
+[SKI] [MSG] Found [ in 1 I root      1745     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [kthrotld]
+[SKI] [MSG] fail to set CPU affinity for PID 1745
+[SKI] [MSG] pid 1785's current affinity mask: f 1785 1 I root 1785 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [acpi_thermal_pm]
+[SKI] [MSG] Found [ in 1 I root      1785     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [acpi_thermal_pm]
+[SKI] [MSG] fail to set CPU affinity for PID 1785
+[SKI] [MSG] pid 2416's current affinity mask: f 2416 1 I root 2416 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [knbd-recv]
+[SKI] [MSG] Found [ in 1 I root      2416     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [knbd-recv]
+[SKI] [MSG] fail to set CPU affinity for PID 2416
+[SKI] [MSG] pid 2453's current affinity mask: 2 2453 1 I root 2453 2 0 60 -20 - 0 worker 04:17 ? 00:00:01 [kworker/1:1H-kblockd]
+[SKI] [MSG] Found [ in 1 I root      2453     2  0  60 -20 -     0 worker 04:17 ?        00:00:01 [kworker/1:1H-kblockd]
+[SKI] [MSG] fail to set CPU affinity for PID 2453
+[SKI] [MSG] pid 2484's current affinity mask: f 2484 1 I root 2484 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [iscsi_eh]
+[SKI] [MSG] Found [ in 1 I root      2484     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [iscsi_eh]
+[SKI] [MSG] fail to set CPU affinity for PID 2484
+[SKI] [MSG] pid 2501's current affinity mask: f 2501 1 I root 2501 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [nvme-wq]
+[SKI] [MSG] Found [ in 1 I root      2501     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [nvme-wq]
+[SKI] [MSG] fail to set CPU affinity for PID 2501
+[SKI] [MSG] pid 2503's current affinity mask: f 2503 1 I root 2503 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [nvme-reset-wq]
+[SKI] [MSG] Found [ in 1 I root      2503     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [nvme-reset-wq]
+[SKI] [MSG] fail to set CPU affinity for PID 2503
+[SKI] [MSG] pid 2505's current affinity mask: f 2505 1 I root 2505 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [nvme-delete-wq]
+[SKI] [MSG] Found [ in 1 I root      2505     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [nvme-delete-wq]
+[SKI] [MSG] fail to set CPU affinity for PID 2505
+[SKI] [MSG] pid 2519's current affinity mask: f 2519 1 S root 2519 2 0 80 0 - 0 scsi_e 04:17 ? 00:00:00 [scsi_eh_0]
+[SKI] [MSG] Found [ in 1 S root      2519     2  0  80   0 -     0 scsi_e 04:17 ?        00:00:00 [scsi_eh_0]
+[SKI] [MSG] Updated: pid 2519's current affinity mask: 4 2519 1 S root 2519 2 0 80 0 - 0 scsi_e 04:17 ? 00:00:00 [scsi_eh_0]
+[SKI] [MSG] pid 2520's current affinity mask: f 2520 1 I root 2520 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [scsi_tmf_0]
+[SKI] [MSG] Found [ in 1 I root      2520     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [scsi_tmf_0]
+[SKI] [MSG] fail to set CPU affinity for PID 2520
+[SKI] [MSG] pid 2523's current affinity mask: f 2523 1 S root 2523 2 0 80 0 - 0 scsi_e 04:17 ? 00:00:00 [scsi_eh_1]
+[SKI] [MSG] Found [ in 1 S root      2523     2  0  80   0 -     0 scsi_e 04:17 ?        00:00:00 [scsi_eh_1]
+[SKI] [MSG] Updated: pid 2523's current affinity mask: 4 2523 1 S root 2523 2 0 80 0 - 0 scsi_e 04:17 ? 00:00:00 [scsi_eh_1]
+[SKI] [MSG] pid 2524's current affinity mask: f 2524 1 I root 2524 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [scsi_tmf_1]
+[SKI] [MSG] Found [ in 1 I root      2524     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [scsi_tmf_1]
+[SKI] [MSG] fail to set CPU affinity for PID 2524
+[SKI] [MSG] pid 2527's current affinity mask: f 2527 1 I root 2527 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [target_completi]
+[SKI] [MSG] Found [ in 1 I root      2527     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [target_completi]
+[SKI] [MSG] fail to set CPU affinity for PID 2527
+[SKI] [MSG] pid 2534's current affinity mask: f 2534 1 I root 2534 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [tmr-rd_mcp]
+[SKI] [MSG] Found [ in 1 I root      2534     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [tmr-rd_mcp]
+[SKI] [MSG] fail to set CPU affinity for PID 2534
+[SKI] [MSG] pid 2535's current affinity mask: f 2535 1 I root 2535 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [xcopy_wq]
+[SKI] [MSG] Found [ in 1 I root      2535     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [xcopy_wq]
+[SKI] [MSG] fail to set CPU affinity for PID 2535
+[SKI] [MSG] pid 2545's current affinity mask: f 2545 1 I root 2545 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [bond0]
+[SKI] [MSG] Found [ in 1 I root      2545     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [bond0]
+[SKI] [MSG] fail to set CPU affinity for PID 2545
+[SKI] [MSG] pid 2638's current affinity mask: 2 2638 1 I root 2638 2 1 80 0 - 0 worker 04:17 ? 00:00:05 [kworker/1:2-events]
+[SKI] [MSG] Found [ in 1 I root      2638     2  1  80   0 -     0 worker 04:17 ?        00:00:05 [kworker/1:2-events]
+[SKI] [MSG] fail to set CPU affinity for PID 2638
+[SKI] [MSG] pid 2640's current affinity mask: f 2640 1 I root 2640 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [mlx4]
+[SKI] [MSG] Found [ in 1 I root      2640     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [mlx4]
+[SKI] [MSG] fail to set CPU affinity for PID 2640
+[SKI] [MSG] pid 2679's current affinity mask: 1 2679 1 I root 2679 2 0 60 -20 - 0 worker 04:17 ? 00:00:01 [kworker/0:1H-kblockd]
+[SKI] [MSG] Found [ in 1 I root      2679     2  0  60 -20 -     0 worker 04:17 ?        00:00:01 [kworker/0:1H-kblockd]
+[SKI] [MSG] fail to set CPU affinity for PID 2679
+[SKI] [MSG] pid 2716's current affinity mask: f 2716 1 I root 2716 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [firewire]
+[SKI] [MSG] Found [ in 1 I root      2716     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [firewire]
+[SKI] [MSG] fail to set CPU affinity for PID 2716
+[SKI] [MSG] pid 2717's current affinity mask: f 2717 1 I root 2717 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [firewire_ohci]
+[SKI] [MSG] Found [ in 1 I root      2717     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [firewire_ohci]
+[SKI] [MSG] fail to set CPU affinity for PID 2717
+[SKI] [MSG] pid 2724's current affinity mask: f 2724 1 I root 2724 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vfio-irqfd-clea]
+[SKI] [MSG] Found [ in 1 I root      2724     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vfio-irqfd-clea]
+[SKI] [MSG] fail to set CPU affinity for PID 2724
+[SKI] [MSG] pid 2733's current affinity mask: f 2733 1 S root 2733 2 0 70 -10 - 0 kthrea 04:17 ? 00:00:00 [aoe_tx0]
+[SKI] [MSG] Found [ in 1 S root      2733     2  0  70 -10 -     0 kthrea 04:17 ?        00:00:00 [aoe_tx0]
+[SKI] [MSG] Updated: pid 2733's current affinity mask: 4 2733 1 S root 2733 2 0 70 -10 - 0 kthrea 04:17 ? 00:00:00 [aoe_tx0]
+[SKI] [MSG] pid 2734's current affinity mask: f 2734 1 S root 2734 2 0 70 -10 - 0 kthrea 04:17 ? 00:00:00 [aoe_ktio0]
+[SKI] [MSG] Found [ in 1 S root      2734     2  0  70 -10 -     0 kthrea 04:17 ?        00:00:00 [aoe_ktio0]
+[SKI] [MSG] Updated: pid 2734's current affinity mask: 4 2734 1 S root 2734 2 0 70 -10 - 0 kthrea 04:17 ? 00:00:00 [aoe_ktio0]
+[SKI] [MSG] pid 2759's current affinity mask: f 2759 1 I root 2759 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [u132]
+[SKI] [MSG] Found [ in 1 I root      2759     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [u132]
+[SKI] [MSG] fail to set CPU affinity for PID 2759
+[SKI] [MSG] pid 2796's current affinity mask: 4 2796 1 I root 2796 2 0 60 -20 - 0 worker 04:17 ? 00:00:02 [kworker/2:1H-kblockd]
+[SKI] [MSG] Found [ in 1 I root      2796     2  0  60 -20 -     0 worker 04:17 ?        00:00:02 [kworker/2:1H-kblockd]
+[SKI] [MSG] fail to set CPU affinity for PID 2796
+[SKI] [MSG] pid 2967's current affinity mask: f 2967 1 I root 2967 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [usbip_event]
+[SKI] [MSG] Found [ in 1 I root      2967     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [usbip_event]
+[SKI] [MSG] fail to set CPU affinity for PID 2967
+[SKI] [MSG] pid 3063's current affinity mask: f 3063 1 I root 3063 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-000-cec]
+[SKI] [MSG] Found [ in 1 I root      3063     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-000-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3063
+[SKI] [MSG] pid 3071's current affinity mask: f 3071 1 I root 3071 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-001-cec]
+[SKI] [MSG] Found [ in 1 I root      3071     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-001-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3071
+[SKI] [MSG] pid 3079's current affinity mask: f 3079 1 I root 3079 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-002-cec]
+[SKI] [MSG] Found [ in 1 I root      3079     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-002-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3079
+[SKI] [MSG] pid 3087's current affinity mask: f 3087 1 I root 3087 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-003-cec]
+[SKI] [MSG] Found [ in 1 I root      3087     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-003-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3087
+[SKI] [MSG] pid 3095's current affinity mask: f 3095 1 I root 3095 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-004-cec]
+[SKI] [MSG] Found [ in 1 I root      3095     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-004-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3095
+[SKI] [MSG] pid 3103's current affinity mask: f 3103 1 I root 3103 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-005-cec]
+[SKI] [MSG] Found [ in 1 I root      3103     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-005-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3103
+[SKI] [MSG] pid 3111's current affinity mask: f 3111 1 I root 3111 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-006-cec]
+[SKI] [MSG] Found [ in 1 I root      3111     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-006-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3111
+[SKI] [MSG] pid 3119's current affinity mask: f 3119 1 I root 3119 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-007-cec]
+[SKI] [MSG] Found [ in 1 I root      3119     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-007-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3119
+[SKI] [MSG] pid 3127's current affinity mask: f 3127 1 I root 3127 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-008-cec]
+[SKI] [MSG] Found [ in 1 I root      3127     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-008-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3127
+[SKI] [MSG] pid 3135's current affinity mask: f 3135 1 I root 3135 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-009-cec]
+[SKI] [MSG] Found [ in 1 I root      3135     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-009-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3135
+[SKI] [MSG] pid 3143's current affinity mask: f 3143 1 I root 3143 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-010-cec]
+[SKI] [MSG] Found [ in 1 I root      3143     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-010-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3143
+[SKI] [MSG] pid 3151's current affinity mask: f 3151 1 I root 3151 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-011-cec]
+[SKI] [MSG] Found [ in 1 I root      3151     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-011-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3151
+[SKI] [MSG] pid 3159's current affinity mask: f 3159 1 I root 3159 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-012-cec]
+[SKI] [MSG] Found [ in 1 I root      3159     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-012-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3159
+[SKI] [MSG] pid 3167's current affinity mask: f 3167 1 I root 3167 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-013-cec]
+[SKI] [MSG] Found [ in 1 I root      3167     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-013-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3167
+[SKI] [MSG] pid 3175's current affinity mask: f 3175 1 I root 3175 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-014-cec]
+[SKI] [MSG] Found [ in 1 I root      3175     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-014-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3175
+[SKI] [MSG] pid 3183's current affinity mask: f 3183 1 I root 3183 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [vivid-015-cec]
+[SKI] [MSG] Found [ in 1 I root      3183     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [vivid-015-cec]
+[SKI] [MSG] fail to set CPU affinity for PID 3183
+[SKI] [MSG] pid 3273's current affinity mask: f 3273 1 S root 3273 2 0 80 0 - 0 pvr2_c 04:17 ? 00:00:00 [pvrusb2-context]
+[SKI] [MSG] Found [ in 1 S root      3273     2  0  80   0 -     0 pvr2_c 04:17 ?        00:00:00 [pvrusb2-context]
+[SKI] [MSG] Updated: pid 3273's current affinity mask: 4 3273 1 S root 3273 2 0 80 0 - 0 pvr2_c 04:17 ? 00:00:00 [pvrusb2-context]
+[SKI] [MSG] pid 3296's current affinity mask: f 3296 1 I root 3296 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [raid5wq]
+[SKI] [MSG] Found [ in 1 I root      3296     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [raid5wq]
+[SKI] [MSG] fail to set CPU affinity for PID 3296
+[SKI] [MSG] pid 3298's current affinity mask: f 3298 1 I root 3298 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [bcache]
+[SKI] [MSG] Found [ in 1 I root      3298     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [bcache]
+[SKI] [MSG] fail to set CPU affinity for PID 3298
+[SKI] [MSG] pid 3299's current affinity mask: f 3299 1 I root 3299 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [bch_journal]
+[SKI] [MSG] Found [ in 1 I root      3299     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [bch_journal]
+[SKI] [MSG] fail to set CPU affinity for PID 3299
+[SKI] [MSG] pid 3301's current affinity mask: f 3301 1 I root 3301 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [dm_bufio_cache]
+[SKI] [MSG] Found [ in 1 I root      3301     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [dm_bufio_cache]
+[SKI] [MSG] fail to set CPU affinity for PID 3301
+[SKI] [MSG] pid 3302's current affinity mask: f 3302 1 I root 3302 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [kmpathd]
+[SKI] [MSG] Found [ in 1 I root      3302     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [kmpathd]
+[SKI] [MSG] fail to set CPU affinity for PID 3302
+[SKI] [MSG] pid 3303's current affinity mask: f 3303 1 I root 3303 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [kmpath_handlerd]
+[SKI] [MSG] Found [ in 1 I root      3303     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [kmpath_handlerd]
+[SKI] [MSG] fail to set CPU affinity for PID 3303
+[SKI] [MSG] pid 3317's current affinity mask: f 3317 1 I root 3317 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [kvub300c]
+[SKI] [MSG] Found [ in 1 I root      3317     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [kvub300c]
+[SKI] [MSG] fail to set CPU affinity for PID 3317
+[SKI] [MSG] pid 3318's current affinity mask: f 3318 1 I root 3318 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [kvub300p]
+[SKI] [MSG] Found [ in 1 I root      3318     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [kvub300p]
+[SKI] [MSG] fail to set CPU affinity for PID 3318
+[SKI] [MSG] pid 3319's current affinity mask: f 3319 1 I root 3319 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [kvub300d]
+[SKI] [MSG] Found [ in 1 I root      3319     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [kvub300d]
+[SKI] [MSG] fail to set CPU affinity for PID 3319
+[SKI] [MSG] pid 3322's current affinity mask: f 3322 1 I root 3322 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [kmemstick]
+[SKI] [MSG] Found [ in 1 I root      3322     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [kmemstick]
+[SKI] [MSG] fail to set CPU affinity for PID 3322
+[SKI] [MSG] pid 3326's current affinity mask: f 3326 1 I root 3326 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [rdma_cm]
+[SKI] [MSG] Found [ in 1 I root      3326     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [rdma_cm]
+[SKI] [MSG] fail to set CPU affinity for PID 3326
+[SKI] [MSG] pid 3329's current affinity mask: f 3329 1 I root 3329 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [mlx4_ib]
+[SKI] [MSG] Found [ in 1 I root      3329     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [mlx4_ib]
+[SKI] [MSG] fail to set CPU affinity for PID 3329
+[SKI] [MSG] pid 3331's current affinity mask: f 3331 1 I root 3331 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [mlx4_ib_mcg]
+[SKI] [MSG] Found [ in 1 I root      3331     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [mlx4_ib_mcg]
+[SKI] [MSG] fail to set CPU affinity for PID 3331
+[SKI] [MSG] pid 3332's current affinity mask: f 3332 1 I root 3332 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [srp_remove]
+[SKI] [MSG] Found [ in 1 I root      3332     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [srp_remove]
+[SKI] [MSG] fail to set CPU affinity for PID 3332
+[SKI] [MSG] pid 3338's current affinity mask: f 3338 1 I root 3338 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [qat_device_rese]
+[SKI] [MSG] Found [ in 1 I root      3338     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [qat_device_rese]
+[SKI] [MSG] fail to set CPU affinity for PID 3338
+[SKI] [MSG] pid 3339's current affinity mask: f 3339 1 I root 3339 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [qat_pf2vf_resp_]
+[SKI] [MSG] Found [ in 1 I root      3339     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [qat_pf2vf_resp_]
+[SKI] [MSG] fail to set CPU affinity for PID 3339
+[SKI] [MSG] pid 3340's current affinity mask: f 3340 1 I root 3340 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [adf_vf_stop_wq]
+[SKI] [MSG] Found [ in 1 I root      3340     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [adf_vf_stop_wq]
+[SKI] [MSG] fail to set CPU affinity for PID 3340
+[SKI] [MSG] pid 3364's current affinity mask: f 3364 1 I root 3364 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [elousb]
+[SKI] [MSG] Found [ in 1 I root      3364     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [elousb]
+[SKI] [MSG] fail to set CPU affinity for PID 3364
+[SKI] [MSG] pid 3470's current affinity mask: 8 3470 1 I root 3470 2 1 80 0 - 0 worker 04:17 ? 00:00:04 [kworker/3:2-events_freezable_po...
+[SKI] [MSG] Found [ in 1 I root      3470     2  1  80   0 -     0 worker 04:17 ?        00:00:04 [kworker/3:2-events_freezable_power_]
+[SKI] [MSG] fail to set CPU affinity for PID 3470
+[SKI] [MSG] pid 3551's current affinity mask: f 3551 1 I root 3551 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [ipv6_addrconf]
+[SKI] [MSG] Found [ in 1 I root      3551     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [ipv6_addrconf]
+[SKI] [MSG] fail to set CPU affinity for PID 3551
+[SKI] [MSG] pid 3564's current affinity mask: f 3564 1 I root 3564 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [dsa_ordered]
+[SKI] [MSG] Found [ in 1 I root      3564     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [dsa_ordered]
+[SKI] [MSG] fail to set CPU affinity for PID 3564
+[SKI] [MSG] pid 3662's current affinity mask: f 3662 5 S root 3662 2 0 70 -10 - 0 wait_w 04:17 ? 00:00:00 [krfcommd]
+[SKI] [MSG] Found [ in 5 S root      3662     2  0  70 -10 -     0 wait_w 04:17 ?        00:00:00 [krfcommd]
+[SKI] [MSG] Updated: pid 3662's current affinity mask: 4 3662 5 S root 3662 2 0 70 -10 - 0 wait_w 04:17 ? 00:00:00 [krfcommd]
+[SKI] [MSG] pid 3667's current affinity mask: f 3667 1 I root 3667 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [krdsd]
+[SKI] [MSG] Found [ in 1 I root      3667     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [krdsd]
+[SKI] [MSG] fail to set CPU affinity for PID 3667
+[SKI] [MSG] pid 3668's current affinity mask: f 3668 1 I root 3668 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [rds_mr_flushd]
+[SKI] [MSG] Found [ in 1 I root      3668     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [rds_mr_flushd]
+[SKI] [MSG] fail to set CPU affinity for PID 3668
+[SKI] [MSG] pid 3677's current affinity mask: f 3677 1 I root 3677 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [ceph-msgr]
+[SKI] [MSG] Found [ in 1 I root      3677     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [ceph-msgr]
+[SKI] [MSG] fail to set CPU affinity for PID 3677
+[SKI] [MSG] pid 3678's current affinity mask: f 3678 1 I root 3678 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [bat_events]
+[SKI] [MSG] Found [ in 1 I root      3678     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [bat_events]
+[SKI] [MSG] fail to set CPU affinity for PID 3678
+[SKI] [MSG] pid 3713's current affinity mask: f 3713 1 S root 3713 2 0 80 0 - 0 kjourn 04:17 ? 00:00:02 [jbd2/sda1-8]
+[SKI] [MSG] Found [ in 1 S root      3713     2  0  80   0 -     0 kjourn 04:17 ?        00:00:02 [jbd2/sda1-8]
+[SKI] [MSG] Updated: pid 3713's current affinity mask: 4 3713 1 S root 3713 2 0 80 0 - 0 kjourn 04:17 ? 00:00:02 [jbd2/sda1-8]
+[SKI] [MSG] pid 3714's current affinity mask: f 3714 1 I root 3714 2 0 60 -20 - 0 rescue 04:17 ? 00:00:00 [ext4-rsv-conver]
+[SKI] [MSG] Found [ in 1 I root      3714     2  0  60 -20 -     0 rescue 04:17 ?        00:00:00 [ext4-rsv-conver]
+[SKI] [MSG] fail to set CPU affinity for PID 3714
+[SKI] [MSG] pid 3715's current affinity mask: 8 3715 1 I root 3715 2 0 60 -20 - 0 worker 04:17 ? 00:00:01 [kworker/3:1H-kblockd]
+[SKI] [MSG] Found [ in 1 I root      3715     2  0  60 -20 -     0 worker 04:17 ?        00:00:01 [kworker/3:1H-kblockd]
+[SKI] [MSG] fail to set CPU affinity for PID 3715
+[SKI] [MSG] pid 3737's current affinity mask: f 3737 4 S root 3737 1 4 80 0 - 5742 do_epo 04:18 ? 00:00:17 /lib/systemd/systemd-journald
+[SKI] [MSG] pid 3757's current affinity mask: 1 3757 1 I root 3757 2 1 80 0 - 0 worker 04:18 ? 00:00:05 [kworker/0:2-events]
+[SKI] [MSG] Found [ in 1 I root      3757     2  1  80   0 -     0 worker 04:18 ?        00:00:05 [kworker/0:2-events]
+[SKI] [MSG] fail to set CPU affinity for PID 3757
+[SKI] [MSG] pid 3939's current affinity mask: 2 3939 1 I root 3939 2 2 80 0 - 0 worker 04:18 ? 00:00:07 [kworker/1:3-events]
+[SKI] [MSG] Found [ in 1 I root      3939     2  2  80   0 -     0 worker 04:18 ?        00:00:07 [kworker/1:3-events]
+[SKI] [MSG] fail to set CPU affinity for PID 3939
+[SKI] [MSG] pid 4923's current affinity mask: f 4923 4 S root 4923 1 14 80 0 - 4623 do_epo 04:18 ? 00:00:52 /lib/systemd/systemd-udevd
+[SKI] [MSG] pid 5700's current affinity mask: f 5700 4 S systemd+ 5700 1 1 80 0 - 5973 do_epo 04:18 ? 00:00:05 /lib/systemd/systemd-time...
+[SKI] [MSG] pid 6133's current affinity mask: 4 6133 1 I root 6133 2 0 80 0 - 0 worker 04:18 ? 00:00:02 [kworker/2:5-cgroup_destroy]
+[SKI] [MSG] Found [ in 1 I root      6133     2  0  80   0 -     0 worker 04:18 ?        00:00:02 [kworker/2:5-cgroup_destroy]
+[SKI] [MSG] fail to set CPU affinity for PID 6133
+[SKI] [MSG] pid 6180's current affinity mask: f 6180 4 S root 6180 1 0 80 0 - 1770 sigsus 04:18 ? 00:00:01 /usr/sbin/anacron -d -q -s
+[SKI] [MSG] pid 6184's current affinity mask: f 6184 4 S root 6184 1 0 80 0 - 2057 hrtime 04:19 ? 00:00:00 /usr/sbin/cron -f
+[SKI] [MSG] pid 6186's current affinity mask: f 6186 4 S root 6186 1 2 80 0 - 6421 poll_s 04:19 ? 00:00:07 /usr/sbin/rsyslogd -n -iNONE
+[SKI] [MSG] pid 6189's current affinity mask: f 6189 4 S root 6189 1 2 80 0 - 3751 do_epo 04:19 ? 00:00:06 /lib/systemd/systemd-logind
+[SKI] [MSG] pid 6191's current affinity mask: f 6191 4 S message+ 6191 1 5 80 0 - 1849 do_epo 04:19 ? 00:00:17 /usr/bin/dbus-daemon --sy...
+[SKI] [MSG] pid 6198's current affinity mask: 1 6198 1 I root 6198 2 1 80 0 - 0 worker 04:19 ? 00:00:04 [kworker/0:4-events_power_effici...
+[SKI] [MSG] Found [ in 1 I root      6198     2  1  80   0 -     0 worker 04:19 ?        00:00:04 [kworker/0:4-events_power_efficient]
+[SKI] [MSG] fail to set CPU affinity for PID 6198
+[SKI] [MSG] pid 6328's current affinity mask: 8 6328 1 I root 6328 2 0 80 0 - 0 worker 04:19 ? 00:00:02 [kworker/3:3-ata_sff]
+[SKI] [MSG] Found [ in 1 I root      6328     2  0  80   0 -     0 worker 04:19 ?        00:00:02 [kworker/3:3-ata_sff]
+[SKI] [MSG] fail to set CPU affinity for PID 6328
+[SKI] [MSG] pid 6802's current affinity mask: f 6802 4 S root 6802 1 21 80 0 - 17023 poll_s 04:21 ? 00:00:31 /usr/sbin/NetworkManager --...
+[SKI] [MSG] pid 6803's current affinity mask: f 6803 4 S root 6803 1 1 99 19 - 3142 poll_s 04:21 ? 00:00:01 /usr/sbin/alsactl -E HOME=/r...
+[SKI] [MSG] pid 6807's current affinity mask: f 6807 4 S root 6807 1 0 80 0 - 6670 do_epo 04:21 ? 00:00:01 /usr/sbin/cupsd -l
+[SKI] [MSG] pid 6808's current affinity mask: f 6808 4 S root 6808 1 9 80 0 - 10611 poll_s 04:21 ? 00:00:13 /usr/sbin/cups-browsed
+[SKI] [MSG] pid 6820's current affinity mask: f 6820 4 S root 6820 1 33 80 0 - 11695 poll_s 04:22 ? 00:00:43 /usr/bin/python3 /usr/share...
+[SKI] [MSG] pid 6842's current affinity mask: f 6842 4 S avahi 6842 1 1 80 0 - 1601 poll_s 04:22 ? 00:00:01 avahi-daemon: running [debia...
+[SKI] [MSG] Found [ in 4 S avahi     6842     1  1  80   0 -  1601 poll_s 04:22 ?        00:00:01 avahi-daemon: running [debian.local]
+[SKI] [MSG] Updated: pid 6842's current affinity mask: 4 6842 4 S avahi 6842 1 1 80 0 - 1601 poll_s 04:22 ? 00:00:01 avahi-daemon: runni...
+[SKI] [MSG] pid 6844's current affinity mask: f 6844 1 S avahi 6844 6842 0 80 0 - 1537 unix_s 04:22 ? 00:00:00 avahi-daemon: chroot help...
+[SKI] [MSG] pid 6847's current affinity mask: 8 6847 1 I root 6847 2 0 80 0 - 0 worker 04:22 ? 00:00:00 [kworker/3:4-mm_percpu_wq]
+[SKI] [MSG] Found [ in 1 I root      6847     2  0  80   0 -     0 worker 04:22 ?        00:00:00 [kworker/3:4-mm_percpu_wq]
+[SKI] [MSG] fail to set CPU affinity for PID 6847
+[SKI] [MSG] pid 6850's current affinity mask: f 6850 4 S root 6850 1 1 80 0 - 2908 poll_s 04:22 ? 00:00:01 /usr/sbin/sshd -D
+[SKI] [MSG] pid 6854's current affinity mask: f 6854 4 S root 6854 1 3 80 0 - 11063 poll_s 04:22 ? 00:00:04 /usr/sbin/gdm3
+[SKI] [MSG] pid 6864's current affinity mask: f 6864 4 S root 6864 1 4 80 0 - 10760 poll_s 04:22 ? 00:00:04 /usr/lib/accountsservice/acc...
+[SKI] [MSG] pid 6870's current affinity mask: f 6870 4 S root 6870 1 7 80 0 - 10056 poll_s 04:22 ? 00:00:08 /usr/lib/policykit-1/polkitd...
+[SKI] [MSG] pid 6954's current affinity mask: f 6954 4 S root 6954 1 3 80 0 - 3394 poll_s 04:22 ? 00:00:02 /sbin/wpa_supplicant -u -s -O...
+[SKI] [MSG] pid 6960's current affinity mask: f 6960 4 S root 6960 6802 11 80 0 - 2410 poll_s 04:22 ? 00:00:09 /sbin/dhclient -d -q -sf ...
+[SKI] [MSG] pid 6963's current affinity mask: f 6963 4 S Debian-+ 6963 1 27 80 0 - 4307 do_epo 04:23 ? 00:00:19 /lib/systemd/systemd --u...
+[SKI] [MSG] pid 6968's current affinity mask: f 6968 5 S Debian-+ 6968 6963 0 80 0 - 9284 sys_rt 04:23 ? 00:00:00 (sd-pam)
+[SKI] [MSG] taskset: failed to set pid 6980's affinity: No such process
+[SKI] [MSG] 6980 4 S root 6980 1 1 80 0 - 8608 poll_s 04:23 ? 00:00:01 /usr/lib/NetworkManager/nm-dispatcher
+[SKI] [MSG] taskset: failed to set pid 6984's affinity: No such process
+[SKI] [MSG] 6984 0 S root 6984 6980 0 80 0 - 627 do_wai 04:23 ? 00:00:00 /bin/sh -e /etc/NetworkManager/dispatcher.d/01-ifupdown eth0 up
+[SKI] [MSG] taskset: failed to set pid 6985's affinity: No such process
+[SKI] [MSG] 6985 0 S root 6985 6984 0 80 0 - 600 do_wai 04:23 ? 00:00:00 run-parts /etc/network/if-up.d
+[SKI] [MSG] taskset: failed to set pid 6986's affinity: No such process
+[SKI] [MSG] 6986 0 S root 6986 6985 0 80 0 - 628 pipe_w 04:23 ? 00:00:00 /bin/sh /usr/lib/avahi/avahi-daemon-check-dns.sh
+[SKI] [MSG] taskset: failed to set pid 6999's affinity: No such process
+[SKI] [MSG] 6999 0 R root 6999 6986 89 80 0 - 5190 - 04:23 ? 00:00:54 host -t soa local.
+[SKI] [MSG] pid 7006's current affinity mask: f 7006 4 S root 7006 1 40 80 0 - 4307 do_epo 04:23 ? 00:00:20 /lib/systemd/systemd --user
+[SKI] [MSG] pid 7007's current affinity mask: f 7007 5 S root 7007 7006 0 80 0 - 9213 sys_rt 04:23 ? 00:00:00 (sd-pam)
+[SKI] [MSG] pid 7031's current affinity mask: f 7031 0 S root 7031 6180 0 80 0 - 627 do_wai 04:24 ? 00:00:00 /bin/sh -c run-parts --repo...
+[SKI] [MSG] pid 7033's current affinity mask: f 7033 0 S root 7033 7031 1 80 0 - 600 poll_s 04:24 ? 00:00:00 run-parts --report /etc/cro...
+[SKI] [MSG] pid 7039's current affinity mask: f 7039 4 S root 7039 1 6 80 0 - 2122 do_wai 04:24 ? 00:00:00 /bin/bash ./ski-testcase-run....
+[SKI] [MSG] taskset: failed to set pid 7042's affinity: No such process
+[SKI] [MSG] 7042 0 S root 7042 7033 1 80 0 - 627 pipe_w 04:24 ? 00:00:00 /bin/sh /etc/cron.daily/cracklib-runtime
+[SKI] [MSG] taskset: failed to set pid 7044's affinity: No such process
+[SKI] [MSG] 7044 0 S root 7044 7042 0 80 0 - 627 pipe_w 04:24 ? 00:00:00 /bin/sh /usr/sbin/update-cracklib
+[SKI] [MSG] pid 7053's current affinity mask: f 7053 1 S root 7053 7039 3 80 0 - 2122 do_wai 04:24 ? 00:00:00 /bin/bash ./ski-testcase-r...
+[SKI] [MSG] pid 7054's current affinity mask: f 7054 1 S root 7054 7039 0 80 0 - 2122 do_wai 04:24 ? 00:00:00 /bin/bash ./ski-testcase-r...
+[SKI] [MSG] pid 7055's current affinity mask: f 7055 0 S root 7055 7053 17 80 0 - 1750 pipe_w 04:24 ? 00:00:00 tee -a log-vm-test.txt
+[SKI] [MSG] pid 7056's current affinity mask: f 7056 0 S root 7056 7053 13 80 0 - 1825 pipe_w 04:24 ? 00:00:00 xargs -d n -n 1 /root/use...
+[SKI] [MSG] pid 7057's current affinity mask: f 7057 0 S root 7057 7054 13 80 0 - 1750 pipe_w 04:24 ? 00:00:00 tee -a log-vm-test.txt
+[SKI] [MSG] pid 7058's current affinity mask: f 7058 0 S root 7058 7054 23 80 0 - 1825 pipe_w 04:24 ? 00:00:00 xargs -d n -n 1 /root/use...
+[SKI] [MSG] pid 7061's current affinity mask: f 7061 0 S root 7061 7039 0 80 0 - 2122 do_wai 04:24 ? 00:00:00 /bin/bash ./setup.sh
+[SKI] [MSG] pid 7063's current affinity mask: f 7063 0 S root 7063 7061 0 80 0 - 2122 pipe_w 04:24 ? 00:00:00 /bin/bash ./misc/update-af...
+[SKI] [MSG] 7064 1 S root 7064 7063 0 80 0 - 2122 do_wai 04:24 ? 00:00:00 /bin/bash ./misc/update-affinity.sh
+[SKI] [MSG] taskset: failed to set pid 7064's affinity: No such process
+[SKI] [MSG] taskset: failed to set pid 7065's affinity: No such process
+[SKI] [MSG] 7065 0 R root 7065 7064 0 80 0 - 2528 - 04:24 ? 00:00:01 ps -All -f
+[SKI] [MSG] unlimited
+[SKI] [MSG] ** lsmod:
+[SKI] [MSG] Module                  Size  Used by
+[SKI] [MSG] ** /proc/modules:
+[SKI] [MSG] [SKI-TESTCASE-RUN.SH] Finished setup
+[SKI] [MSG] [SKI-TESTCASE-RUN.SH] Running trinity and the empty process
+[SKI] [MSG] Process 1 & 2 (with FORK):
+[SKI] [MSG] Process 3: ./executor/empty/empty
+[SKI] [MSG] Process 4: ./executor/empty/empty
+[SKI] [MSG] Spark: env variable USC_SKI_ENABLED = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_FORK_ENABLED = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_CPU_AFFINITY = 3 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_TOTAL_CPUS = 4 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_HYPERCALLS = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_SOFT_EXIT_BARRIER = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_USER_BARRIER = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_TEST_NUMBER = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_PROFILE_ENABLED = 0 (using default 1)
+[SKI] [MSG] Spark: env variable USC_SKI_WAIT_FOR_RESULTS = 1 (using default 1)
+[SKI] [MSG] [CPU_AFFI=3] calling ski_tests_init
+[SKI] [MSG] [SKI] [ski_tests_init CPU3] barrier addr=B7FF9000
+[SKI] [MSG] [SKI] [ski_tests_init CPU3] Sleeping for 10 seconds.
+[SKI] [MSG] Spark: env variable USC_SKI_ENABLED = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_FORK_ENABLED = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_CPU_AFFINITY = 2 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_TOTAL_CPUS = 4 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_HYPERCALLS = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_SOFT_EXIT_BARRIER = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_USER_BARRIER = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_TEST_NUMBER = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_PROFILE_ENABLED = 0 (using default 1)
+[SKI] [MSG] Spark: env variable USC_SKI_WAIT_FOR_RESULTS = 1 (using default 1)
+[SKI] [MSG] [CPU_AFFI=2] calling ski_tests_init
+[SKI] [MSG] [SKI] [ski_tests_init CPU2] barrier addr=B7FF9000
+[SKI] [MSG] [SKI] [ski_tests_init CPU2] Sleeping for 10 seconds.
+[SKI] [MSG] Spark: env variable USC_SKI_ENABLED = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_FORK_ENABLED = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_CPU_AFFINITY = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_TOTAL_CPUS = 4 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_HYPERCALLS = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_SOFT_EXIT_BARRIER = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_USER_BARRIER = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_TEST_NUMBER = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_PROFILE_ENABLED = 0 (using default 1)
+[SKI] [MSG] Spark: env variable USC_SKI_WAIT_FOR_RESULTS = 1 (using default 1)
+[SKI] [MSG] [CPU_AFFI=1] calling ski_tests_init
+[SKI] [MSG] [SKI] [ski_tests_init CPU1] barrier addr=B7FF9000
+[SKI] [MSG] [SKI] [ski_tests_init CPU1] Sleeping for 10 seconds.
+[SKI] [MSG] Spark: env variable USC_SKI_ENABLED = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_FORK_ENABLED = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_CPU_AFFINITY = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_TOTAL_CPUS = 4 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_HYPERCALLS = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_SOFT_EXIT_BARRIER = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_USER_BARRIER = 0 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_TEST_NUMBER = 1 (using default 0)
+[SKI] [MSG] Spark: env variable USC_SKI_PROFILE_ENABLED = 0 (using default 1)
+[SKI] [MSG] Spark: env variable USC_SKI_WAIT_FOR_RESULTS = 1 (using default 1)
+[SKI] [MSG] [CPU_AFFI=0] calling ski_tests_init
+[SKI] [MSG] [SKI] [ski_tests_init CPU0] barrier addr=B7FF9000
+[SKI] [MSG] [SKI] mutx and cond are created
+[SKI] [MSG] [SKI] [ski_tests_init CPU0] Sleeping for 10 seconds.
+[SKI] [MSG] [CPU_AFFI=3] finishing ski_test_init
+[SKI] [MSG] [CPU_AFFI=2] finishing ski_test_init
+[SKI] [MSG] [CPU_AFFI=1] finishing ski_test_init
+[SKI] [MSG] [CPU_AFFI=0] finishing ski_test_init
+[SKI] [MSG] [SKI] [3] Thread id: 8849
+[SKI] [MSG] [SKI] A new process reaches the barrier, called=1 needed=4
+[SKI] Successfully wrote snapshot!!
+[SKI] Snapshot name: ski-vm-20241118092533
+ski_threads_invert_priority: Num_thread 312 Preemption point (EIP: 8049610) - changing priority of thread 78 from 78 to 142 compare_t 4
+[SKI] [MSG] [set_syscal_nr CPU0] ski_start return 1, for SNAPSHOT use
+[SKI] [MSG] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[SKI] [MSG] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 4 
+[SKI] [MSG] [set_syscal_nr CPU1] ski_start return 1, for SNAPSHOT use
+[SKI] [MSG] END INFO
+Captured a quit request
+[SKI] prepare for quit request!
+[SKI] Exiting on hypercall request!
+[SKI] [EXIT] /root/snowboard/vmm/src/ski-hyper.c:206 - Exiting! HYPER_REQUEST (code 4)
+[CREATE-SNAPSHOT.SH] Copying the final VM image...
+[CREATE-SNAPSHOT.SH] *********************************************************************************************************
+[CREATE-SNAPSHOT.SH] ** If message "[SKI] Successfully wrote snapshot!!" was displayed then snapshot was created successfuly
+[CREATE-SNAPSHOT.SH] ** and the VM image with the snapshot is stored in /root/storage-2019-6974/snapshot-2024-11-18-09-16-06/snapshot-2024-11-18-09-16-06/vm-image.img
+[CREATE-SNAPSHOT.SH] *********************************************************************************************************
+[CREATE-SNAPSHOT.SH] Removing the VM image in tmp..
