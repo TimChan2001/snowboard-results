@@ -1,0 +1,474 @@
+vmlinux map is loaded
+Waiting for data race records
+
+
+====================================================================================================================================================================================
+Total: 2	Addresses: c2892c8d c11093c8
+1	0xc2892c8d: pv_queued_spin_unlock at /root/2019-6974-i386/linux-4.19/./arch/x86/include/asm/paravirt.h:684
+1	0xc11093b8: arch_static_branch at /root/2019-6974-i386/linux-4.19/kernel/locking/qspinlock.c:295
+
+1	c2892c8d pv_queued_spin_unlock T: trace_20241118_120509_2_3_47.txt S: 47 I1: 2 I2: 3 IP1: c2892c8d IP2: c11093c8 PMA1: 34815b44 PMA2: 34815b44 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 138487 IC2: 138451
+1	c11093c8 __read_once_size T: trace_20241118_120509_2_3_47.txt S: 47 I1: 2 I2: 3 IP1: c2892c8d IP2: c11093c8 PMA1: 34815b44 PMA2: 34815b44 CPU1: 0 CPU2: 1 R1: 0 R2: 1 L1: 1 L2: 4 IC1: 138487 IC2: 138451
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//./arch/x86/include/asm/paravirt.h:684
+       664	{
+       665		PVOP_VCALL0(pv_mmu_ops.lazy_mode.flush);
+       666	}
+       667	
+       668	static inline void __set_fixmap(unsigned /* enum fixed_addresses */ idx,
+       669					phys_addr_t phys, pgprot_t flags)
+       670	{
+       671		pv_mmu_ops.set_fixmap(idx, phys, flags);
+       672	}
+       673	
+       674	#if defined(CONFIG_SMP) && defined(CONFIG_PARAVIRT_SPINLOCKS)
+       675	
+       676	static __always_inline void pv_queued_spin_lock_slowpath(struct qspinlock *lock,
+       677								u32 val)
+       678	{
+       679		PVOP_VCALL2(pv_lock_ops.queued_spin_lock_slowpath, lock, val);
+       680	}
+       681	
+       682	static __always_inline void pv_queued_spin_unlock(struct qspinlock *lock)
+       683	{
+==>    684		PVOP_VCALLEE1(pv_lock_ops.queued_spin_unlock, lock);       
+       685	}
+       686	
+       687	static __always_inline void pv_wait(u8 *ptr, u8 val)
+       688	{
+       689		PVOP_VCALL2(pv_lock_ops.wait, ptr, val);
+       690	}
+       691	
+       692	static __always_inline void pv_kick(int cpu)
+       693	{
+       694		PVOP_VCALL1(pv_lock_ops.kick, cpu);
+       695	}
+       696	
+       697	static __always_inline bool pv_vcpu_is_preempted(long cpu)
+       698	{
+       699		return PVOP_CALLEE1(bool, pv_lock_ops.vcpu_is_preempted, cpu);
+       700	}
+       701	
+       702	#endif /* SMP && PARAVIRT_SPINLOCKS */
+       703	
+       704	#ifdef CONFIG_X86_32
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//kernel/locking/qspinlock.c:295
+       275	 * @lock: Pointer to queued spinlock structure
+       276	 * @val: Current value of the queued spinlock 32-bit word
+       277	 *
+       278	 * (queue tail, pending bit, lock value)
+       279	 *
+       280	 *              fast     :    slow                                  :    unlock
+       281	 *                       :                                          :
+       282	 * uncontended  (0,0,0) -:--> (0,0,1) ------------------------------:--> (*,*,0)
+       283	 *                       :       | ^--------.------.             /  :
+       284	 *                       :       v           \      \            |  :
+       285	 * pending               :    (0,1,1) +--> (0,1,0)   \           |  :
+       286	 *                       :       | ^--'              |           |  :
+       287	 *                       :       v                   |           |  :
+       288	 * uncontended           :    (n,x,y) +--> (n,0,0) --'           |  :
+       289	 *   queue               :       | ^--'                          |  :
+       290	 *                       :       v                               |  :
+       291	 * contended             :    (*,x,y) +--> (*,0,0) ---> (*,0,1) -'  :
+       292	 *   queue               :         ^--'                             :
+       293	 */
+       294	void queued_spin_lock_slowpath(struct qspinlock *lock, u32 val)
+==>    295	{       
+       296		struct mcs_spinlock *prev, *next, *node;
+       297		u32 old, tail;
+       298		int idx;
+       299	
+       300		BUILD_BUG_ON(CONFIG_NR_CPUS >= (1U << _Q_TAIL_CPU_BITS));
+       301	
+       302		if (pv_enabled())
+       303			goto pv_queue;
+       304	
+       305		if (virt_spin_lock(lock))
+       306			return;
+       307	
+       308		/*
+       309		 * Wait for in-progress pending->locked hand-overs with a bounded
+       310		 * number of spins so that we guarantee forward progress.
+       311		 *
+       312		 * 0,1,0 -> 0,0,1
+       313		 */
+       314		if (val == _Q_PENDING_VAL) {
+       315			int cnt = _Q_PENDING_LOOPS;
+
+
+====================================================================================================================================================================================
+Total: 96	Addresses: c1108c1d c288f36e c288f721 c288f0cd c1108bca c288f231 c288f387 c288f0a0 c288f53e
+2	0xc1108c1b: rep_nop at /root/2019-6974-i386/linux-4.19/./arch/x86/include/asm/processor.h:665
+2	0xc1108bc5: rcu_read_lock at /root/2019-6974-i386/linux-4.19/./include/linux/rcupdate.h:627
+2	0xc288f22f: __mutex_trylock_or_owner at /root/2019-6974-i386/linux-4.19/kernel/locking/mutex.c:110
+5	0xc288f0c8: rcu_read_lock at /root/2019-6974-i386/linux-4.19/./include/linux/rcupdate.h:627
+8	0xc288f36c: rep_nop at /root/2019-6974-i386/linux-4.19/./arch/x86/include/asm/processor.h:665
+9	0xc288f099: __preempt_count_add at /root/2019-6974-i386/linux-4.19/./arch/x86/include/asm/preempt.h:76
+11	0xc288f385: __mutex_trylock_or_owner at /root/2019-6974-i386/linux-4.19/kernel/locking/mutex.c:110
+28	0xc288f537: get_current at /root/2019-6974-i386/linux-4.19/./arch/x86/include/asm/current.h:15
+29	0xc288f718: get_current at /root/2019-6974-i386/linux-4.19/./arch/x86/include/asm/current.h:15
+
+2	c1108c1d __read_once_size T: trace_20241118_120504_5_2_32.txt S: 32 I1: 5 I2: 2 IP1: c1108c1d IP2: c288f53e PMA1: 2f447f80 PMA2: 2f447f80 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 658358 IC2: 658216
+2	c1108bca __read_once_size T: trace_20241118_120504_5_2_32.txt S: 32 I1: 5 I2: 2 IP1: c1108bca IP2: c288f53e PMA1: 2f447f80 PMA2: 2f447f80 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 658335 IC2: 658216
+2	c288f231 arch_atomic_cmpxchg T: trace_20241118_120504_5_2_32.txt S: 32 I1: 5 I2: 2 IP1: c288f231 IP2: c288f53e PMA1: 2f447f80 PMA2: 2f447f80 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 658225 IC2: 658216
+5	c288f0cd __read_once_size T: trace_20241118_120504_5_2_32.txt S: 32 I1: 5 I2: 2 IP1: c288f0cd IP2: c288f53e PMA1: 2f447f80 PMA2: 2f447f80 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 658246 IC2: 658216
+8	c288f36e __read_once_size T: trace_20241118_120504_5_2_32.txt S: 32 I1: 5 I2: 2 IP1: c288f721 IP2: c288f36e PMA1: 2f447f80 PMA2: 2f447f80 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 701529 IC2: 659027
+9	c288f0a0 __read_once_size T: trace_20241118_120504_5_2_32.txt S: 32 I1: 5 I2: 2 IP1: c288f0a0 IP2: c288f721 PMA1: 2f447f80 PMA2: 2f447f80 CPU1: 0 CPU2: 1 R1: 1 R2: 0 L1: 4 L2: 4 IC1: 630531 IC2: 630511
+11	c288f387 arch_atomic_cmpxchg T: trace_20241118_120504_5_2_32.txt S: 32 I1: 5 I2: 2 IP1: c288f387 IP2: c288f721 PMA1: 2f447f80 PMA2: 2f447f80 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 701538 IC2: 701529
+28	c288f53e arch_atomic_try_cmpxchg T: trace_20241118_120504_5_2_32.txt S: 32 I1: 5 I2: 2 IP1: c288f53e IP2: c288f36e PMA1: 2f447f80 PMA2: 2f447f80 CPU1: 1 CPU2: 0 R1: 0 R2: 1 L1: 4 L2: 4 IC1: 700919 IC2: 659027
+29	c288f721 arch_atomic_cmpxchg T: trace_20241118_120504_5_2_32.txt S: 32 I1: 5 I2: 2 IP1: c288f387 IP2: c288f721 PMA1: 2f447f80 PMA2: 2f447f80 CPU1: 0 CPU2: 1 R1: 0 R2: 0 L1: 4 L2: 4 IC1: 701538 IC2: 701529
+
+++++++++++++++++++++++++
+STATS: Distinct IPs: 11 Distinct pairs: 18 Distinct clusters: 2
+++++++++++++++++++++++++
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//./arch/x86/include/asm/processor.h:665
+       645	{
+       646		unsigned int eax, ebx, ecx, edx;
+       647	
+       648		cpuid(op, &eax, &ebx, &ecx, &edx);
+       649	
+       650		return ecx;
+       651	}
+       652	
+       653	static inline unsigned int cpuid_edx(unsigned int op)
+       654	{
+       655		unsigned int eax, ebx, ecx, edx;
+       656	
+       657		cpuid(op, &eax, &ebx, &ecx, &edx);
+       658	
+       659		return edx;
+       660	}
+       661	
+       662	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       663	static __always_inline void rep_nop(void)
+       664	{
+==>    665		asm volatile("rep; nop" ::: "memory");       
+       666	}
+       667	
+       668	static __always_inline void cpu_relax(void)
+       669	{
+       670		rep_nop();
+       671	}
+       672	
+       673	/*
+       674	 * This function forces the icache and prefetched instruction stream to
+       675	 * catch up with reality in two very specific cases:
+       676	 *
+       677	 *  a) Text was modified using one virtual address and is about to be executed
+       678	 *     from the same physical page at a different virtual address.
+       679	 *
+       680	 *  b) Text was modified on a different CPU, may subsequently be
+       681	 *     executed on this CPU, and you want to make sure the new version
+       682	 *     gets executed.  This generally means you're calling this in a IPI.
+       683	 *
+       684	 * If you're calling this for a different reason, you're probably doing
+       685	 * it wrong.
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//./include/linux/rcupdate.h:627
+       607	 * RCU read-side critical sections may be nested.  Any deferred actions
+       608	 * will be deferred until the outermost RCU read-side critical section
+       609	 * completes.
+       610	 *
+       611	 * You can avoid reading and understanding the next paragraph by
+       612	 * following this rule: don't put anything in an rcu_read_lock() RCU
+       613	 * read-side critical section that would block in a !PREEMPT kernel.
+       614	 * But if you want the full story, read on!
+       615	 *
+       616	 * In non-preemptible RCU implementations (TREE_RCU and TINY_RCU),
+       617	 * it is illegal to block while in an RCU read-side critical section.
+       618	 * In preemptible RCU implementations (PREEMPT_RCU) in CONFIG_PREEMPT
+       619	 * kernel builds, RCU read-side critical sections may be preempted,
+       620	 * but explicit blocking is illegal.  Finally, in preemptible RCU
+       621	 * implementations in real-time (with -rt patchset) kernel builds, RCU
+       622	 * read-side critical sections may be preempted and they may also block, but
+       623	 * only when acquiring spinlocks that are subject to priority inheritance.
+       624	 */
+       625	static inline void rcu_read_lock(void)
+       626	{
+==>    627		__rcu_read_lock();       
+       628		__acquire(RCU);
+       629		rcu_lock_acquire(&rcu_lock_map);
+       630		RCU_LOCKDEP_WARN(!rcu_is_watching(),
+       631				 "rcu_read_lock() used illegally while idle");
+       632	}
+       633	
+       634	/*
+       635	 * So where is rcu_write_lock()?  It does not exist, as there is no
+       636	 * way for writers to lock out RCU readers.  This is a feature, not
+       637	 * a bug -- this property is what provides RCU's performance benefits.
+       638	 * Of course, writers must coordinate with each other.  The normal
+       639	 * spinlock primitives work well for this, but any other technique may be
+       640	 * used as well.  RCU does not care how the writers keep out of each
+       641	 * others' way, as long as they do so.
+       642	 */
+       643	
+       644	/**
+       645	 * rcu_read_unlock() - marks the end of an RCU read-side critical section.
+       646	 *
+       647	 * In most situations, rcu_read_unlock() is immune from deadlock.
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//./include/linux/rcupdate.h:627
+       607	 * RCU read-side critical sections may be nested.  Any deferred actions
+       608	 * will be deferred until the outermost RCU read-side critical section
+       609	 * completes.
+       610	 *
+       611	 * You can avoid reading and understanding the next paragraph by
+       612	 * following this rule: don't put anything in an rcu_read_lock() RCU
+       613	 * read-side critical section that would block in a !PREEMPT kernel.
+       614	 * But if you want the full story, read on!
+       615	 *
+       616	 * In non-preemptible RCU implementations (TREE_RCU and TINY_RCU),
+       617	 * it is illegal to block while in an RCU read-side critical section.
+       618	 * In preemptible RCU implementations (PREEMPT_RCU) in CONFIG_PREEMPT
+       619	 * kernel builds, RCU read-side critical sections may be preempted,
+       620	 * but explicit blocking is illegal.  Finally, in preemptible RCU
+       621	 * implementations in real-time (with -rt patchset) kernel builds, RCU
+       622	 * read-side critical sections may be preempted and they may also block, but
+       623	 * only when acquiring spinlocks that are subject to priority inheritance.
+       624	 */
+       625	static inline void rcu_read_lock(void)
+       626	{
+==>    627		__rcu_read_lock();       
+       628		__acquire(RCU);
+       629		rcu_lock_acquire(&rcu_lock_map);
+       630		RCU_LOCKDEP_WARN(!rcu_is_watching(),
+       631				 "rcu_read_lock() used illegally while idle");
+       632	}
+       633	
+       634	/*
+       635	 * So where is rcu_write_lock()?  It does not exist, as there is no
+       636	 * way for writers to lock out RCU readers.  This is a feature, not
+       637	 * a bug -- this property is what provides RCU's performance benefits.
+       638	 * Of course, writers must coordinate with each other.  The normal
+       639	 * spinlock primitives work well for this, but any other technique may be
+       640	 * used as well.  RCU does not care how the writers keep out of each
+       641	 * others' way, as long as they do so.
+       642	 */
+       643	
+       644	/**
+       645	 * rcu_read_unlock() - marks the end of an RCU read-side critical section.
+       646	 *
+       647	 * In most situations, rcu_read_unlock() is immune from deadlock.
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//./arch/x86/include/asm/processor.h:665
+       645	{
+       646		unsigned int eax, ebx, ecx, edx;
+       647	
+       648		cpuid(op, &eax, &ebx, &ecx, &edx);
+       649	
+       650		return ecx;
+       651	}
+       652	
+       653	static inline unsigned int cpuid_edx(unsigned int op)
+       654	{
+       655		unsigned int eax, ebx, ecx, edx;
+       656	
+       657		cpuid(op, &eax, &ebx, &ecx, &edx);
+       658	
+       659		return edx;
+       660	}
+       661	
+       662	/* REP NOP (PAUSE) is a good thing to insert into busy-wait loops. */
+       663	static __always_inline void rep_nop(void)
+       664	{
+==>    665		asm volatile("rep; nop" ::: "memory");       
+       666	}
+       667	
+       668	static __always_inline void cpu_relax(void)
+       669	{
+       670		rep_nop();
+       671	}
+       672	
+       673	/*
+       674	 * This function forces the icache and prefetched instruction stream to
+       675	 * catch up with reality in two very specific cases:
+       676	 *
+       677	 *  a) Text was modified using one virtual address and is about to be executed
+       678	 *     from the same physical page at a different virtual address.
+       679	 *
+       680	 *  b) Text was modified on a different CPU, may subsequently be
+       681	 *     executed on this CPU, and you want to make sure the new version
+       682	 *     gets executed.  This generally means you're calling this in a IPI.
+       683	 *
+       684	 * If you're calling this for a different reason, you're probably doing
+       685	 * it wrong.
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//./arch/x86/include/asm/preempt.h:76
+        56	{
+        57		raw_cpu_and_4(__preempt_count, ~PREEMPT_NEED_RESCHED);
+        58	}
+        59	
+        60	static __always_inline void clear_preempt_need_resched(void)
+        61	{
+        62		raw_cpu_or_4(__preempt_count, PREEMPT_NEED_RESCHED);
+        63	}
+        64	
+        65	static __always_inline bool test_preempt_need_resched(void)
+        66	{
+        67		return !(raw_cpu_read_4(__preempt_count) & PREEMPT_NEED_RESCHED);
+        68	}
+        69	
+        70	/*
+        71	 * The various preempt_count add/sub methods
+        72	 */
+        73	
+        74	static __always_inline void __preempt_count_add(int val)
+        75	{
+==>     76		raw_cpu_add_4(__preempt_count, val);       
+        77	}
+        78	
+        79	static __always_inline void __preempt_count_sub(int val)
+        80	{
+        81		raw_cpu_add_4(__preempt_count, -val);
+        82	}
+        83	
+        84	/*
+        85	 * Because we keep PREEMPT_NEED_RESCHED set when we do _not_ need to reschedule
+        86	 * a decrement which hits zero means we have no preempt_count and should
+        87	 * reschedule.
+        88	 */
+        89	static __always_inline bool __preempt_count_dec_and_test(void)
+        90	{
+        91		GEN_UNARY_RMWcc("decl", __preempt_count, __percpu_arg(0), e);
+        92	}
+        93	
+        94	/*
+        95	 * Returns true when we need to resched and can (barring IRQ state).
+        96	 */
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//kernel/locking/mutex.c:110
+        90				if (likely(task != curr))
+        91					break;
+        92	
+        93				if (likely(!(flags & MUTEX_FLAG_PICKUP)))
+        94					break;
+        95	
+        96				flags &= ~MUTEX_FLAG_PICKUP;
+        97			} else {
+        98	#ifdef CONFIG_DEBUG_MUTEXES
+        99				DEBUG_LOCKS_WARN_ON(flags & MUTEX_FLAG_PICKUP);
+       100	#endif
+       101			}
+       102	
+       103			/*
+       104			 * We set the HANDOFF bit, we must make sure it doesn't live
+       105			 * past the point where we acquire it. This would be possible
+       106			 * if we (accidentally) set the bit on an unlocked mutex.
+       107			 */
+       108			flags &= ~MUTEX_FLAG_HANDOFF;
+       109	
+==>    110			old = atomic_long_cmpxchg_acquire(&lock->owner, owner, curr | flags);       
+       111			if (old == owner)
+       112				return NULL;
+       113	
+       114			owner = old;
+       115		}
+       116	
+       117		return __owner_task(owner);
+       118	}
+       119	
+       120	/*
+       121	 * Actual trylock that will work on any unlocked state.
+       122	 */
+       123	static inline bool __mutex_trylock(struct mutex *lock)
+       124	{
+       125		return !__mutex_trylock_or_owner(lock);
+       126	}
+       127	
+       128	#ifndef CONFIG_DEBUG_LOCK_ALLOC
+       129	/*
+       130	 * Lockdep annotations are contained to the slow paths for simplicity.
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//./arch/x86/include/asm/current.h:15
+         1	/* SPDX-License-Identifier: GPL-2.0 */
+         2	#ifndef _ASM_X86_CURRENT_H
+         3	#define _ASM_X86_CURRENT_H
+         4	
+         5	#include <linux/compiler.h>
+         6	#include <asm/percpu.h>
+         7	
+         8	#ifndef __ASSEMBLY__
+         9	struct task_struct;
+        10	
+        11	DECLARE_PER_CPU(struct task_struct *, current_task);
+        12	
+        13	static __always_inline struct task_struct *get_current(void)
+        14	{
+==>     15		return this_cpu_read_stable(current_task);       
+        16	}
+        17	
+        18	#define current get_current()
+        19	
+        20	#endif /* __ASSEMBLY__ */
+        21	
+        22	#endif /* _ASM_X86_CURRENT_H */
+
+/root/snowboard-2019-6974/testsuite/kernel/2019-6974/source//./arch/x86/include/asm/current.h:15
+         1	/* SPDX-License-Identifier: GPL-2.0 */
+         2	#ifndef _ASM_X86_CURRENT_H
+         3	#define _ASM_X86_CURRENT_H
+         4	
+         5	#include <linux/compiler.h>
+         6	#include <asm/percpu.h>
+         7	
+         8	#ifndef __ASSEMBLY__
+         9	struct task_struct;
+        10	
+        11	DECLARE_PER_CPU(struct task_struct *, current_task);
+        12	
+        13	static __always_inline struct task_struct *get_current(void)
+        14	{
+==>     15		return this_cpu_read_stable(current_task);       
+        16	}
+        17	
+        18	#define current get_current()
+        19	
+        20	#endif /* __ASSEMBLY__ */
+        21	
+        22	#endif /* _ASM_X86_CURRENT_H */
+
+

@@ -1,0 +1,14 @@
+[MSG] [CPU 2] Start test [TEST] - CPU: 2 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 2 
+[MSG] [CPU 3] Start test [TEST] - CPU: 3 Op: empty Op_seed: -1 Op_no: -1 Op_max: 0 Test_seed: 3 
+[MSG] [CPU 0] Call ioctl$BINDER_GET_NODE_DEBUG_INFO Call_NUM: 54 NUM_Args: 3 
+[MSG] [CPU 1] Call ioctl$BINDER_GET_NODE_DEBUG_INFO Call_NUM: 54 NUM_Args: 3 
+[MSG] [CPU 0] Args0=0xffffffffffffffff
+[MSG] [CPU 0] Args1=0x5301
+[MSG] [CPU 0] Args2=0x0
+[MSG] [CPU 0] ioctl$BINDER_GET_NODE_DEBUG_INFO=0xffffffffffffffff errno=9
+[MSG] [CPU 1] [SKI] [2] Thread id: 8848
+[MSG] [CPU 1] Args0=0xffffffffffffffff
+[MSG] [CPU 1] Args1=0x5301
+[MSG] [CPU 1] Args2=0xffffffffffffffff
+[MSG] [CPU 1] ioctl$BINDER_GET_NODE_DEBUG_INFO=0xffffffffffffffff errno=9
+[MSG] [CPU 0] END INFO
