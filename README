@@ -1,1 +1,18 @@
-This is an empirical result on SegFuzz Bench (https://github.com/casys-kaist/segfuzz/tree/release/gotools/src/github.com/google/segfuzz/sys/linux/test/cve) for Snowboard.
+This is an empirical result of Snowboard on SegFuzz Bench (https://github.com/casys-kaist/segfuzz/tree/release/gotools/src/github.com/google/segfuzz/sys/linux/test/cve).
+
+Under each target, the multiple `concurrent-test-xxx` directories represent the results of different strategies (such as `ins`, `channel`, etc.). The detailed information about the detected race conditions can be found in the `xxx_forkall_race_detector.txt.source` file within each `concurrent-test-xxx` folder.
+
+
+
+| Target         | Race Condition                                     | Found n/y    |
+| -------------- | -------------------------------------------------- | ------------ |
+| CVE-2016-8655  | packet_set_ring & packet_setsockopt                | n            |
+| CVE-2017-2636  | accessing n_hdlc.tbuf list in drivers/tty/n_hdlc.c | n            |
+| CVE-2017-7533  | inotify_handle_event & vfs_rename                  | n            |
+| CVE-2017-17712 | raw_sendmsg()                                      | n            |
+| CVE-2017-15649 | fanout_add & packet_do_bind                        | n            |
+| CVE-2018-12232 | sock_close & sockfs_setattr (fchownat & close)     | n            |
+| CVE-2019-6974  | kvm_ioctl_create_device                            | n            |
+| CVE-2019-11486 | drivers/tty/n_r3964.c                              | n            |
+| 69e16d01d1de   | l2tp_tunnel_register() & l2tp_xmit_core()          | cannot build |
+
